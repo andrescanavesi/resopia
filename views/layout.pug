@@ -1,7 +1,170 @@
 doctype html
-html
+html(lang="en")
   head
+    link(rel="preconnect" href="//stackpath.bootstrapcdn.com"  crossorigin)
+    if isProduction
+      //Global site tag (gtag.js) - Google Analytics
+      link(rel="preconnect" href="//googletagmanager.com"  crossorigin)
+      script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-139523568-1')
+      script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-139523568-1');
+    
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+   
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(charset='utf-8')
+    meta(http-equiv='Cache-control', content=metaCache)
+    meta(name='theme-color', content='#009900')
+    meta(name='msapplication-square310x310logo', content=pageLogo)
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='author', content='Recipes21')
+    meta(name='language', content='en')
+    meta(name='keywords', content=keywords)
+    meta(name='robots', content='Index, Follow')
+    meta(property='og:locale', content='en_EN')
+    meta(property='og:type', content='article')
+    meta(property='og:site_name', content='Recipes21')
+    meta(property='article:publisher', content='http://www.resopia.com/')
+    meta(property='article:author', content='http://www.resopia.com/')
+    meta(name='title', content=title)
+    meta(name='description', content=description)
+    meta(property='og:title', content=title)
+    meta(property='og:description', content=description)
+    meta(property='og:url', content=linkToThisPage)
+    meta(property='og:image', content=metaImage)
+    meta(property='article:modified_time', content=updatedAt)
+    if isHomePage
+      script(async='async', defer='true', charset='UTF-8', type='application/ld+json').
+        {
+          "@context": "http://schema.org/",
+          "@type": "WebSite",
+          "url": "http://resopia.com/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "http://resopia.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          },
+          "image": [
+            "#{pageImage}"
+          ],
+          "datePublished": "#{pageDatePublished}",
+          "dateModified": "#{pageDateModified}",
+          "author": {
+            "@type": "Organization",
+            "name": "Resopia"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Resopia",
+            "logo": {
+              "@type": "ImageObject",
+                "url": "#{pageLogo}"
+            }
+          },
+          "description": "#{pageDescription}"
+        }
+    if isRecipePage
+      script(async='async', defer='true', charset='UTF-8', type='application/ld+json').
+        {
+            "@context": "http://schema.org/",
+            "@type": "#{pageType}",
+            "name": "#{pageName}",
+            "image": [
+              "#{pageImage}"
+            ],
+            "datePublished": "#{pageDatePublished}",
+            "dateModified": "#{pageDateModified}",
+            "description": "#{pageDescription}",
+            "keywords": "#{pageKeywords}",
+            "recipeIngredient": !{pageRecipeIngredients},
+            "recipeInstructions": !{pageRecipeInstructions},
+            "recipeCategory": "#{pageRecipeCategory}",
+            "author": {
+              "@type": "Organization",
+              "name": "recipes21"
+            },
+            "prepTime":"#{pageRecipePrepTime}",
+            "cookTime":"#{pageRecipeCookTime}",
+            "totalTime":"#{pageRecipeTotalTime}",
+            "recipeCuisine":"#{pageRecipeCusine}",
+            "recipeYield":"#{pageRecipeYield}"
+        }         
+    
+    link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+    link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+    link(rel="icon", sizes="192x192", href=pageLogo)
+    link(rel="apple-touch-icon" href=pageLogo)
+
   body
-    block content
+    .shadow-sm.pb-3.mb-3
+      header
+        .d-flex.justify-content-between.mt-3.px-2
+          div
+            .dropdown
+              button#dropdownMenuButton.btn.btn-outline-secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                | Menu
+              #dropdownMenuList.dropdown-menu(aria-labelledby='dropdownMenuButton')
+                a.dropdown-item(href='/', title="Go to home page") Home
+          div
+            h1
+              a(href="/").text-dark 
+                span.brand Resopia
+          div &nbsp; 
+      
+    .container-fluid
+        .row
+          .col-md-3
+          .col-md-6
+            .py-1.px-1
+              input(name='search', id="searchTop" type='text', title="Buscar receta"
+                  placeholder='Buscar una receta', onkeyup="searchTop(event)", 
+                  value=searchText).form-control.form-control
+          .col-md-3
+        .row
+          .col-md-3
+            //left
+          .col-md-6
+            .mt-3
+            block content
+            //related recipes
+            if displayMoreRecipes
+              .mt-4.border-top
+                h3.pt-3 More recipes
+                .row.no-gutters
+                  each recipe in recipesSpotlight
+                    .col-sm-6
+                      - var img = recipe.thumbnail300
+                      - var style = "height: 200px; background-image: url('"+img+"');  background-size: cover;"
+                      a(href=`${recipe.url}`, title="See the recipe")
+                        div(style=`${style}`).mb-2.mr-1.rounded
+                          .mb-2.mr-1.lead.text-white.position-absolute.px-2.pb-2.fixed-bottom(style="background-color: rgba(0,0,0,0.65);")
+                            .py-1.font-weight-bold= recipe.title
+                        
+                       
+          .col-md-3
+            //right column
+     
+    .row
+      .col   
+        .search-section.bg-primary.px-2
+          input(name='searchBottom', id="searchBottom" type='text', title="Search a recipe"
+                  placeholder='Find a recipe', onkeyup="searchBottom(event)", 
+                  value=searchText).form-control.form-control 
+    //footer
+    footer.bg-dark.py-5.background-carbon-fibre
+      .container.py-2
+        .row.justify-content-center
+          div
+            span.text-white |© 2020 Copyright 
+            a(href='/', title="Go to home page")  
+              span.text-white www.resopia.com
+         
+        
+  script(async='', src='/javascripts/common.js')
+  //jquery and popper cannot be loaded async since is a dependency of bootstra.min.js
+  script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8' crossorigin='anonymous')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
+  script(async='', src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
