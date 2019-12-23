@@ -1,0 +1,62 @@
+extends layout
+
+block content
+    h1=recipe.title
+    - var img = recipe.featured_image_url
+    if isMobile
+        - img = recipe.featured_image_url_mobile
+    img(src=img, alt='recipe image', loading="lazy").img-fluid
+    .mt-3
+      .text-muted= recipe.description
+      span.d-none
+        a(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl).ml-2
+          img(src='/images/pinterest-share-16.png', alt="pinterest image", loading="lazy")
+        a(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl).ml-2
+          img(src='/images/whatsapp-share-16.png', alt="whatsapp image", loading="lazy")
+        a(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl).ml-2
+          img(src='/images/facebook-share-16.png', alt="facebook image", loading="lazy")
+    h2.mt-3 Ingredients
+    ul.list-group.list-group-flush
+      each ingr in recipe.ingredients_array
+        li(onclick="activateElem(this)").list-group-item= ingr
+    .bg-light.border.pt-3.mt-2
+      ul
+        li Prep: #{recipe.prep_time}
+        li Cook: #{recipe.cook_time}
+        li Total: #{recipe.total_time}
+        li Yield: #{recipe.yield}
+    h2.mt-3 Directions
+    ol.list-group.list-group-flush.list-group-ol
+      each step in recipe.steps_array
+        li(onclick="activateElem(this)").list-group-item.list-group-item-ol= step
+    
+    //social icons for sharing
+    .bg-light.text-center.py-3.mt-2
+      a(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl).btn.btn-outline-danger
+        span
+          img(src='/images/pinterest-32.png', width="32px", alt="pinterest image", loading="lazy")
+          span.pl-2 Pint It
+      a(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl).ml-1.btn.btn-outline-success
+        span
+          img(src='/images/whatsapp-32.png', width="32px", alt="whatsapp image", loading="lazy")
+          span.pl-2 Share
+      a(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl).ml-1.btn.btn-outline-primary
+        span
+          img(src='/images/facebook-32.png', width="32px", alt="facebook image", loading="lazy")
+          span.pl-2 Share
+      a(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl).ml-1.btn.btn-outline-info
+        span
+          img(src='/images/twitter-32.png', width="32px", alt="twitter image", loading="lazy")
+          span.pl-2 Tweet It
+
+    .bg-light.border.py-1.mt-2
+      span.text-secondary.pl-2 Recipe tags
+      .d-flex.justify-content-center
+        each keyword in recipe.keywords_array_3
+          h5.ml-1
+            a(href=`/recipes/keyword/${keyword}`, title="See more recipes for this tag").badge.badge-pill.badge-info.py-2.px-3
+              span=keyword
+    if recipe.allow_edition
+      .mt-3.text-right
+        - var href = "/recipe/edit?id="+recipe.id
+        a(href=href, title="Edit this recipe") Edit this recipe
