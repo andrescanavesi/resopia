@@ -1,11 +1,8 @@
-// const { Logger } = require('./Logger');
-
-// const log = new Logger('response_helper');
-
-// const useragent = require('express-useragent');
-
 const moment = require('moment');
 
+/**
+ *
+ */
 module.exports.getResponseJson = function (req) {
   // default attributes for the response response.
   const responseJson = {};

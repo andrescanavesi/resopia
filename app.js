@@ -1,7 +1,3 @@
-const { Logger } = require('./utils/Logger');
-
-const log = new Logger('app');
-
 const createError = require('http-errors');
 const express = require('express');
 const favicon = require('express-favicon');
@@ -10,10 +6,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const useragent = require('express-useragent');
+const { Logger } = require('./utils/Logger');
 
 const indexRouter = require('./routes/index');
-const recipeRouter = require('./routes/recipe');
 const sitemapRouter = require('./routes/sitemap');
+
+const log = new Logger('app');
 
 const app = express();
 app.use(compression());
@@ -32,7 +30,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/recipe', recipeRouter);
 app.use('/sitemap.xml', sitemapRouter);
 
 // catch 404 and forward to error handler
