@@ -51,24 +51,24 @@ describe('Test at Dao level', function () {
   });
 
   it('should update a recipe', async () => {
-    // const id = 13;
-    // const recipe = await daoRecipes.findById(id);
-    // if (!recipe) {
-    //   assert.fail(`Recipe with id ${id} does not exist`);
-    // }
-    // const newTitle = `from test ${randomstring.generate(5)}`;
-    // recipe.title = newTitle;
-    // await daoRecipes.update(recipe);
+    const id = 4;
+    const recipe = await daoRecipes.findById(id);
+    if (!recipe) {
+      assert.fail(`Recipe with id ${id} does not exist`);
+    }
+    const newTitle = `from test ${randomstring.generate(5)}`;
+    recipe.title = newTitle;
+    await daoRecipes.update(recipe);
 
-    // const recipeUpdated = await daoRecipes.findById(id);
-    // assert.equal(newTitle, recipeUpdated.title);
+    const recipeUpdated = await daoRecipes.findById(id);
+    assert.equal(newTitle, recipeUpdated.title);
   });
 
   it('should get related recipes', async () => {
-    // const keyword = 'easy';
-    // const results = await daoRecipes.findRelated(keyword);
+    const keyword = 'easy';
+    const results = await daoRecipes.findRelated(keyword);
 
-    // assert.isNotNull(results);
-    // assert.isAtLeast(results.length, 1);
+    assert.isNotNull(results);
+    assert.isAtLeast(results.length, 1);
   });
 });

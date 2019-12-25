@@ -214,22 +214,22 @@ module.exports.create = async function (recipe) {
 module.exports.update = async function (recipe) {
   log.info('updating recipe...');
   const today = moment().format('YYYY-MM-DD HH:mm:ss');
-  const query = 'UPDATE recipes SET ingredients=$1, steps=$2, updated_at=$3, active=$4, '
-    + 'featured_image_name=$5, keywords=$6, title=$7, description=$8, title_for_url=$9, '
-    + 'category_name=$10, prep_time_seo=$11, cook_time_seo=$12, total_time_seo=$13, '
-    + 'prep_time=$14, cook_time=$15, total_time=$16, cuisine=$17, yield=$18 '
-    + ' WHERE id=$19';
+  const query = `UPDATE recipes SET ingredients=$1, steps=$2, updated_at=$3, active=$4,
+     featured_image_name=$5, extra_ingredients_title=$6, title=$7, description=$8, title_seo=$9, 
+     secondary_image_name=$10, prep_time_seo=$11, cook_time_seo=$12, total_time_seo=$13, 
+     prep_time=$14, cook_time=$15, total_time=$16, cuisine=$17, yield=$18 
+       WHERE id=$19`;
   const bindings = [
     recipe.ingredients,
     recipe.steps,
     today,
     recipe.active,
     recipe.featured_image_name,
-    recipe.keywords,
+    recipe.extra_ingredients_title,
     recipe.title,
     recipe.description,
-    recipe.title_for_url,
-    recipe.category_name,
+    recipe.title_seo,
+    recipe.secondary_image_name,
     recipe.prep_time_seo,
     recipe.cook_time_seo,
     recipe.total_time_seo,
@@ -245,6 +245,7 @@ module.exports.update = async function (recipe) {
   const result = await dbHelper.execute.query(query, bindings);
   // log.info(result);
   this.resetCache();
+  return result;
 };
 
 module.exports.buildSearchIndex = async function () {
