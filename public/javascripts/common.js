@@ -26,7 +26,7 @@ function search(event, element) {
     // listen to 'enter' key
     const phrase = element.value;
     if (phrase.length > 0) {
-      window.location.href = `/search?q=${phrase}`;
+      window.location.href = `/buscar?q=${phrase}`;
     } else {
       window.location.href = '/';
     }

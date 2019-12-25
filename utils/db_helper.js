@@ -1,8 +1,10 @@
 const parseDbUrl = require('parse-database-url');
+const { Pool } = require('pg');
+const { Logger } = require('./Logger');
+
+const log = new Logger('db_helper');
 
 const dbConfig = parseDbUrl(process.env.DATABASE_URL);
-
-const { Pool } = require('pg');
 
 const pool = new Pool({
   user: dbConfig.user,
@@ -13,4 +15,14 @@ const pool = new Pool({
   ssl: true,
 });
 
+function query(theQuery, bindings) {
+  try {
+    log.info(`executing query ${theQuery}`);
+    return pool.query(theQuery, bindings);
+  } catch (error) {
+    throw new Error(`Error executing query ${query} error: ${error}`);
+  }
+}
+
 module.exports.execute = pool;
+module.exports.query = query;

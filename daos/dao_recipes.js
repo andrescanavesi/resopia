@@ -59,7 +59,7 @@ function convertRecipe(row) {
   recipe.created_at = recipe.created_at.format('YYYY-MM-DD');
   recipe.updated_at = moment(row.updated_at, 'YYYY-MM-DD');
   recipe.updated_at = recipe.updated_at.format('YYYY-MM-DD');
-  recipe.url = `${process.env.RESOPIA_BASE_URL}/${recipe.id}/${recipe.title_seo}`;
+  recipe.url = `${process.env.RESOPIA_BASE_URL}/receta/${recipe.id}/${recipe.title_seo}`;
   recipe.active = row.active;
 
   // social sharing buttons
@@ -92,7 +92,8 @@ async function findWithLimit(limit) {
   const query = 'SELECT * FROM recipes WHERE active=true ORDER BY updated_at DESC LIMIT $1 ';
   const bindings = [limit];
 
-  const result = await dbHelper.execute.query(query, bindings);
+  // const result = await dbHelper.execute.query(query, bindings);
+  const result = await dbHelper.query(query, bindings);
   log.info(`recipes: ${result.rows.length}`);
   const recipes = [];
   for (let i = 0; i < result.rows.length; i++) {
@@ -123,6 +124,7 @@ async function findRecipesSpotlight() {
 }
 
 async function findWithKeyword(keyword) {
+  log.info(`findWithKeyword: ${keyword}`);
   return findWithLimit(40);
 }
 
@@ -150,8 +152,9 @@ module.exports.findById = async function (id, ignoreActive) {
 
   const bindings = [id];
   // log.info(sqlFormatter.format(query));
-  log.info(`bindings: ${bindings}`);
-  const result = await dbHelper.execute.query(query, bindings);
+  log.info(`findById, bindings: ${bindings}`);
+  // const result = await dbHelper.execute.query(query, bindings);
+  const result = await dbHelper.query(query, bindings);
   if (result.rows.length > 0) {
     return convertRecipe(result.rows[0]);
   }

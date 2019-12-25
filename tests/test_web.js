@@ -39,25 +39,25 @@ describe('Test Web', function () {
       });
   });
 
-  // it('should search', (done) => {
-  //   chai.request(app)
-  //     .get('/buscar?q=chocolate')
-  //     .end((err, res) => {
-  //       assertNotError(err, res);
-  //       expect(res).to.have.status(200);
-  //       done();
-  //     });
-  // });
+  it('should search', (done) => {
+    chai.request(app)
+      .get('/buscar?q=chocolate')
+      .end((err, res) => {
+        assertNotError(err, res);
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
 
-  // it('should display recipes by tag', (done) => {
-  //   chai.request(app)
-  //     .get('/recetas/chocolate')
-  //     .end((err, res) => {
-  //       assertNotError(err, res);
-  //       expect(res).to.have.status(200);
-  //       done();
-  //     });
-  // });
+  it('should display recipes by tag', (done) => {
+    chai.request(app)
+      .get('/recetas/chocolate')
+      .end((err, res) => {
+        assertNotError(err, res);
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
 
   // it('should display a recipe', (done) => {
   //   chai.request(app)

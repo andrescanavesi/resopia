@@ -30,7 +30,7 @@ router.get('/', async (req, res, next) => {
 /**
  * Renders the detail of a given recipe by id
  */
-router.get('/:id/:titleforurl', async (req, res, next) => {
+router.get('/receta/:id/:titleforurl', async (req, res, next) => {
   try {
     const recipeId = req.params.id;
     log.info(`View recipe: ${req.params.id}`);
@@ -41,7 +41,6 @@ router.get('/:id/:titleforurl', async (req, res, next) => {
     const recipe = await daoRecipies.findById(recipeId);
     const recipesSpotlight = await daoRecipies.findRecipesSpotlight();
     const footerRecipes = await daoRecipies.findAll();
-    recipe.im_owner = utils.imRecipeOwner(req, recipe);
     // recipe.allow_edition = utils.allowEdition(req, recipe);
     recipe.allow_edition = responseJson.isUserAuthenticated;
     responseJson.title = recipe.title;
@@ -90,6 +89,24 @@ router.get('/:id/:titleforurl', async (req, res, next) => {
 router.get('/recetas/:tag', async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
+    responseJson.displayMoreRecipes = false;
+    log.info(`recipes by tag: ${req.params.tag}`);
+    const recipes = await daoRecipies.findWithKeyword(req.params.tag);
+    const recipesSpotlight = await daoRecipies.findRecipesSpotlight();
+    const footerRecipes = await daoRecipies.findAll();
+
+    if (!recipes) {
+      throw Error('No recipes found');
+    }
+
+    responseJson.recipes = recipes;
+    responseJson.title = `Recetas ${req.params.tag} | resopia.com`;
+    responseJson.description = `Las mejores recetas de ${req.params.keyword} | resopia.com`;
+    responseJson.linkToThisPage = `${process.env.RESOPIA_BASE_URL}recetas/${req.params.tag}`;
+    responseJson.isHomePage = false;
+    responseJson.recipesSpotlight = recipesSpotlight;
+    responseJson.footerRecipes = footerRecipes;
+
     res.render('index', responseJson);
   } catch (e) {
     next(e);
@@ -100,6 +117,46 @@ router.get('/recetas/:tag', async (req, res, next) => {
 router.get('/buscar', async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
+    responseJson.displayMoreRecipes = false;
+
+    const phrase = req.query.q;
+    if (!phrase) {
+      throw Error('phrase query parameter empty');
+    }
+    log.info(`searching by: ${phrase}`);
+
+    if (daoRecipies.searchIndex.length === 0) {
+      await daoRecipies.buildSearchIndex();
+    }
+
+    // search using flexsearch. It will return a list of IDs we used as keys during indexing
+    const resultIds = await daoRecipies.searchIndex.search({
+      query: phrase,
+      limit: 15,
+      suggest: true, // When suggestion is enabled all results will be filled up (until limit, default 1000) with similar matches ordered by relevance.
+    });
+
+    log.info(`results found for '${phrase}': ${resultIds.length}`);
+    let p1;
+    if (resultIds.length === 0) {
+      p1 = daoRecipies.findRecipesSpotlight();
+    } else {
+      p1 = daoRecipies.findByIds(resultIds);
+    }
+
+    const p2 = daoRecipies.findRecipesSpotlight();
+    const p3 = daoRecipies.findAll();
+
+    let [recipes, recipesSpotlight, footerRecipes] = await Promise.all([p1, p2, p3]);
+    if (recipes.length === 0) {
+      recipes = recipesSpotlight;
+    }
+    responseJson.recipes = recipes;
+    responseJson.isHomePage = false;
+    responseJson.recipesSpotlight = recipesSpotlight;
+    responseJson.footerRecipes = footerRecipes;
+    responseJson.searchText = phrase;
+
     res.render('index', responseJson);
   } catch (e) {
     next(e);
