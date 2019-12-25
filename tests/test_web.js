@@ -59,15 +59,15 @@ describe('Test Web', function () {
       });
   });
 
-  // it('should display a recipe', (done) => {
-  //   chai.request(app)
-  //     .get('/1/algo')
-  //     .end((err, res) => {
-  //       assertNotError(err, res);
-  //       expect(res).to.have.status(200);
-  //       done();
-  //     });
-  // });
+  it('should display a recipe', (done) => {
+    chai.request(app)
+      .get('/receta/4/from-test')
+      .end((err, res) => {
+        assertNotError(err, res);
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
 
   // it('should display new recipe form', (done) => {
   //   chai.request(app)
