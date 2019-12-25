@@ -1,9 +1,7 @@
 const parseDbUrl = require('parse-database-url');
 
-let dbConfig = parseDbUrl(process.env.DATABASE_URL);
-if (process.env.NODE_ENV === 'development') {
-  dbConfig = parseDbUrl(process.env.RESOPIA_DATABASE_URL);
-}
+const dbConfig = parseDbUrl(process.env.DATABASE_URL);
+
 const { Pool } = require('pg');
 
 const pool = new Pool({

@@ -25,10 +25,7 @@ module.exports.getResponseJson = function (req) {
   const metaCache = process.env.RESOPIA_META_CACHE || '1'; // in seconds
   responseJson.metaCache = `public, max-age=${metaCache}`;
 
-  // responseJson.isUserAuthenticated = typeof req.session.ssoId !== "undefined";
-  responseJson.isUserAuthenticated = typeof req.session.authenticated !== 'undefined';
-  responseJson.userName = req.session.userName;
-  responseJson.userImageUrl = req.session.userImageUrl;
+  responseJson.isUserAuthenticated = false;
   responseJson.isMobile = req.useragent.isMobile;
   responseJson.isDesktop = req.useragent.isDesktop;
 

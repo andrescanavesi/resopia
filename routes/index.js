@@ -87,10 +87,19 @@ router.get('/:id/:titleforurl', async (req, res, next) => {
   }
 });
 
+router.get('/recetas/:tag', async (req, res, next) => {
+  try {
+    const responseJson = responseHelper.getResponseJson(req);
+    res.render('index', responseJson);
+  } catch (e) {
+    next(e);
+  }
+});
+
 
 router.get('/buscar', async (req, res, next) => {
   try {
-    const responseJson = '';
+    const responseJson = responseHelper.getResponseJson(req);
     res.render('index', responseJson);
   } catch (e) {
     next(e);

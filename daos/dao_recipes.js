@@ -88,6 +88,7 @@ function convertRecipe(row) {
 
 
 async function findWithLimit(limit) {
+  log.info(`findWithLimit, limit: ${limit}`);
   const query = 'SELECT * FROM recipes WHERE active=true ORDER BY updated_at DESC LIMIT $1 ';
   const bindings = [limit];
 
@@ -187,10 +188,10 @@ module.exports.create = async function (recipe) {
   const today = moment().format('YYYY-MM-DD HH:mm:ss');
   const query = `INSERT INTO recipes(created_at, updated_at, title, title_seo, description, 
     ingredients, extra_ingredients_title, extra_ingredients, steps, active, 
-    featured_image_name, secondary_image_name, facebook_likes, pinterest_pins
+    featured_image_name, secondary_image_name, facebook_likes, pinterest_pins,
     prep_time_seo, cook_time_seo,total_time_seo, prep_time,
     cook_time, total_time, cuisine, yield)
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20) RETURNING id`;
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22) RETURNING id`;
   const bindings = [
     today, today, recipe.title, recipe.title_seo, recipe.description,
     recipe.ingredients, recipe.extra_ingredients_title, recipe.extra_ingredients, recipe.steps, recipe.active,
