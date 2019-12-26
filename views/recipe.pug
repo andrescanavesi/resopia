@@ -2,12 +2,13 @@ extends layout
 
 block content
     h1=recipe.title
+    span.text-muted=recipe.created_at_es
     - var img = recipe.featured_image_url
     if isMobile
         - img = recipe.featured_image_url_mobile
     img(src=img, alt='recipe image', loading="lazy").img-fluid
     .mt-3
-      .text-muted= recipe.description
+      span.text-muted=recipe.description
       span.d-none
         a(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl).ml-2
           img(src='/images/pinterest-share-16.png', alt="pinterest image", loading="lazy")
@@ -15,12 +16,6 @@ block content
           img(src='/images/whatsapp-share-16.png', alt="whatsapp image", loading="lazy")
         a(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl).ml-2
           img(src='/images/facebook-share-16.png', alt="facebook image", loading="lazy")
-    .bg-light.border.pt-3.mt-2
-      ul
-        li Preparación: #{recipe.prep_time}
-        li Tiempo de cocción: #{recipe.cook_time}
-        li Total: #{recipe.total_time}
-        li Rinde: #{recipe.yield}
     h2.mt-3 Ingredientes
     ul.list-group.list-group-flush
       each ingr in recipe.ingredients_array
@@ -31,8 +26,10 @@ block content
         each extra_ingr in recipe.extra_ingredients_array
           li(onclick="activateElem(this)").list-group-item= extra_ingr
     
-    h2.mt-3 Elaboración
-    ol.list-group.list-group-flush.list-group-ol
+    h2.mt-3 Elaboración 
+    img(src='/images/clock.svg', width="20px", alt="imagen reloj", loading="lazy")
+    span.text-muted.ml-2=recipe.total_time
+    ol.list-group.list-group-flush.list-group-ol.mt-2
       each step in recipe.steps_array
         li(onclick="activateElem(this)").list-group-item.list-group-item-ol= step
     if recipe.has_notes

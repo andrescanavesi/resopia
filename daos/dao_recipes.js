@@ -1,5 +1,7 @@
 const moment = require('moment');
 
+moment.locale('es');
+
 const FlexSearch = require('flexsearch');
 const dbHelper = require('../utils/db_helper');
 const { Logger } = require('../utils/Logger');
@@ -64,10 +66,15 @@ function convertRecipe(row) {
   }
 
   recipe.title_seo = row.title_seo;
-  recipe.created_at = moment(row.created_at, 'YYYY-MM-DD');
-  recipe.created_at = recipe.created_at.format('YYYY-MM-DD');
-  recipe.updated_at = moment(row.updated_at, 'YYYY-MM-DD');
-  recipe.updated_at = recipe.updated_at.format('YYYY-MM-DD');
+
+  const enFormat = 'YYYY-MM-DD';
+  recipe.created_at = moment(row.created_at, enFormat);
+  recipe.created_at = recipe.created_at.format(enFormat);
+  recipe.created_at_es = `Publicada ${moment(row.created_at, enFormat).startOf('day').fromNow()}`;
+
+  recipe.updated_at = moment(row.updated_at, enFormat);
+  recipe.updated_at = recipe.updated_at.format(enFormat);
+
   recipe.url = `${process.env.RESOPIA_BASE_URL}/receta/${recipe.id}/${recipe.title_seo}`;
   recipe.active = row.active;
   recipe.notes = row.notes;
