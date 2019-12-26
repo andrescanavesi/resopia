@@ -31,6 +31,7 @@ describe('Test at Dao level', function () {
       steps:
         'adipiscing elit penatibus morbi tempor, nibh elementum class dapibus litora ridiculus pellentesque ut massa\nadipiscing elit penatibus morbi tempor, nibh elementum class dapibus litora ridiculus pellentesque ut massa\nadipiscing elit penatibus morbi tempor, nibh elementum class dapibus litora ridiculus pellentesque ut massa\nadipiscing elit penatibus morbi tempor, nibh elementum class dapibus litora ridiculus pellentesque ut massa\nadipiscing elit penatibus morbi tempor, nibh elementum class dapibus litora ridiculus pellentesque ut massa',
       featured_image_name: 'cookies-test.jpg',
+      secondary_image_name: 'pizza-test.jpg',
       active: true,
       prep_time_seo: 'PT20M',
       cook_time_seo: 'PT30M',
@@ -40,8 +41,13 @@ describe('Test at Dao level', function () {
       total_time: '50 minutes',
       cuisine: 'American',
       yield: '5 servings',
-      facebook_likes: 1,
-      pinterest_pins: 1,
+      facebook_shares: 573,
+      pinterest_pins: 121,
+      tweets: 23,
+      notes: 'Lorem ipsum dolor sit amet\nLorem ipsum dolor sit amet',
+      extra_ingredients_title: 'extra title',
+      extra_ingredients: 'Lorem ipsum\n dolor sit amet\nLorem ipsum\n dolor sit amet',
+      youtube_video_id: 'cEWz-iCSGsk',
     };
     const recipeId = await daoRecipes.create(recipe);
     assert.isNotNull(recipeId);

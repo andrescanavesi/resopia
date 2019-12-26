@@ -38,6 +38,15 @@ function convertRecipe(row) {
   recipe.thumbnail200 = thumbnail200ImageBase + featuredImageName;
   recipe.ingredients = row.ingredients;
   recipe.ingredients_array = row.ingredients.split('\n');
+
+  recipe.has_extra_ingredients = row.extra_ingredients_title !== null && row.extra_ingredients !== null;
+  if (recipe.has_extra_ingredients) {
+    recipe.extra_ingredients_title = row.extra_ingredients_title;
+    recipe.extra_ingredients = row.extra_ingredients;
+    recipe.extra_ingredients_array = row.extra_ingredients.split('\n');
+  }
+
+
   recipe.steps = row.steps;
   recipe.steps_array = row.steps.split('\n');
   if (row.keywords) {
@@ -61,6 +70,15 @@ function convertRecipe(row) {
   recipe.updated_at = recipe.updated_at.format('YYYY-MM-DD');
   recipe.url = `${process.env.RESOPIA_BASE_URL}/receta/${recipe.id}/${recipe.title_seo}`;
   recipe.active = row.active;
+  recipe.notes = row.notes;
+  recipe.has_notes = recipe.notes !== null;
+  recipe.youtube_video_url = row.youtube_video_url;
+  recipe.has_youtube_video = recipe.youtube_video_id !== null;
+  if (recipe.has_youtube_video) {
+    recipe.youtube_video_embed_url = `https://www.youtube.com/embed/${row.youtube_video_id}`;
+    recipe.youtube_video_watch_url = `https://www.youtube.com/watch?v=${row.youtube_video_id}`;
+  }
+
 
   // social sharing buttons
   recipe.pinterestSharingUrl = `https://www.pinterest.com/pin/create/button/?url=${
@@ -83,13 +101,17 @@ function convertRecipe(row) {
   recipe.cuisine = row.cuisine || 'American';
   recipe.yield = row.yield || '5 servings';
 
+  recipe.pinterest_pins = row.pinterest_pins;
+  recipe.facebook_shares = row.facebook_shares;
+  recipe.tweets = row.tweets;
+
   return recipe;
 }
 
 
 async function findWithLimit(limit) {
   log.info(`findWithLimit, limit: ${limit}`);
-  const query = 'SELECT * FROM recipes WHERE active=true ORDER BY updated_at DESC LIMIT $1 ';
+  const query = 'SELECT * FROM recipes WHERE active=true ORDER BY created_at DESC LIMIT $1 ';
   const bindings = [limit];
 
   // const result = await dbHelper.execute.query(query, bindings);
@@ -191,16 +213,17 @@ module.exports.create = async function (recipe) {
   const today = moment().format('YYYY-MM-DD HH:mm:ss');
   const query = `INSERT INTO recipes(created_at, updated_at, title, title_seo, description, 
     ingredients, extra_ingredients_title, extra_ingredients, steps, active, 
-    featured_image_name, secondary_image_name, facebook_likes, pinterest_pins,
+    featured_image_name, secondary_image_name, facebook_shares, pinterest_pins,
     prep_time_seo, cook_time_seo,total_time_seo, prep_time,
-    cook_time, total_time, cuisine, yield)
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22) RETURNING id`;
+    cook_time, total_time, cuisine, yield, notes, youtube_video_id, tweets)
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25) RETURNING id`;
   const bindings = [
     today, today, recipe.title, recipe.title_seo, recipe.description,
     recipe.ingredients, recipe.extra_ingredients_title, recipe.extra_ingredients, recipe.steps, recipe.active,
-    recipe.featured_image_name, recipe.secondary_image_name, recipe.facebook_likes, recipe.pinterest_pins,
+    recipe.featured_image_name, recipe.secondary_image_name, recipe.facebook_shares, recipe.pinterest_pins,
     recipe.prep_time_seo, recipe.cook_time_seo, recipe.total_time_seo, recipe.prep_time,
-    recipe.cook_time, recipe.total_time, recipe.cuisine, recipe.yield,
+    recipe.cook_time, recipe.total_time, recipe.cuisine, recipe.yield, recipe.notes,
+    recipe.youtube_video_id, recipe.tweets,
   ];
 
   const result = await dbHelper.execute.query(query, bindings);
