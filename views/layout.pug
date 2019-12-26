@@ -99,18 +99,18 @@ html(lang="en")
     link(rel="apple-touch-icon" href=pageLogo)
 
   body
-    .shadow-sm.pb-3.mb-3
+    .shadow-sm.pb-3.mb-3.sticky-top.bg-white-095
       header
-        .d-flex.justify-content-between.mt-3.px-2
+        .d-flex.justify-content-between.mt-3.px-2.pt-3
           div
             .dropdown
-              button#dropdownMenuButton.btn.btn-outline-secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+              button#dropdownMenuButton.btn.btn-outline-dark.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
                 | Menu
               #dropdownMenuList.dropdown-menu(aria-labelledby='dropdownMenuButton')
                 a.dropdown-item(href='/', title="Go to home page") Home
           div
             h1
-              a(href="/").text-dark 
+              a(href="/").text-dark
                 span.brand Resopia
           div &nbsp; 
       
