@@ -10,11 +10,11 @@ module.exports.isEmailvalid = function (email) {
 
 /**
  *
- * @param {String} recipeTitle example: Double Layer Chocolate Peanut Butter Pie
+ * @param {String} string example: Double Layer Chocolate Peanut Butter Pie
  * @returns double-layer-chocolate-peanut-butter-Pie
  */
-module.exports.getTitleUrl = function (recipeTitle) {
-  return recipeTitle
+module.exports.dashString = function (string) {
+  return string
     .toLowerCase()
     .replace(/[^\w ]+/g, '')
     .replace(/ +/g, '-');

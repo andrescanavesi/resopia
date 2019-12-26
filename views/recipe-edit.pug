@@ -1,0 +1,102 @@
+extends layout
+
+block content
+  div.mt-3
+    if successMessage
+        div(role='alert').alert.alert-success= successMessage
+    - var action = "/admin/receta/editar/"+recipe.id
+    form(action=action method="POST")
+            .card.mt-2.mb-5.border-0
+                if newRecipe
+                    .card-header New Recipe 
+                else
+                    - var header = '['+recipe.id+']'+' '+recipe.title
+                    .card-header= header                   
+                .card-body  
+                    if !newRecipe
+                        .form-group.row
+                            span Recipe link: 
+                                a(href=`${recipe.url}`, title="Go to this recipe detail")=recipe.url
+                    if !recipe.active
+                        .form-group.row
+                            span.text-danger Unpublished recipe
+                    .form-group.row
+                        label.font-weight-bold Created at: 
+                        span=recipe.created_at
+                        label.ml-3.font-weight-bold Updated at: 
+                        span=recipe.updated_at
+                    .form-group.row
+                        input(name='title', type='text', placeholder='Recipe title', value=recipe.title).form-control.form-control-sm
+                    .form-group.row
+                        .form-check
+                            input(type='radio', name='active', id='active', value='active' checked=recipe.active).form-check-input
+                            label(for='active').form-check-label Active
+                        .form-check.ml-2
+                            input(type='radio', name='active', id='inactive', value='inactive' checked=!recipe.active).form-check-input
+                            label(for='inactive').form-check-label Inactive
+                    .form-group.row
+                        input(name='featured_image_name', type='text', placeholder='Featured image name', value=recipe.featured_image_name).form-control.form-control-sm
+                    .form-group.row
+                        input(name='secondary_image_name', type='text', placeholder='Secondary image name', value=recipe.secondary_image_name).form-control.form-control-sm
+                    .form-group.row
+                        textarea(name='description', cols="100", rows="2", placeholder="Description").form-control= recipe.description
+                    .form-group.row
+                        textarea(name='ingredients', cols="100", rows="10", placeholder="Ingredients").form-control= recipe.ingredients
+                    .form-group.row
+                        input(name='extra_ingredients_title', type='text', placeholder='Extra ingredients title', value=recipe.extra_ingredients_title).form-control.form-control-sm
+                    .form-group.row
+                        textarea(name='extra_ingredients', cols="100", rows="5", placeholder="Extra ingredients").form-control= recipe.extra_ingredients
+                    .form-group.row
+                        textarea(name='steps', cols="100", rows="10",  placeholder="Directions").form-control= recipe.steps
+                    .form-group.row
+                        textarea(name='notes', cols="100", rows="2", placeholder="Notes").form-control= recipe.notes
+                    .form-group.row
+                        input(name='facebook_shares', type='text', placeholder='Facebook shares', value=recipe.facebook_shares).form-control.form-control-sm
+                    .form-group.row
+                        input(name='pinterest_pins', type='text', placeholder='Pinterest pins', value=recipe.pinterest_pins).form-control.form-control-sm
+                    .form-group.row
+                        input(name='tweets', type='text', placeholder='Tweets', value=recipe.tweets).form-control.form-control-sm
+                    .form-group.row
+                        input(name='youtube_video_id', type='text', placeholder='Youtube video id', value=recipe.youtube_video_id).form-control.form-control-sm
+                    .form-group.row
+                        label(for="prepTimeSeo").col-sm-2.col-form-label Prep time SEO:
+                        .col-sm-10
+                            input#prepTimeSeo(name='prep_time_seo', type='text', placeholder='Prep time SEO', 
+                            value=recipe.prep_time_seo).form-control.form-control-sm
+                    .form-group.row
+                        label(for="cookTimeSeo").col-sm-2.col-form-label Cook time SEO:
+                        .col-sm-10
+                            input#cookTimeSeo(name='cook_time_seo', type='text', placeholder='Cook time SEO', 
+                            value=recipe.cook_time_seo).form-control.form-control-sm
+                    .form-group.row
+                        label(for="totalTimeSeo").col-sm-2.col-form-label Total time SEO:
+                        .col-sm-10
+                            input#totalTimeSeo(name='total_time_seo', type='text', placeholder='Total time SEO', 
+                            value=recipe.total_time_seo).form-control.form-control-sm
+                    .form-group.row
+                        label(for="prepTime").col-sm-2.col-form-label Prep time:
+                        .col-sm-10
+                            input#prepTime(name='prep_time', type='text', placeholder='Prep time', 
+                            value=recipe.prep_time).form-control.form-control-sm
+                    .form-group.row
+                        label(for="cookTime").col-sm-2.col-form-label Cook time:
+                        .col-sm-10
+                            input#cookTime(name='cook_time', type='text', placeholder='Cook time', 
+                            value=recipe.cook_time).form-control.form-control-sm
+                    .form-group.row
+                        label(for="totalTime").col-sm-2.col-form-label Total time:
+                        .col-sm-10
+                            input#totalTime(name='total_time', type='text', placeholder='Total time', 
+                            value=recipe.total_time).form-control.form-control-sm
+                    .form-group.row
+                        label(for="cusine").col-sm-2.col-form-label Cusine:
+                        .col-sm-10
+                            input#cusine(name='cuisine', type='text', placeholder='Cuisine',
+                            value=recipe.cuisine).form-control.form-control-sm
+                    .form-group.row
+                        label(for="yield").col-sm-2.col-form-label Yield:
+                        .col-sm-10
+                            input#yield(name='yield', type='text', placeholder='Yield',
+                             value=recipe.yield).form-control.form-control-sm
+                    .form-group.row  
+                        button(type="submit" ).btn.btn-primary Save

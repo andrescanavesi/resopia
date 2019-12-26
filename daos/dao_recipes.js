@@ -27,10 +27,12 @@ function convertRecipe(row) {
   const thumbnail300ImageBase = imageBase.replace('w_900', 'w_300');
   // const featured_image_name = row.featured_image_name.replace("jpg", "webp");
   const featuredImageName = row.featured_image_name;
+
   const recipe = {};
   recipe.id = row.id;
   recipe.title = row.title;
   recipe.description = row.description;
+
   recipe.featured_image_name = featuredImageName;
   recipe.featured_image_url = featuredImageBase + featuredImageName;
   recipe.featured_image_url_mobile = thumbnail500ImageBase + featuredImageName;
@@ -38,6 +40,27 @@ function convertRecipe(row) {
   recipe.thumbnail300 = thumbnail300ImageBase + featuredImageName;
   recipe.thumbnail = thumbnailImageBase + featuredImageName;
   recipe.thumbnail200 = thumbnail200ImageBase + featuredImageName;
+
+  const secondaryImageName = row.secondary_image_name;
+  const hasSecondaryImage = secondaryImageName !== null;
+  recipe.has_seconday_image = hasSecondaryImage;
+  recipe.secondary_image_name = secondaryImageName;
+  if (hasSecondaryImage) {
+    const secondaryImageBase = imageBase;
+    const secondaryThumbnailImageBase = imageBase.replace('w_900', 'w_400');
+    const secondaryThumbnail200ImageBase = imageBase.replace('w_900', 'w_200');
+    const secondaryThumbnail500ImageBase = imageBase.replace('w_900', 'w_500');
+    const secondaryThumbnail300ImageBase = imageBase.replace('w_900', 'w_300');
+
+    recipe.secondary_image_url = secondaryImageBase + secondaryImageName;
+    recipe.secondary_image_url_mobile = secondaryThumbnail500ImageBase + secondaryImageName;
+    recipe.secondary_thumbnail500 = secondaryThumbnail500ImageBase + secondaryImageName;
+    recipe.secondary_thumbnail300 = secondaryThumbnail300ImageBase + secondaryImageName;
+    recipe.secondary_thumbnail = secondaryThumbnailImageBase + secondaryImageName;
+    recipe.secondary_thumbnail200 = secondaryThumbnail200ImageBase + secondaryImageName;
+  }
+
+
   recipe.ingredients = row.ingredients;
   recipe.ingredients_array = row.ingredients.split('\n');
 
@@ -250,8 +273,10 @@ module.exports.update = async function (recipe) {
   const query = `UPDATE recipes SET ingredients=$1, steps=$2, updated_at=$3, active=$4,
      featured_image_name=$5, extra_ingredients_title=$6, title=$7, description=$8, title_seo=$9, 
      secondary_image_name=$10, prep_time_seo=$11, cook_time_seo=$12, total_time_seo=$13, 
-     prep_time=$14, cook_time=$15, total_time=$16, cuisine=$17, yield=$18 
-       WHERE id=$19`;
+     prep_time=$14, cook_time=$15, total_time=$16, cuisine=$17, yield=$18,
+     facebook_shares=$19,pinterest_pins=$20,tweets=$21,youtube_video_id=$22,notes=$23, 
+     extra_ingredients=$24
+       WHERE id=$25`;
   const bindings = [
     recipe.ingredients,
     recipe.steps,
@@ -271,6 +296,12 @@ module.exports.update = async function (recipe) {
     recipe.total_time,
     recipe.cuisine,
     recipe.yield,
+    recipe.facebook_shares,
+    recipe.pinterest_pins,
+    recipe.tweets,
+    recipe.youtube_video_id,
+    recipe.notes,
+    recipe.extra_ingredients,
     recipe.id,
   ];
   // log.info(sqlFormatter.format(query));
