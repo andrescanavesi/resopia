@@ -20,13 +20,13 @@ html(lang="en")
     meta(name='theme-color', content='#009900')
     meta(name='msapplication-square310x310logo', content=pageLogo)
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='author', content='Recipes21')
+    meta(name='author', content='Resopia')
     meta(name='language', content='en')
     meta(name='keywords', content=keywords)
     meta(name='robots', content='Index, Follow')
     meta(property='og:locale', content='en_EN')
     meta(property='og:type', content='article')
-    meta(property='og:site_name', content='Recipes21')
+    meta(property='og:site_name', content='Resopia')
     meta(property='article:publisher', content='http://www.resopia.com/')
     meta(property='article:author', content='http://www.resopia.com/')
     meta(name='title', content=title)
@@ -84,7 +84,7 @@ html(lang="en")
             "recipeCategory": "#{pageRecipeCategory}",
             "author": {
               "@type": "Organization",
-              "name": "recipes21"
+              "name": "resopia"
             },
             "prepTime":"#{pageRecipePrepTime}",
             "cookTime":"#{pageRecipeCookTime}",
@@ -132,7 +132,7 @@ html(lang="en")
             //related recipes
             if displayMoreRecipes
               .mt-4.border-top
-                h3.pt-3 More recipes
+                h2.pt-3 Más recetas
                 .row.no-gutters
                   each recipe in recipesSpotlight
                     .col-sm-6
@@ -150,8 +150,8 @@ html(lang="en")
     .row
       .col   
         .search-section.bg-primary.px-2
-          input(name='searchBottom', id="searchBottom" type='text', title="Search a recipe"
-                  placeholder='Find a recipe', onkeyup="searchBottom(event)", 
+          input(name='searchBottom', id="searchBottom" type='text', title="Buscar receta"
+                  placeholder='Buscar receta', onkeyup="searchBottom(event)", 
                   value=searchText).form-control.form-control 
     //footer
     footer.bg-dark.py-5.background-carbon-fibre

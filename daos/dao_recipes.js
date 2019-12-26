@@ -95,11 +95,11 @@ function convertRecipe(row) {
   recipe.prep_time_seo = row.prep_time_seo || 'PT20M';
   recipe.cook_time_seo = row.cook_time_seo || 'PT30M';
   recipe.total_time_seo = row.total_time_seo || 'PT50M';
-  recipe.prep_time = row.prep_time || '20 minutes';
-  recipe.cook_time = row.cook_time || '30 minutes';
-  recipe.total_time = row.total_time || '50 minutes';
-  recipe.cuisine = row.cuisine || 'American';
-  recipe.yield = row.yield || '5 servings';
+  recipe.prep_time = row.prep_time || '20 minutos';
+  recipe.cook_time = row.cook_time || '30 minutos';
+  recipe.total_time = row.total_time || '50 minutos';
+  recipe.cuisine = row.cuisine || 'Americana';
+  recipe.yield = row.yield || '5 porciones';
 
   recipe.pinterest_pins = row.pinterest_pins;
   recipe.facebook_shares = row.facebook_shares;

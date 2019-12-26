@@ -59,6 +59,7 @@ h4 {
   font-style: italic;
   font-family: -webkit-body;
   text-decoration: none;
+  font-size: 2rem;
 }
 
 .login-button {
@@ -116,4 +117,29 @@ h4 {
 
 .bg-white-095{
   background-color: rgba(255, 255, 255, 0.95);
+}
+
+.btn-social{
+  border: none;
+  font-size: 0.85rem;
+}
+.btn-facebook{
+  background-color: #3b5998;
+}
+
+.btn-pinterest{
+  background-color: #c61118;
+}
+
+.btn-twitter{
+  background-color: #55acee;
+}
+
+.btn-whatsapp{
+  background-color: #25d366;
+}
+
+.container-fluid{
+  padding-left: 0px;
+  padding-right: 0px;
 }
