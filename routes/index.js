@@ -183,7 +183,7 @@ router.get('/buscar', async (req, res, next) => {
 
 router.get('/robots.txt', async (req, res, next) => {
   try {
-    const content = 'User-agent: *\nAllow: /\nSitemap: https://www.resopia.com/sitemap.xml';
+    const content = 'User-agent: *\nAllow: /\nSitemap: http://www.resopia.com/sitemap.xml';
     res.set('Content-Type', 'text/plain');
     res.status(200);
     res.send(content);

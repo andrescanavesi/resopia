@@ -16,6 +16,7 @@ module.exports.isEmailvalid = function (email) {
 module.exports.dashString = function (string) {
   return string
     .toLowerCase()
+    .replace('ñ', 'n')
     .replace(/[^\w ]+/g, '')
     .replace(/ +/g, '-');
 };

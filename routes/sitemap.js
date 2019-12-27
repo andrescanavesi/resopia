@@ -10,7 +10,7 @@ const daoRecipies = require('../daos/dao_recipes');
  */
 router.get('/', async (req, res, next) => {
   try {
-    const baseUrl = process.env.BASE_URL || 'http://www.resopia.com/';
+    const baseUrl = process.env.RESOPIA_BASE_URL || 'http://www.resopia.com/';
     const recipes = await daoRecipies.findAll();
     const collection = [];
     let today = moment();
