@@ -4,6 +4,7 @@ moment.locale('es');
 
 const FlexSearch = require('flexsearch');
 const dbHelper = require('../utils/db_helper');
+const daoTags = require('./dao_tags');
 const { Logger } = require('../utils/Logger');
 
 const log = new Logger('dao_recipes');
@@ -102,7 +103,7 @@ function convertRecipe(row) {
   recipe.active = row.active;
   recipe.notes = row.notes;
   recipe.has_notes = recipe.notes !== null;
-  recipe.youtube_video_url = row.youtube_video_url;
+  recipe.youtube_video_id = row.youtube_video_id;
   recipe.has_youtube_video = recipe.youtube_video_id !== null;
   if (recipe.has_youtube_video) {
     recipe.youtube_video_embed_url = `https://www.youtube.com/embed/${row.youtube_video_id}`;
@@ -180,12 +181,6 @@ async function findWithKeyword(keyword) {
   return findWithLimit(40);
 }
 
-
-// async function find(page) {
-//   // TODO add pagination
-//   return findWithLimit(50);
-// }
-
 /**
  *
  * @param {number} id
@@ -208,7 +203,19 @@ module.exports.findById = async function (id, ignoreActive) {
   // const result = await dbHelper.execute.query(query, bindings);
   const result = await dbHelper.query(query, bindings);
   if (result.rows.length > 0) {
-    return convertRecipe(result.rows[0]);
+    const recipe = convertRecipe(result.rows[0]);
+    const recipeTags = await daoTags.findByRecipe(recipe.id);
+    recipe.tags = recipeTags;
+    recipe.tags_ids_csv = '';
+    for (let index = 0; index < recipeTags.length; index++) {
+      const element = recipeTags[index];
+      recipe.tags_ids_csv += element.id;
+      if (index < recipeTags.length - 1) {
+        recipe.tags_ids_csv += ',';
+      }
+    }
+
+    return recipe;
   }
   throw Error(`recipe not found by id ${id}`);
 };
@@ -246,7 +253,8 @@ module.exports.create = async function (recipe) {
     featured_image_name, secondary_image_name, facebook_shares, pinterest_pins,
     prep_time_seo, cook_time_seo,total_time_seo, prep_time,
     cook_time, total_time, cuisine, yield, notes, youtube_video_id, tweets)
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25) RETURNING id`;
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25) 
+    RETURNING id`;
   const bindings = [
     today, today, recipe.title, recipe.title_seo, recipe.description,
     recipe.ingredients, recipe.extra_ingredients_title, recipe.extra_ingredients, recipe.steps, recipe.active,
@@ -258,10 +266,20 @@ module.exports.create = async function (recipe) {
 
   const result = await dbHelper.execute.query(query, bindings);
 
-  const insertedId = result.rows[0].id;
-  log.info(`Recipe created: ${insertedId}`);
+  const recipeId = result.rows[0].id;
+  log.info(`Recipe created: ${recipeId}`);
+
+  // create relationship with tags
+  const promises = [];
+  for (let index = 0; index < recipe.tags.length; index++) {
+    const tagId = recipe.tags[index];
+    promises.push(daoTags.createRecipeRelationship(recipeId, tagId));
+  }
+
+  await Promise.all(promises);
+
   this.resetCache();
-  return insertedId;
+  return recipeId;
 };
 
 /**

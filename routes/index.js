@@ -276,6 +276,7 @@ router.post('/admin/receta/editar/:id', basicAuth(authOptions), async (req, res,
       pinterest_pins: req.body.pinterest_pins,
       tweets: req.body.tweets,
       youtube_video_id: req.body.youtube_video_id,
+      tags: req.body.tags_ids_csv.split(','),
     };
     // log.info(recipeToUdate);
     if (recipeId === '0') {

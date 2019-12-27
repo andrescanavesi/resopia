@@ -59,6 +59,11 @@ block content
                     .form-group.row
                         input(name='youtube_video_id', type='text', placeholder='Youtube video id', value=recipe.youtube_video_id).form-control.form-control-sm
                     .form-group.row
+                        label(for="tagsCsv").col-sm-2.col-form-label Tags ids:
+                        .col-sm-10
+                            input#tagsCsv(name='tags_ids_csv', type='text', placeholder='Tags ids', 
+                            value=recipe.tags_ids_csv).form-control.form-control-sm
+                    .form-group.row
                         label(for="prepTimeSeo").col-sm-2.col-form-label Prep time SEO:
                         .col-sm-10
                             input#prepTimeSeo(name='prep_time_seo', type='text', placeholder='Prep time SEO', 
