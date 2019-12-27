@@ -176,9 +176,22 @@ async function findRecipesSpotlight() {
   return spotlightRecipes;
 }
 
-async function findWithKeyword(keyword) {
-  log.info(`findWithKeyword: ${keyword}`);
-  return findWithLimit(40);
+async function findWithKeyword(tag) {
+  log.info(`findWithKeyword: ${tag}`);
+  const query = `SELECT recipes.*
+  FROM recipes, tags, recipes_tags 
+  WHERE tags.name_seo=$1
+  AND recipes.id = recipes_tags.recipe_id
+  AND tags.id = recipes_tags.tag_id
+  ORDER BY created_at DESC`;
+
+  const bindings = [tag];
+  const result = await dbHelper.query(query, bindings);
+  const recipes = [];
+  for (let i = 0; i < result.rows.length; i++) {
+    recipes.push(convertRecipe(result.rows[i]));
+  }
+  return recipes;
 }
 
 /**

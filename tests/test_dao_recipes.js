@@ -48,7 +48,7 @@ describe('Test at Dao level', function () {
       extra_ingredients_title: 'extra title',
       extra_ingredients: 'Lorem ipsum\n dolor sit amet\nLorem ipsum\n dolor sit amet',
       youtube_video_id: 'cEWz-iCSGsk',
-      tags: [1, 2, 3],
+      tags: [1, 2, 3, 4],
     };
     const recipeId = await daoRecipes.create(recipe);
     assert.isNotNull(recipeId);

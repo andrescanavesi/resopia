@@ -52,11 +52,7 @@ block content
     .bg-light.border.py-1.mt-2
       span.text-secondary.pl-2
       .d-flex.justify-content-center
-        each keyword in recipe.tags
+        each tag in recipe.tags
           h5.ml-1
-            a(href=`/recipes/keyword/${keyword.name_seo}`, title="See more recipes for this tag").badge.badge-pill.badge-info.py-2.px-3
-              span=keyword.name
-    if recipe.allow_edition
-      .mt-3.text-right
-        - var href = "/recipe/edit?id="+recipe.id
-        a(href=href, title="Edit this recipe") Edit this recipe
+            a(href=`/recetas/${tag.name_seo}`, title="Ver mas recetas de esta categoría").badge.badge-pill.badge-info.py-2.px-3
+              span=tag.name
