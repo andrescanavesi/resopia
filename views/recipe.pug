@@ -22,9 +22,10 @@ block content
     h2.mt-3 Elaboración 
     img(src='/images/clock.svg', width="20px", alt="imagen reloj", loading="lazy")
     span.text-muted.ml-2=recipe.total_time
-    ol.list-group.list-group-flush.list-group-ol.mt-2
-      each step in recipe.steps_array
-        li(onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol= step
+    #steps
+      ol.list-group.list-group-flush.list-group-ol.mt-2
+        each step in recipe.steps_array
+          li(onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol= step
     if recipe.has_notes
       h2.mt-3 Tips para preparar esta receta
       span.pl-2=recipe.notes
