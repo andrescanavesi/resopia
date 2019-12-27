@@ -9,45 +9,42 @@ block content
     img(src=img, alt='recipe image', loading="lazy").img-fluid
     .mt-3
       span.text-muted=recipe.description
-      span.d-none
-        a(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl).ml-2
-          img(src='/images/pinterest-share-16.png', alt="pinterest image", loading="lazy")
-        a(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl).ml-2
-          img(src='/images/whatsapp-share-16.png', alt="whatsapp image", loading="lazy")
-        a(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl).ml-2
-          img(src='/images/facebook-share-16.png', alt="facebook image", loading="lazy")
     h2.mt-3 Ingredientes
     ul.list-group.list-group-flush
       each ingr in recipe.ingredients_array
-        li(onclick="activateElem(this)").list-group-item= ingr
+        li(onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= ingr
     if recipe.has_extra_ingredients
       h3.mt-3=recipe.extra_ingredients_title
       ul.list-group.list-group-flush
         each extra_ingr in recipe.extra_ingredients_array
-          li(onclick="activateElem(this)").list-group-item= extra_ingr
+          li(onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= extra_ingr
     
     h2.mt-3 Elaboración 
     img(src='/images/clock.svg', width="20px", alt="imagen reloj", loading="lazy")
     span.text-muted.ml-2=recipe.total_time
     ol.list-group.list-group-flush.list-group-ol.mt-2
       each step in recipe.steps_array
-        li(onclick="activateElem(this)").list-group-item.list-group-item-ol= step
+        li(onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol= step
     if recipe.has_notes
       h2.mt-3 Tips para preparar esta receta
       span.pl-2=recipe.notes
     if recipe.has_youtube_video
       .mt-3.embed-responsive.embed-responsive-4by3
         - var youtube_video_embed_url = recipe.youtube_video_embed_url
-        iframe(src=youtube_video_embed_url, allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture', allowfullscreen='').embed-responsive-item  
+        iframe(src=youtube_video_embed_url, loading='lazy', allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture', allowfullscreen='').embed-responsive-item  
     //social icons for sharing
     .bg-light.text-center.py-3.mt-2
-      a(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl).btn.btn-facebook.btn-social
+      a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl,
+        onclick="trackEvent(this,'social')").btn.btn-facebook.btn-social
         span.pl-2.text-white Compartir (#{recipe.facebook_shares})
-      a(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl).ml-1.btn.btn-pinterest.btn-social
+      a#pinterestShare(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl,
+        onclick="trackEvent(this,'social')").ml-1.btn.btn-pinterest.btn-social
         span.pl-2.text-white Pin (#{recipe.pinterest_pins})
-      a(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl).ml-1.btn.btn-twitter.btn-social
+      a#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
+        onclick="trackEvent(this,'social')").ml-1.btn.btn-twitter.btn-social
         span.pl-2.text-white Tweet (#{recipe.tweets})
-      a(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl).ml-1.btn.btn-whatsapp.btn-social
+      a#whastappShare(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl,
+        onclick="trackEvent(this,'social')").ml-1.btn.btn-whatsapp.btn-social
         span.pl-2.text-white Whatsapp
     .bg-light.border.py-1.mt-2
       span.text-secondary.pl-2
