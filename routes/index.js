@@ -91,7 +91,7 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
 
     responseJson.pageRecipeInstructions = JSON.stringify(instructions);
 
-    responseJson.pageRecipeCategory = recipe.tags[0].name;
+    responseJson.pageRecipeCategory = recipe.tags[0].name; // there's always at least one tag
     responseJson.pageRecipePrepTime = recipe.prep_time_seo;
     responseJson.pageRecipeCookTime = recipe.cook_time_seo;
     responseJson.pageRecipeTotalTime = recipe.total_time_seo;
