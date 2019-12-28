@@ -40,7 +40,7 @@ async function query(theQuery, bindings, withCache) {
       }
     } else {
       log.info(`returning query result from cache ${theQuery}`);
-      log.info(queryCache.getStats());
+      // log.info(queryCache.getStats());
       return value;
     }
   } else {
@@ -52,6 +52,7 @@ async function query(theQuery, bindings, withCache) {
       const auxQuery = theQuery.trim().toLowerCase();
       if (auxQuery.startsWith('insert') || auxQuery.startsWith('update')) {
         queryCache.flushAll();
+        queryCache.flushStats();
         log.info(`the cache was flushed because of the query ${theQuery}`);
       }
       return result;

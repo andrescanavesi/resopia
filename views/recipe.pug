@@ -34,6 +34,7 @@ block content
       h2.mx-1.mt-3 Tips para preparar esta receta
       span.pl-2=recipe.notes
     if recipe.has_youtube_video
+      h2.mx-1.mt-3 Video receta
       - var youtube_video_embed_url = recipe.youtube_video_embed_url
       .mt-3.youtube-video-place(data-yt-url=youtube_video_embed_url)
         img#youtubeVideoImage.lozad(data-src='/images/youtube-thumbnail.jpg', 

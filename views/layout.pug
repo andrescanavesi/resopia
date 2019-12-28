@@ -108,7 +108,7 @@ html(lang="en")
               | Menu
             #dropdownMenuList.dropdown-menu(aria-labelledby='dropdownMenuButton')
               a#menuItemInicio.dropdown-item(href='/', title="Ir al inicio") Inicio
-              a#menuItemVideos.dropdown-item(href='/recetas/celiacos', title="Recetas con video") Videos
+              a#menuItemVideos.dropdown-item(href='/recetas/video', title="Recetas con video") Videos
               a#menuItemCeliacos.dropdown-item(href='/recetas/celiacos', title="Recetas aptas para celíacos") Celíacos   
           h1
             a(href="/").text-dark
@@ -165,10 +165,18 @@ html(lang="en")
             a(href='/', title="Go to home page")  
               span.text-white www.resopia.com
          
+  script(async='', src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js'  crossorigin='anonymous')
   //jquery and popper cannot be loaded async since is a dependency of bootstra.min.js
   script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8' crossorigin='anonymous')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
   script(async='', src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
-  script(async='', src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js'  crossorigin='anonymous')
-  script(async='', src='/javascripts/common.js')
   script(async='', src='/javascripts/track.js')
+  script(async='', src='/javascripts/common.js')
+  script(type='text/javascript').
+    $(document).ready(() => {
+      // to load images in a lazy way
+      // lazy loads elements with default selector as '.lozad'
+      const observer = lozad(); 
+      observer.observe();
+      console.info('lozad observing...');
+    });
