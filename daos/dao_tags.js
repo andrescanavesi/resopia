@@ -22,7 +22,7 @@ module.exports.findAll = async function () {
   log.info('findAll');
   const query = 'SELECT * FROM tags ORDER BY name ASC';
   const bindings = [];
-  const result = await dbHelper.query(query, bindings);
+  const result = await dbHelper.query(query, bindings, true);
   log.info(`tags: ${result.rows.length}`);
   const tags = [];
   for (let i = 0; i < result.rows.length; i++) {
@@ -38,7 +38,7 @@ module.exports.findByRecipe = async function (recipeId) {
     AND recipes_tags.recipe_id = $1 
      ORDER BY tags.name ASC`;
   const bindings = [recipeId];
-  const result = await dbHelper.query(query, bindings);
+  const result = await dbHelper.query(query, bindings, true);
   log.info(`tags by recipe: ${result.rows.length}`);
   const tags = [];
   for (let i = 0; i < result.rows.length; i++) {
@@ -57,7 +57,7 @@ function updateQuantityRecipes(tagId) {
   FROM (SELECT count(*) AS count FROM recipes_tags where tag_id=$1) t
   WHERE id=$1`;
   const bindings = [tagId];
-  return dbHelper.query(query, bindings);
+  return dbHelper.query(query, bindings, false);
 }
 
 /**
@@ -68,7 +68,7 @@ function updateQuantityRecipes(tagId) {
 module.exports.createRecipeRelationship = async function (recipeId, tagId) {
   const query = 'INSERT INTO recipes_tags(recipe_id, tag_id) VALUES($1,$2) RETURNING id';
   const bindings = [recipeId, tagId];
-  const result = await dbHelper.query(query, bindings);
+  const result = await dbHelper.query(query, bindings, false);
   const insertedId = result.rows[0].id;
   await updateQuantityRecipes(tagId);
   return insertedId;

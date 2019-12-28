@@ -143,8 +143,7 @@ async function findWithLimit(limit) {
   const query = 'SELECT * FROM recipes WHERE active=true ORDER BY created_at DESC LIMIT $1 ';
   const bindings = [limit];
 
-  // const result = await dbHelper.execute.query(query, bindings);
-  const result = await dbHelper.query(query, bindings);
+  const result = await dbHelper.query(query, bindings, true);
   log.info(`recipes: ${result.rows.length}`);
   const recipes = [];
   for (let i = 0; i < result.rows.length; i++) {
@@ -184,7 +183,7 @@ async function findWithKeyword(tag) {
   ORDER BY created_at DESC`;
 
   const bindings = [tag];
-  const result = await dbHelper.query(query, bindings);
+  const result = await dbHelper.query(query, bindings, true);
   const recipes = [];
   for (let i = 0; i < result.rows.length; i++) {
     recipes.push(convertRecipe(result.rows[i]));
@@ -211,8 +210,7 @@ module.exports.findById = async function (id, ignoreActive) {
   const bindings = [id];
   // log.info(sqlFormatter.format(query));
   log.info(`findById, bindings: ${bindings}`);
-  // const result = await dbHelper.execute.query(query, bindings);
-  const result = await dbHelper.query(query, bindings);
+  const result = await dbHelper.query(query, bindings, true);
   if (result.rows.length > 0) {
     const recipe = convertRecipe(result.rows[0]);
     const recipeTags = await daoTags.findByRecipe(recipe.id);
@@ -250,7 +248,7 @@ async function findByIds(ids) {
   const bindings = [];
   // log.info(sqlFormatter.format(query));
   // log.info("bindings: " + bindings);
-  const result = await dbHelper.execute.query(query, bindings);
+  const result = await dbHelper.query(query, bindings, true);
   const recipes = [];
   for (let i = 0; i < result.rows.length; i++) {
     recipes.push(convertRecipe(result.rows[i]));
@@ -278,7 +276,7 @@ module.exports.create = async function (recipe) {
     recipe.youtube_video_id, recipe.tweets,
   ];
 
-  const result = await dbHelper.execute.query(query, bindings);
+  const result = await dbHelper.query(query, bindings, false);
 
   const recipeId = result.rows[0].id;
   log.info(`Recipe created: ${recipeId}`);
@@ -338,7 +336,7 @@ module.exports.update = async function (recipe) {
   ];
   // log.info(sqlFormatter.format(query));
   // log.info(bindings);
-  const result = await dbHelper.execute.query(query, bindings);
+  const result = await dbHelper.query(query, bindings, false);
   // log.info(result);
   this.resetCache();
   return result;

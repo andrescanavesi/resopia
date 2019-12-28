@@ -45,6 +45,7 @@
         "log4js": "^6.1.0",
         "moment": "^2.24.0",
         "morgan": "~1.9.1",
+        "node-cache": "^5.1.0",
         "parse-database-url": "^0.3.0",
         "pg": "^7.15.1",
         "pug": "^2.0.4",
