@@ -220,7 +220,7 @@ router.get('/admin/receta/nueva', basicAuth(authOptions), async (req, res, next)
       pinterest_pins: 257,
       tweets: 155,
       notes: 'notas de la receta',
-      youtube_video_id: 'cEWz-iCSGsk',
+      youtube_video_id: '',
     };
     responseJson.newRecipe = true;
     responseJson.successMessage = null;

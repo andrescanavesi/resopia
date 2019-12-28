@@ -36,7 +36,7 @@ async function query(theQuery, bindings, withCache) {
         queryCache.set(key, queryResult);
         return queryResult;
       } catch (error) {
-        throw new Error(`Error executing query with cache ${query} error: ${error}`);
+        throw new Error(`Error executing query with cache ${theQuery} error: ${error}`);
       }
     } else {
       log.info(`returning query result from cache ${theQuery}`);
@@ -57,7 +57,7 @@ async function query(theQuery, bindings, withCache) {
       }
       return result;
     } catch (error) {
-      throw new Error(`Error executing query without cache  ${query} error: ${error}`);
+      throw new Error(`Error executing query without cache  ${theQuery} error: ${error}`);
     }
   }
 }

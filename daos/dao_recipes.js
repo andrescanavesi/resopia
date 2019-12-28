@@ -102,7 +102,7 @@ function convertRecipe(row) {
   recipe.notes = row.notes;
   recipe.has_notes = recipe.notes !== null;
   recipe.youtube_video_id = row.youtube_video_id;
-  recipe.has_youtube_video = recipe.youtube_video_id !== null;
+  recipe.has_youtube_video = recipe.youtube_video_id !== null && recipe.youtube_video_id.trim() !== '';
   if (recipe.has_youtube_video) {
     recipe.youtube_video_embed_url = `https://www.youtube.com/embed/${row.youtube_video_id}`;
     recipe.youtube_video_watch_url = `https://www.youtube.com/watch?v=${row.youtube_video_id}`;
@@ -259,6 +259,16 @@ async function findByIds(ids) {
 
 module.exports.create = async function (recipe) {
   log.info('Creating recipe');
+  if (recipe.tags === null || recipe.tags.length === 0) {
+    throw new Error('Error creating the recipe. Tags are empty');
+  }
+  // validate tags values
+  for (let index = 0; index < recipe.tags.length; index++) {
+    const tagId = recipe.tags[index];
+    if (isNaN(tagId)) {
+      throw new Error(`Error creting the recipe. The tag ${tagId} is not a number`);
+    }
+  }
   const today = moment().format('YYYY-MM-DD HH:mm:ss');
   const query = `INSERT INTO recipes(created_at, updated_at, title, title_seo, description, 
     ingredients, extra_ingredients_title, extra_ingredients, steps, active, 
@@ -285,6 +295,9 @@ module.exports.create = async function (recipe) {
   const promises = [];
   for (let index = 0; index < recipe.tags.length; index++) {
     const tagId = recipe.tags[index];
+    if (isNaN(tagId)) {
+      throw new Error(`the tag ${tagId} is not a number`);
+    }
     promises.push(daoTags.createRecipeRelationship(recipeId, tagId));
   }
 
