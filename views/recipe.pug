@@ -1,20 +1,20 @@
 extends layout
 
 block content
-    h1=recipe.title
-    span.text-muted=recipe.created_at_es
+    h1.mx-1=recipe.title
+    span.mx-1.text-muted=recipe.created_at_es
     - var img = recipe.featured_image_url
     if isMobile
         - img = recipe.featured_image_url_mobile
-    img(src=img, alt='imagen receta', loading="lazy").img-fluid
-    .mt-3
+    img.lozad(data-src=img, alt='imagen receta', loading="lazy").img-fluid
+    .mx-1.mt-3
       span.text-muted=recipe.description
-    h2.mt-3 Ingredientes
+    h2.mx-1.mt-3 Ingredientes
     ul.list-group.list-group-flush
       each ingr in recipe.ingredients_array
         li(onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= ingr
     if recipe.has_extra_ingredients
-      h3.mt-3=recipe.extra_ingredients_title
+      h3.mx-1.mt-3=recipe.extra_ingredients_title
       ul.list-group.list-group-flush
         each extra_ingr in recipe.extra_ingredients_array
           li(onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= extra_ingr
@@ -22,21 +22,25 @@ block content
     - var img = recipe.secondary_image_url
     if isMobile
         - img = recipe.secondary_image_url_mobile
-    img(src=img, alt='imagen receta', loading="lazy").img-fluid
-    h2.mt-3 Elaboración 
-    img(src='/images/clock.svg', width="20px", alt="imagen reloj", loading="lazy")
+    img.lozad(data-src=img, alt='imagen receta', loading="lazy").img-fluid
+    h2.mx-1.mt-3 Elaboración 
+    img.lozad(data-src='/images/clock.svg', width="20px", alt="imagen reloj", loading="lazy")
     span.text-muted.ml-2=recipe.total_time
     #steps
       ol.list-group.list-group-flush.list-group-ol.mt-2
         each step in recipe.steps_array
           li(onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol= step
     if recipe.has_notes
-      h2.mt-3 Tips para preparar esta receta
+      h2.mx-1.mt-3 Tips para preparar esta receta
       span.pl-2=recipe.notes
     if recipe.has_youtube_video
-      .mt-3.embed-responsive.embed-responsive-4by3
-        - var youtube_video_embed_url = recipe.youtube_video_embed_url
-        iframe(src=youtube_video_embed_url, loading='lazy', allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture', allowfullscreen='').embed-responsive-item  
+      - var youtube_video_embed_url = recipe.youtube_video_embed_url
+      .mt-3.youtube-video-place(data-yt-url=youtube_video_embed_url)
+        img#youtubeVideoImage.lozad(data-src='/images/youtube-thumbnail.jpg', 
+        onclick="loadYoutubeVideo(); trackEvent(this,'youtube_video_display')", 
+        width="100%", alt="video thumbnail", 
+        loading="lazy").play-youtube-video
+
     //social icons for sharing
     .bg-light.text-center.py-3.mt-2
       a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl,

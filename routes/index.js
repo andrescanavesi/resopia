@@ -68,7 +68,7 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     responseJson.linkToThisPage = recipe.url;
     responseJson.description = `${recipe.description} | resopia.com`;
     responseJson.metaImage = recipe.featured_image;
-    responseJson.keywords = recipe.keywords;
+    responseJson.keywords = recipe.tags_names_csv;
     responseJson.recipesSpotlight = recipesSpotlight;
     responseJson.isHomePage = false;
     responseJson.isRecipePage = true;
@@ -81,22 +81,23 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     responseJson.pageDatePublished = recipe.created_at;
     responseJson.pageDateModified = recipe.updated_at;
     responseJson.pageDescription = recipe.description;
-    responseJson.pageKeywords = recipe.keywords;
+    responseJson.pageKeywords = recipe.tags_names_csv;
     responseJson.pageRecipeIngredients = JSON.stringify(recipe.ingredients);
     const instructions = [];
-    for (let i = 0; i < recipe.steps.length; i++) {
-      const step = { '@type': 'HowToStep', text: recipe.steps[i] };
+    for (let i = 0; i < recipe.steps_array.length; i++) {
+      const step = { '@type': 'HowToStep', text: recipe.steps_array[i] };
       instructions.push(step);
     }
 
     responseJson.pageRecipeInstructions = JSON.stringify(instructions);
 
-    responseJson.pageRecipeCategory = recipe.category_name;
+    responseJson.pageRecipeCategory = recipe.tags[0].name;
     responseJson.pageRecipePrepTime = recipe.prep_time_seo;
     responseJson.pageRecipeCookTime = recipe.cook_time_seo;
     responseJson.pageRecipeTotalTime = recipe.total_time_seo;
     responseJson.pageRecipeCusine = recipe.cuisine;
     responseJson.pageRecipeYield = recipe.recipe_yield;
+    responseJson.pageRecipeVideo = recipe.youtube_video_watch_url;
 
     res.render('recipe', responseJson);
   } catch (e) {

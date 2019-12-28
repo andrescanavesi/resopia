@@ -8,4 +8,5 @@ export RESOPIA_DEFAULT_IMAGE_URL=https://res.cloudinary.com/dniiru5xy/image/uplo
 export RESOPIA_BASE_URL=http://localhost:3000
 export RESOPIA_META_CACHE=20000
 export RESOPIA_HTTP_AUTH_BASIC_PASSWORD=****
+export RESOPIA_DEFAULT_VIDEO_URL=https://www.youtube.com/watch?v=mxqEM_1WiG8
 ```

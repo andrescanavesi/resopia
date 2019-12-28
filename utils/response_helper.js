@@ -37,6 +37,7 @@ module.exports.getResponseJson = function (req) {
   responseJson.dateDescription = 'resopia.com. Recetas de cocina';
   responseJson.pageLogo = `${process.env.RESOPIA_IMAGES_BASE_URL}resopia-logo.png`;
   responseJson.pageDescription = responseJson.description;
+  responseJson.pageRecipeVideo = process.env.RESOPIA_DEFAULT_VIDEO_URL || 'https://www.youtube.com/watch?v=mxqEM_1WiG8';
 
   responseJson.enablePushEngage = false;
 

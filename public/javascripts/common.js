@@ -1,3 +1,8 @@
+$(document).ready(() => {
+  const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+  observer.observe();
+});
+
 /**
  *
  * @param {*} event
@@ -39,4 +44,13 @@ function search(event, element) {
  */
 function activateElem(element) {
   element.classList.toggle('active');
+}
+
+/**
+ * Dynamically inject the youtube iframe to avoid loading uncessary stuff during page loading
+ */
+function loadYoutubeVideo() {
+  const videoWrapper = $('.youtube-video-place');
+  videoWrapper.html(`<iframe allowfullscreen frameborder="0" class="embed-responsive-item" src="${videoWrapper.data('yt-url')}"></iframe>`);
+  videoWrapper.addClass('embed-responsive embed-responsive-4by3');
 }

@@ -61,7 +61,6 @@ function convertRecipe(row) {
     recipe.secondary_thumbnail200 = secondaryThumbnail200ImageBase + secondaryImageName;
   }
 
-
   recipe.ingredients = row.ingredients;
   recipe.ingredients_array = row.ingredients.split('\n');
 
@@ -71,7 +70,6 @@ function convertRecipe(row) {
     recipe.extra_ingredients = row.extra_ingredients;
     recipe.extra_ingredients_array = row.extra_ingredients.split('\n');
   }
-
 
   recipe.steps = row.steps;
   recipe.steps_array = row.steps.split('\n');
@@ -220,11 +218,14 @@ module.exports.findById = async function (id, ignoreActive) {
     const recipeTags = await daoTags.findByRecipe(recipe.id);
     recipe.tags = recipeTags;
     recipe.tags_ids_csv = '';
+    recipe.tags_names_csv = '';
     for (let index = 0; index < recipeTags.length; index++) {
       const element = recipeTags[index];
       recipe.tags_ids_csv += element.id;
+      recipe.tags_names_csv += element.name;
       if (index < recipeTags.length - 1) {
         recipe.tags_ids_csv += ',';
+        recipe.tags_names_csv += ',';
       }
     }
 
