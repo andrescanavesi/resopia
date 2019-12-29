@@ -1,6 +1,7 @@
 const express = require('express');
 const basicAuth = require('express-basic-auth');
 const daoRecipies = require('../daos/dao_recipes');
+const daoTags = require('../daos/dao_tags');
 const responseHelper = require('../utils/response_helper');
 const utils = require('../utils/utils');
 const { Logger } = require('../utils/Logger');
@@ -30,9 +31,12 @@ router.get('/receta/nueva', basicAuth(authOptions), async (req, res, next) => {
     const responseJson = responseHelper.getResponseJson(req);
     responseJson.recipe = {
       id: 0,
-      title: 'titulo receta',
+      title: '',
       featured_image_name: 'cookies-test.jpg',
       secondary_image_name: 'pizza-test.jpg',
+      tags: [],
+      tags_ids_csv: '',
+      tags_names_csv: '',
       active: false,
       title_seo: '',
       ingredients: 'ing1\ning2\ning3\n',
@@ -56,6 +60,7 @@ router.get('/receta/nueva', basicAuth(authOptions), async (req, res, next) => {
     };
     responseJson.newRecipe = true;
     responseJson.successMessage = null;
+    responseJson.allTags = await daoTags.findAll();
     res.render('recipe-edit', responseJson);
   } catch (e) {
     next(e);
@@ -68,7 +73,7 @@ router.get('/receta/editar/:id', basicAuth(authOptions), async (req, res, next) 
     const responseJson = responseHelper.getResponseJson(req);
 
     const recipeId = req.params.id;
-    const recipe = await daoRecipies.findById(recipeId, true);
+    const recipe = await daoRecipies.findById(recipeId, false);
     responseJson.recipe = recipe;
     res.render('recipe-edit', responseJson);
   } catch (e) {

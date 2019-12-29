@@ -18,11 +18,11 @@ function convertTag(row) {
 /**
  * @returns {[]} all tags
  */
-module.exports.findAll = async function () {
+module.exports.findAll = async function (withCache) {
   log.info('findAll');
   const query = 'SELECT * FROM tags ORDER BY name ASC';
   const bindings = [];
-  const result = await dbHelper.query(query, bindings, true);
+  const result = await dbHelper.query(query, bindings, withCache);
   log.info(`tags: ${result.rows.length}`);
   const tags = [];
   for (let i = 0; i < result.rows.length; i++) {
