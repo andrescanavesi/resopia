@@ -96,7 +96,7 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     responseJson.pageRecipeCookTime = recipe.cook_time_seo;
     responseJson.pageRecipeTotalTime = recipe.total_time_seo;
     responseJson.pageRecipeCusine = recipe.cuisine;
-    responseJson.pageRecipeYield = recipe.recipe_yield;
+    responseJson.pageRecipeYield = recipe.yield;
     responseJson.pageRecipeVideo = recipe.youtube_video_watch_url; // can be empty
 
     res.render('recipe', responseJson);
