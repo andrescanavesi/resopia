@@ -135,14 +135,14 @@ html(lang="en")
             if displayMoreRecipes
               .mt-4.border-top
                 h2.mx-1.pt-3 Más recetas
-                .row.no-gutters
+                .row
                   each recipe in recipesSpotlight
                     .col-sm-6.text-center
-                      - var img = recipe.thumbnail300
-                      div
-                        a(href=`${recipe.url}`, title="Ver receta").py-1.font-weight-bold=recipe.title
+                      - var img = recipe.thumbnail500
+                      div.bg-secondary.py-1
+                        a(href=`${recipe.url}`, title="Ver receta").text-white.py-1.font-weight-bold=recipe.title
                       a(href=`${recipe.url}`, title="Ver receta")
-                        img.lozad(data-src=img, alt='imagen receta').img-fluid.mb-2.mr-1.rounded
+                        img.lozad(data-src=img, alt='imagen receta').img-fluid.mb-2
                        
           .col-md-3
             //right column
