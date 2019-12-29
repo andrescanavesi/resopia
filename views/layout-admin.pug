@@ -1,0 +1,85 @@
+doctype html
+html(lang="en")
+  head
+    link(rel="preconnect" href="//stackpath.bootstrapcdn.com"  crossorigin)
+    
+    title= title
+   
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(charset='utf-8')
+    meta(http-equiv='Cache-control', content=metaCache)
+    meta(name='theme-color', content='#009900')
+    meta(name='msapplication-square310x310logo', content=pageLogo)
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='author', content='Resopia')
+    meta(name='language', content='en')
+    meta(name='robots', content='Index, Follow')
+    meta(property='og:locale', content='en_EN')
+    meta(property='og:type', content='article')
+    meta(property='og:site_name', content='Resopia')
+    meta(property='article:publisher', content='http://www.resopia.com/')
+    meta(property='article:author', content='http://www.resopia.com/')
+    meta(name='title', content=title)
+    meta(name='description', content=description)
+    meta(property='og:title', content=title)
+    meta(property='og:description', content=description)
+    meta(property='og:url', content=linkToThisPage)
+    meta(property='og:image', content=metaImage)
+    meta(property='article:modified_time', content=updatedAt)        
+    
+    link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+    link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+    link(rel="icon", sizes="192x192", href=pageLogo)
+    link(rel="apple-touch-icon" href=pageLogo)
+
+  body
+    .shadow-sm.pb-3.mb-3.sticky-top.bg-white-095
+      header
+        .d-flex.justify-content-between.mt-3.px-2.pt-3
+          .dropdown
+            button#dropdownMenuButton.btn.btn-outline-dark.dropdown-toggle(type='button', onclick="trackEvent(this,'default')", data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+              | Menu
+            #dropdownMenuList.dropdown-menu(aria-labelledby='dropdownMenuButton')
+              a#menuItemInicio.dropdown-item(href='/admin/receta/nueva', title="Nueva receta") Nueva receta
+          h1
+            a(href="/").text-dark
+              span.brand Resopia Admin
+          div(style="width: 3rem") &nbsp; 
+      
+    .container-fluid
+        .row
+          .col-md-3
+            //left
+          .col-md-6
+            .mt-3
+            block content
+            //related recipes
+            if displayMoreRecipes
+              .mt-4.border-top
+                h2.mx-1.pt-3 Más recetas
+                .row
+                  each recipe in recipesSpotlight
+                    .col-sm-6.text-center
+                      - var img = recipe.thumbnail500
+                      div.bg-secondary.py-1
+                        a(href=`${recipe.url}`, title="Ver receta").text-white.py-1.font-weight-bold=recipe.title
+                      a(href=`${recipe.url}`, title="Ver receta")
+                        img.lozad(data-src=img, alt='imagen receta').img-fluid.mb-2
+                       
+          .col-md-3
+            //right column
+     
+    //footer
+    footer.bg-dark.py-5.background-carbon-fibre
+      .container.py-2
+        .row.justify-content-center
+          div
+            span.text-white © 2020 Copyright 
+            a(href='/', title="Go to home page")  
+              span.text-white www.resopia.com
+           
+  //jquery and popper cannot be loaded async since is a dependency of bootstra.min.js
+  script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8' crossorigin='anonymous')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
+  script(async='', src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
+  script(async='', src='/javascripts/common.js')

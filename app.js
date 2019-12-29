@@ -10,6 +10,7 @@ const { Logger } = require('./utils/Logger');
 
 const indexRouter = require('./routes/index');
 const sitemapRouter = require('./routes/sitemap');
+const adminRouter = require('./routes/admin');
 
 const log = new Logger('app');
 
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/sitemap.xml', sitemapRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
