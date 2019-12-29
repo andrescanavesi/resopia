@@ -8,7 +8,7 @@ block content
       - var img = recipe.featured_image_url
       if isMobile
         - img = recipe.featured_image_url_mobile
-      img.lozad.img-fluid(data-src=img, alt='recipe image', loading="lazy")
+      img.lozad.img-fluid(data-src=img, alt='imagen receta')
       div.px-2.py-1.border.rounded-bottom
         div
           .text-muted= recipe.description

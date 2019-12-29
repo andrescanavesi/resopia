@@ -6,7 +6,7 @@ block content
     - var img = recipe.featured_image_url
     if isMobile
         - img = recipe.featured_image_url_mobile
-    img.lozad(data-src=img, alt='imagen receta', loading="lazy").img-fluid
+    img.lozad(data-src=img, alt='imagen receta').img-fluid
     .mx-1.mt-3
       span.text-muted=recipe.description
     h2.mx-1.mt-3 Ingredientes
@@ -22,9 +22,9 @@ block content
     - var img = recipe.secondary_image_url
     if isMobile
         - img = recipe.secondary_image_url_mobile
-    img.lozad(data-src=img, alt='imagen receta', loading="lazy").img-fluid
+    img.lozad(data-src=img, alt='imagen receta').img-fluid
     h2.mx-1.mt-3 Elaboración 
-    img.lozad(data-src='/images/clock.svg', width="20px", alt="imagen reloj", loading="lazy")
+    img.lozad(data-src='/images/clock.svg', width="20px", alt="imagen reloj")
     span.text-muted.ml-2=recipe.total_time
     #steps
       ol.list-group.list-group-flush.list-group-ol.mt-2
@@ -38,9 +38,7 @@ block content
       - var youtube_video_embed_url = recipe.youtube_video_embed_url
       .mt-3.youtube-video-place(data-yt-url=youtube_video_embed_url)
         img#youtubeVideoImage.lozad(data-src='/images/youtube-thumbnail.jpg', 
-        onclick="loadYoutubeVideo(); trackEvent(this,'youtube_video_display')", 
-        width="100%", alt="video thumbnail", 
-        loading="lazy").play-youtube-video
+        onclick="loadYoutubeVideo(); trackEvent(this,'youtube_video_display')").play-youtube-video
 
     //social icons for sharing
     .bg-light.text-center.py-3.mt-2

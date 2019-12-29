@@ -44,7 +44,7 @@ html(lang="en")
           "url": "http://resopia.com/",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "http://resopia.com/search?q={search_term_string}",
+            "target": "http://resopia.com/buscar?q={search_term_string}",
             "query-input": "required name=search_term_string"
           },
           "image": [
@@ -90,7 +90,7 @@ html(lang="en")
             "cookTime":"#{pageRecipeCookTime}",
             "totalTime":"#{pageRecipeTotalTime}",
             "recipeCuisine":"#{pageRecipeCusine}",
-            "recipeYield":"#{pageRecipeYield}"
+            "recipeYield":"#{pageRecipeYield}",
             "video":"#{pageRecipeVideo}"
         }         
     
@@ -137,14 +137,12 @@ html(lang="en")
                 h2.mx-1.pt-3 Más recetas
                 .row.no-gutters
                   each recipe in recipesSpotlight
-                    .col-sm-6
+                    .col-sm-6.text-center
                       - var img = recipe.thumbnail300
-                      - var style = "height: 200px;  background-size: cover;"
-                      a(href=`${recipe.url}`, title="See the recipe")
-                        div.lozad(style=`${style}`, data-background-image=img).mb-2.mr-1.rounded
-                          .mb-2.mr-1.lead.text-white.position-absolute.px-2.pb-2.fixed-bottom(style="background-color: rgba(0,0,0,0.65);")
-                            .py-1.font-weight-bold= recipe.title
-                        
+                      div
+                        a(href=`${recipe.url}`, title="Ver receta").py-1.font-weight-bold=recipe.title
+                      a(href=`${recipe.url}`, title="Ver receta")
+                        img.lozad(data-src=img, alt='imagen receta').img-fluid.mb-2.mr-1.rounded
                        
           .col-md-3
             //right column
@@ -164,11 +162,13 @@ html(lang="en")
             span.text-white © 2020 Copyright 
             a(href='/', title="Go to home page")  
               span.text-white www.resopia.com
-         
-  script(async='', src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js'  crossorigin='anonymous')
+           
   //jquery and popper cannot be loaded async since is a dependency of bootstra.min.js
   script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8' crossorigin='anonymous')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
+  //lozad to load images in a lazy way. Must be loaded sync
+  script(src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js'  crossorigin='anonymous')
+  
   script(async='', src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
   script(async='', src='/javascripts/track.js')
   script(async='', src='/javascripts/common.js')

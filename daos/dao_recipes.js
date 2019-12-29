@@ -26,6 +26,7 @@ function convertRecipe(row) {
   const thumbnail200ImageBase = imageBase.replace('w_900', 'w_200');
   const thumbnail500ImageBase = imageBase.replace('w_900', 'w_500');
   const thumbnail300ImageBase = imageBase.replace('w_900', 'w_300');
+
   // const featured_image_name = row.featured_image_name.replace("jpg", "webp");
   const featuredImageName = row.featured_image_name;
 
