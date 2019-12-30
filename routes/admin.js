@@ -60,7 +60,7 @@ router.get('/receta/nueva', basicAuth(authOptions), async (req, res, next) => {
     };
     responseJson.newRecipe = true;
     responseJson.successMessage = null;
-    responseJson.allTags = await daoTags.findAll();
+    responseJson.allTags = await daoTags.findAll(false);
     res.render('recipe-edit', responseJson);
   } catch (e) {
     next(e);
@@ -75,7 +75,7 @@ router.get('/receta/editar/:id', basicAuth(authOptions), async (req, res, next) 
     const recipeId = req.params.id;
     const recipe = await daoRecipies.findById(recipeId, false);
     responseJson.recipe = recipe;
-    responseJson.allTags = await daoTags.findAll();
+    responseJson.allTags = await daoTags.findAll(false);
     res.render('recipe-edit', responseJson);
   } catch (e) {
     next(e);
