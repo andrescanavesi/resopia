@@ -108,6 +108,7 @@ html(lang="en")
               | Menu
             #dropdownMenuList.dropdown-menu(aria-labelledby='dropdownMenuButton')
               a#menuItemInicio.dropdown-item(href='/', title="Ir al inicio") Inicio
+              a#menuItemVideos.dropdown-item(href='https://www.facebook.com/Resopiacom-110467097132918', title="Facebook") Facebook
               a#menuItemVideos.dropdown-item(href='/recetas/video', title="Recetas con video") Videos
               a#menuItemCeliacos.dropdown-item(href='/recetas/celiacos', title="Recetas aptas para celíacos") Celíacos   
           h1
@@ -131,6 +132,9 @@ html(lang="en")
           .col-md-6
             .mt-3
             block content
+            .text-center.mt-3
+              a(href='https://www.facebook.com/Resopiacom-110467097132918')
+                img.lozad.img-fluid(data-src="https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,w_500,q_auto:low/v1577283800/resopia.com/facebook-fanpage.png")
             //related recipes
             if displayMoreRecipes
               .mt-4.border-top
@@ -146,7 +150,6 @@ html(lang="en")
                        
           .col-md-3
             //right column
-     
     .row
       .col   
         .search-section.bg-primary.px-2

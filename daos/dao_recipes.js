@@ -196,8 +196,9 @@ async function findWithKeyword(tag) {
  *
  * @param {number} id
  * @param {boolean} ignoreActive true to find active true and false
+ * @param {boolean} witchCache
  */
-module.exports.findById = async function (id, ignoreActive) {
+module.exports.findById = async function (id, ignoreActive, witchCache) {
   if (!id) {
     throw Error('id param not defined');
   }

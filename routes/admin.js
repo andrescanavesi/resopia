@@ -73,7 +73,7 @@ router.get('/receta/editar/:id', basicAuth(authOptions), async (req, res, next) 
     const responseJson = responseHelper.getResponseJson(req);
 
     const recipeId = req.params.id;
-    const recipe = await daoRecipies.findById(recipeId, false);
+    const recipe = await daoRecipies.findById(recipeId, true, false);
     responseJson.recipe = recipe;
     responseJson.allTags = await daoTags.findAll(false);
     res.render('recipe-edit', responseJson);
