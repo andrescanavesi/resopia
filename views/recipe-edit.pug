@@ -43,7 +43,10 @@ block content
                       .form-group.row
                         label(for="recipeTags").col-sm-2.col-form-label Recipe tags:
                         .col-sm-10
-                          span#recipeTags=recipe.tags_names_csv
+                          div#recipeTags.d-flex
+                            each tag in recipe.tags
+                              span.badge.badge-pill.badge-secondary.py-2.px-3.ml-1=tag.name
+
                     .form-group.row
                       label(for="availableTags").col-sm-2.col-form-label Available tags:
                       .col-sm-10
@@ -55,8 +58,14 @@ block content
                               span.ml-1=tag.name
                     .form-group.row
                         input(name='featured_image_name', type='text', placeholder='Featured image name', value=recipe.featured_image_name).form-control.form-control-sm
+                    if !newRecipe
+                      .form-group.row
+                        img(src=recipe.thumbnail300, alt='imagen receta').img-fluid
                     .form-group.row
                         input(name='secondary_image_name', type='text', placeholder='Secondary image name', value=recipe.secondary_image_name).form-control.form-control-sm
+                    if !newRecipe
+                      .form-group.row
+                        img(src=recipe.secondary_thumbnail300, alt='imagen receta').img-fluid
                     .form-group.row
                         textarea(name='description', cols="100", rows="2", placeholder="Description").form-control= recipe.description
                     .form-group.row
