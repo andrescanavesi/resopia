@@ -9,7 +9,10 @@ block content
     img.lozad(data-src=img, alt='imagen receta').img-fluid
     .mx-1.mt-3
       span.text-muted=recipe.description
-    div#giphyWrapper
+    div#giphyWrapper.mt-1.text-center
+        img#giphyGif.lozad(data-src='https://res.cloudinary.com/dniiru5xy/image/upload/c_thumb,w_512,g_face/v1577674089/resopia.com/gif-button.png', 
+        onclick="loadGiphy(); trackEvent(this,'giphy_discover')", style="cursor: pointer").img-fluid
+
     h2.mx-1.mt-3 Ingredientes
     ul.list-group.list-group-flush
       each ingr in recipe.ingredients_array
