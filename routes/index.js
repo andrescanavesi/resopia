@@ -1,5 +1,4 @@
 const express = require('express');
-const basicAuth = require('express-basic-auth');
 const daoRecipies = require('../daos/dao_recipes');
 const responseHelper = require('../utils/response_helper');
 const utils = require('../utils/utils');
@@ -7,23 +6,6 @@ const { Logger } = require('../utils/Logger');
 
 const router = express.Router();
 const log = new Logger('route_index');
-
-
-/**
- *
- * @returns {string} the text to be displayed when users hit on cancel prompt button
- */
-function getUnauthorizedResponse() {
-  return 'Unauthorized';
-}
-
-// http auth basic options
-const authOptions = {
-  challenge: true, // it will cause most browsers to show a popup to enter credentials on unauthorized responses,
-  users: { admin: process.env.RESOPIA_HTTP_AUTH_BASIC_PASSWORD },
-  authorizeAsync: false,
-  unauthorizedResponse: getUnauthorizedResponse,
-};
 
 router.get('/', async (req, res, next) => {
   try {
@@ -67,7 +49,7 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     responseJson.updatedAt = recipe.updated_at;
     responseJson.linkToThisPage = recipe.url;
     responseJson.description = `${recipe.description} | resopia.com`;
-    responseJson.metaImage = recipe.featured_image;
+    responseJson.metaImage = recipe.featured_image_url;
     responseJson.keywords = recipe.tags_names_csv;
     responseJson.recipesSpotlight = recipesSpotlight;
     responseJson.isHomePage = false;
@@ -75,8 +57,8 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     responseJson.footerRecipes = footerRecipes;
 
     // structured data for SEO
-    responseJson.pageType = 'Recipe';
-    responseJson.pageName = recipe.title;
+    responseJson.pageType = 'recipe';
+    responseJson.pageName = `${recipe.title} | resopia.com`;
     responseJson.pageImage = recipe.featured_image_url_mobile;
     responseJson.pageDatePublished = recipe.created_at;
     responseJson.pageDateModified = recipe.updated_at;
