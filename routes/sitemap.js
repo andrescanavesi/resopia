@@ -4,6 +4,7 @@ const router = express.Router();
 const js2xmlparser = require('js2xmlparser');
 const moment = require('moment');
 const daoRecipies = require('../daos/dao_recipes');
+const daoTags = require('../daos/dao_tags');
 
 /**
  * It generates an standard sitemal.xml for SEO purposes
@@ -32,6 +33,7 @@ router.get('/', async (req, res, next) => {
       const url = {};
       url.loc = recipes[i].url;
       url.lastmod = recipes[i].updated_at;
+      url.changefreq = 'monthly';
       url['image:image'] = {
         'image:loc': recipes[i].featured_image_url,
         'image:caption': recipes[i].description,
@@ -39,6 +41,22 @@ router.get('/', async (req, res, next) => {
 
       collection.push(url);
     }
+
+    // add tags urls
+    const tags = await daoTags.findAll(true);
+    for (let i = 0; i < tags.length; i++) {
+      const url = {};
+      url.loc = tags[i].url;
+      url.lastmod = today;
+      url.changefreq = 'weekly';
+      url['image:image'] = {
+        'image:loc': tags[i].image_url,
+        'image:caption': tags[i].name,
+      };
+
+      collection.push(url);
+    }
+
     const col = {
       '@': {
         xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9',

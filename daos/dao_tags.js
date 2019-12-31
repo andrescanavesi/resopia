@@ -11,6 +11,8 @@ function convertTag(row) {
     quantity_recipes: row.quantity_recipes,
     name_seo: row.name_seo,
     is_featured: row.is_featured,
+    url: `${process.env.RESOPIA_BASE_URL}/recetas/${row.name_seo}`,
+    image_url: `${process.env.RESOPIA_IMAGES_BASE_URL}${row.image_name}`,
   };
   return tag;
 }
