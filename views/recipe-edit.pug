@@ -8,15 +8,27 @@ block content
     form(action=action method="POST")
             .card.mt-2.mb-5.border-0
                 if newRecipe
-                    .card-header New Recipe 
+                    h1 New Recipe 
                 else
                     - var header = '['+recipe.id+']'+' '+recipe.title
-                    .card-header= header                   
+                    h1=header                   
                 .card-body  
                     if !newRecipe
                         .form-group.row
                             span Recipe link: 
                                 a(href=`${recipe.url}`, title="Go to this recipe detail")=recipe.url
+                        .form-group.row  
+                            div resopia: 
+                                - var urlResopia = recipe.url+'?utm_source=facebook&utm_medium=resopia&utm_campaign=fanpage'
+                                div=urlResopia
+                        .form-group.row
+                            div recetas-city: 
+                                - var urlRecetasCity = recipe.url+'?utm_source=facebook&utm_medium=recetas-city&utm_campaign=fanpage'
+                                div=urlRecetasCity
+                        .form-group.row
+                            div recetas-para-celiacos: 
+                                - var urlRecetasParaCeliacos = recipe.url+'?utm_source=facebook&utm_medium=recetas-para-celiacos&utm_campaign=fanpage'
+                                div=urlRecetasParaCeliacos
                     if !recipe.active
                         .form-group.row
                             span.text-danger Unpublished recipe

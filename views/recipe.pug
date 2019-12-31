@@ -46,16 +46,16 @@ block content
 
     //social icons for sharing
     .bg-light.text-center.py-3.mt-2
-      a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl,
+      a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl+'?utm_source=facebook&utm_medium=web&utm_campaign=recipe-detail',
         onclick="trackEvent(this,'social')").btn.btn-facebook.btn-social
         span.pl-2.text-white Compartir (#{recipe.facebook_shares})
-      a#pinterestShare(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl,
+      a#pinterestShare(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl+'?utm_source=pinterest&utm_medium=web&utm_campaign=recipe-detail',
         onclick="trackEvent(this,'social')").ml-1.btn.btn-pinterest.btn-social
         span.pl-2.text-white Pin (#{recipe.pinterest_pins})
       a.d-none#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
         onclick="trackEvent(this,'social')").ml-1.btn.btn-twitter.btn-social
         span.pl-2.text-white Tweet (#{recipe.tweets})
-      a#whastappShare(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl,
+      a#whastappShare(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl+'?utm_source=whatsapp&utm_medium=web&utm_campaign=recipe-detail',
         onclick="trackEvent(this,'social')").ml-1.btn.btn-whatsapp.btn-social
         span.pl-2.text-white Whatsapp
     .bg-light.border.py-1.mt-2
