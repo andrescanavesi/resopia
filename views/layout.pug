@@ -150,6 +150,8 @@ html(lang="es")
                         a(href=`${recipe.url}`, title="Ver receta").text-white.py-1.font-weight-bold=recipe.title
                       a(href=`${recipe.url}`, title="Ver receta")
                         img.lozad(data-src=img, alt='imagen receta').img-fluid.mb-2
+                      .mb-3.text-left
+                        span.text-muted=recipe.description
                        
           .col-md-3
             //right column
