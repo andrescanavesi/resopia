@@ -16,12 +16,12 @@ block content
     h2.mx-1.mt-3 Ingredientes
     ul.list-group.list-group-flush
       each ingr in recipe.ingredients_array
-        li(onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= ingr
+        li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= ingr
     if recipe.has_extra_ingredients
       h3.mx-1.mt-3=recipe.extra_ingredients_title
       ul.list-group.list-group-flush
         each extra_ingr in recipe.extra_ingredients_array
-          li(onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= extra_ingr
+          li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= extra_ingr
     
     - var img = recipe.secondary_image_url
     if isMobile
@@ -33,7 +33,7 @@ block content
     #steps
       ol.list-group.list-group-flush.list-group-ol.mt-2
         each step in recipe.steps_array
-          li(onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol= step
+          li(style="cursor: pointer", onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol= step
     if recipe.has_notes
       h2.mx-1.mt-3 Tips para preparar esta receta
       span.pl-2=recipe.notes
