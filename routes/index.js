@@ -107,6 +107,7 @@ router.get('/recetas/:tag', async (req, res, next) => {
     responseJson.isHomePage = false;
     responseJson.recipesSpotlight = recipesSpotlight;
     responseJson.footerRecipes = footerRecipes;
+    responseJson.displayMoreRecipes = true;
 
     res.render('index', responseJson);
   } catch (e) {
@@ -154,6 +155,7 @@ router.get('/buscar', async (req, res, next) => {
     }
     responseJson.recipes = recipes;
     responseJson.isHomePage = false;
+    responseJson.displayMoreRecipes = true;
     responseJson.recipesSpotlight = recipesSpotlight;
     responseJson.footerRecipes = footerRecipes;
     responseJson.searchText = phrase;
