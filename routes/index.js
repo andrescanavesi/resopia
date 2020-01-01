@@ -59,7 +59,7 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     // structured data for SEO
     responseJson.pageType = 'recipe';
     responseJson.pageName = `Receta de ${recipe.title}`;
-    responseJson.pageImage = recipe.featured_image_url_mobile;
+    responseJson.pageImage = recipe.featured_image_url;
     responseJson.pageDatePublished = recipe.created_at;
     responseJson.pageDateModified = recipe.updated_at;
     responseJson.pageDescription = recipe.description;

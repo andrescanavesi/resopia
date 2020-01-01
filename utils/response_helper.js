@@ -9,6 +9,7 @@ module.exports.getResponseJson = function (req) {
   responseJson.title = 'Resopia | Recetas de cocina';
   responseJson.today = moment().format('YYYY-MM-DD');
   responseJson.isProduction = process.env.NODE_ENV === 'production' || false;
+  responseJson.adsenseEnabled = process.env.ADSENSE_ENABLED || false;
   responseJson.isHomePage = false;
   responseJson.isRecipePage = false;
   responseJson.displayMoreRecipes = false;

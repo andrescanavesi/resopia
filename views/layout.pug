@@ -12,9 +12,11 @@ html(lang="es")
         gtag('js', new Date());
         gtag('config', 'UA-155091761-1');
       
+    if adsenseEnabled  
       //adsense
       script(data-ad-client='ca-pub-9559827534748081', async='', src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
-    
+      script(async='', custom-element='amp-ad', src='https://cdn.ampproject.org/v0/amp-ad-0.1.js')
+
     title= title
    
     meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
@@ -129,6 +131,11 @@ html(lang="es")
                   placeholder='Buscar una receta', onkeyup="searchTop(event)", 
                   value=searchText).form-control.form-control
           .col-md-3
+        if adsenseEnabled
+          .row
+            .col
+              amp-ad(width='100vw', height='320', type='adsense', data-ad-client='ca-pub-9559827534748081', data-ad-slot='8202617369', data-auto-format='rspv', data-full-width='')
+              div(overflow='')
         .row
           .col-md-3
             //left
