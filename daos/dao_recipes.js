@@ -113,9 +113,9 @@ function convertRecipe(row) {
   // social sharing buttons
   recipe.pinterestSharingUrl = `https://www.pinterest.com/pin/create/button/?url=${
     recipe.url
-  }&media=${
+    }&media=${
     recipe.thumbnail
-  }&description=${
+    }&description=${
     recipe.description}`;
   recipe.whatsappSharingUrl = `whatsapp://send?text=${recipe.url}`;
   recipe.facebookSharingUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURI(recipe.url)}`;
@@ -169,7 +169,7 @@ module.exports.findAll = async function () {
 
 async function findRecipesSpotlight() {
   if (spotlightRecipes.length === 0) {
-    spotlightRecipes = findWithLimit(24);
+    spotlightRecipes = findWithLimit(50);
   }
   return spotlightRecipes;
 }

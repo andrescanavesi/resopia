@@ -9,5 +9,13 @@ export RESOPIA_BASE_URL=http://localhost:3000
 export RESOPIA_META_CACHE=20000
 export RESOPIA_HTTP_AUTH_BASIC_PASSWORD=****
 export RESOPIA_DEFAULT_VIDEO_URL=https://www.youtube.com/watch?v=mxqEM_1WiG8
-export ADSENSE_ENABLED=false
+export RESOPIA_ADSENSE_ENABLED=false
+export RESOPIA_SITE_NAME=Resopia
+export RESOPIA_AUTHOR=Resopia
+export RESOPIA_PUBLISHER=Resopia
+export RESOPIA_PAGE_NAME="resopia.com. Recetas de cocina"
+export RESOPIA_PAGE_DESCRIPTION="resopia.com. Recetas de cocina"
+export RESOPIA_DEFAULT_KEYWORDS="recetas,comida,cocina"
+export RESOPIA_DEFAULT_TITLE="Resopia | Recetas de cocina"
+
 ```
