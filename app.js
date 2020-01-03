@@ -12,6 +12,8 @@ const indexRouter = require('./routes/index');
 const sitemapRouter = require('./routes/sitemap');
 const adminRouter = require('./routes/admin');
 
+const responseHelper = require('./utils/response_helper');
+
 const log = new Logger('app');
 
 const app = express();
@@ -50,9 +52,11 @@ app.use((err, req, res, next) => {
     log.error(err);
   }
 
+  const responseJson = responseHelper.getResponseJson(req);
+
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', responseJson);
 });
 
 module.exports = app;
