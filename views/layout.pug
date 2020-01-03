@@ -6,12 +6,13 @@ html(lang="es")
       //Global site tag (gtag.js) - Google Analytics
       link(rel="preconnect" href="//googletagmanager.com"  crossorigin)
       - var gaUrl = 'https://www.googletagmanager.com/gtag/js?id='+googleAnalyticsId
+      - var gaId = "'"+googleAnalyticsId+"'";
       script(async='', src=gaUrl)
       script.
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', #{googleAnalyticsId});
+        gtag('config', #{gaId});
       
     if adsenseEnabled  
       //adsense
