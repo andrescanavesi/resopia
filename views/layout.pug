@@ -107,21 +107,26 @@ html(lang="es")
     link(rel="apple-touch-icon" href=pageLogo)
 
   body
-    .shadow-sm.pb-3.mb-3.sticky-top.bg-white-095
-      header
-        .d-flex.justify-content-between.mt-3.px-2.pt-3
-          .dropdown
-            button#dropdownMenuButton.btn.btn-outline-dark.dropdown-toggle(type='button', onclick="trackEvent(this,'default')", data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-              | Menu
-            #dropdownMenuList.dropdown-menu(aria-labelledby='dropdownMenuButton')
-              a#menuItemInicio.dropdown-item(href='/', title="Ir al inicio") Inicio
-              a#menuItemVideos.dropdown-item(href=facebookFanPageUrl, title="Facebook") Facebook
-              a#menuItemVideos.dropdown-item(href='/recetas/video', title="Recetas con video") Videos
-              a#menuItemCeliacos.dropdown-item(href='/recetas/celiacos', title="Recetas aptas para celíacos") Celíacos   
-          h1
-            a(href="/").text-dark
-              span.brand=siteName
-          div(style="width: 3rem") &nbsp; 
+    // Main Navigation
+    header.mt-5.mb-2
+      nav.navbar.navbar-expand-lg.navbar-light.bg-light
+        a.navbar-brand(href=pageUrl)
+          strong.brand=siteName
+        button.navbar-toggler(type='button', onclick="trackEvent(this,'menu')", data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        #navbarSupportedContent.collapse.navbar-collapse
+          ul.navbar-nav.mr-auto
+            li.nav-item.active
+              a.nav-link(href=pageUrl)
+                | Inicio 
+                span.sr-only (inicio)
+            li.nav-item
+              a.nav-link(href=facebookFanPageUrl) Facebook
+            li.nav-item
+              a.nav-link(href='/recetas/video-recetas') Video Recetas
+            li.nav-item
+              a.nav-link(href=pageUrl) Recetas
+    // Main Navigation
       
     .container-fluid
         .row
