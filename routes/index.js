@@ -1,7 +1,6 @@
 const express = require('express');
 const daoRecipies = require('../daos/dao_recipes');
 const responseHelper = require('../utils/response_helper');
-const utils = require('../utils/utils');
 const { Logger } = require('../utils/Logger');
 
 const router = express.Router();
@@ -15,7 +14,7 @@ router.get('/', async (req, res, next) => {
     const recipes = await daoRecipies.findAll();
 
     if (!recipes) {
-      throw Error('No recipes found');
+      throw Error('No Se han encontrado recetas');
     }
 
     responseJson.recipes = recipes;
@@ -168,7 +167,18 @@ router.get('/buscar', async (req, res, next) => {
 
 router.get('/robots.txt', async (req, res, next) => {
   try {
-    const content = 'User-agent: *\nAllow: /\nSitemap: https://www.resopia.com/sitemap.xml';
+    const content = `User-agent: *\nAllow: /\nSitemap: ${process.env.RESOPIA_BASE_URL}/sitemap.xml`;
+    res.set('Content-Type', 'text/plain');
+    res.status(200);
+    res.send(content);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/ads.txt', (req, res, next) => {
+  try {
+    const content = process.env.RESOPIA_ADSENSE_ADS_TXT_CONTENT || 'google.com, pub-9559827534748081, DIRECT, f08c47fec0942fa0';
     res.set('Content-Type', 'text/plain');
     res.status(200);
     res.send(content);

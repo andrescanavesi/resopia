@@ -11,7 +11,7 @@ const daoTags = require('../daos/dao_tags');
  */
 router.get('/', async (req, res, next) => {
   try {
-    const baseUrl = process.env.RESOPIA_BASE_URL || 'http://www.resopia.com/';
+    const baseUrl = process.env.RESOPIA_BASE_URL;
     const recipes = await daoRecipies.findAll();
     const collection = [];
     let today = moment();
