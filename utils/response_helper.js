@@ -33,8 +33,11 @@ module.exports.getResponseJson = function (req) {
   // structured data
   responseJson.pageType = 'Website';
   responseJson.pageName = process.env.RESOPIA_PAGE_NAME || 'resopia.com. Recetas de cocina';
+  responseJson.pageOrganization = process.env.RESOPIA_PAGE_ORGANIZATION || 'Resopia';
   responseJson.pageImage = process.env.RESOPIA_DEFAULT_IMAGE_URL;
-  responseJson.datePublished = process.env.RESOPIA_DATE_PUBLISHED || '2020/01/02';
+  responseJson.pageUrl = process.env.RESOPIA_BASE_URL;
+  responseJson.pageDatePublished = process.env.RESOPIA_DATE_PUBLISHED || '2020-01-02';
+  responseJson.pageDateModified = moment().format('YYYY-MM-DD');// today
   responseJson.pageLogo = `${process.env.RESOPIA_IMAGES_BASE_URL}resopia-logo.png`;
   responseJson.pageDescription = responseJson.description;
   responseJson.pageRecipeVideo = process.env.RESOPIA_DEFAULT_VIDEO_URL || 'https://www.youtube.com/watch?v=mxqEM_1WiG8';
@@ -45,6 +48,11 @@ module.exports.getResponseJson = function (req) {
   responseJson.author = process.env.RESOPIA_AUTHOR || 'Resopia';
   responseJson.publisher = process.env.RESOPIA_PUBLISHER || 'Resopia';
 
+  responseJson.googleAnalyticsId = process.env.RESOPIA_GOOGLE_ANALYTICS_ID || '';
+  responseJson.googleAdsenseId = process.env.RESOPIA_GOOGLE_ADSENSE_ID || '';
+
+  responseJson.facebookFanPageUrl = process.env.RESOPIA_FACEBOOK_FAN_PAGE_URL || '#';
+  responseJson.currentYear = moment().format('YYYY');
 
   return responseJson;
 };

@@ -14,8 +14,12 @@ export RESOPIA_SITE_NAME=Resopia
 export RESOPIA_AUTHOR=Resopia
 export RESOPIA_PUBLISHER=Resopia
 export RESOPIA_PAGE_NAME="resopia.com. Recetas de cocina"
+export RESOPIA_PAGE_ORGANIZATION="Resopia"
 export RESOPIA_PAGE_DESCRIPTION="resopia.com. Recetas de cocina"
 export RESOPIA_DEFAULT_KEYWORDS="recetas,comida,cocina"
 export RESOPIA_DEFAULT_TITLE="Resopia | Recetas de cocina"
+export RESOPIA_GOOGLE_ANALYTICS_ID="UA-155091761-1"
+export RESOPIA_GOOGLE_ADSENSE_ID="ca-pub-9559827534748081"
+export RESOPIA_FACEBOOK_FAN_PAGE_URL=""
 
 ```

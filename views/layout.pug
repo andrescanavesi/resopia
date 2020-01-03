@@ -5,16 +5,17 @@ html(lang="es")
     if isProduction
       //Global site tag (gtag.js) - Google Analytics
       link(rel="preconnect" href="//googletagmanager.com"  crossorigin)
-      script(async='', src='https://www.googletagmanager.com/gtag/js?id=UA-155091761-1')
+      - var gaUrl = 'https://www.googletagmanager.com/gtag/js?id='+googleAnalyticsId
+      script(async='', src=gaUrl)
       script.
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'UA-155091761-1');
+        gtag('config', #{googleAnalyticsId});
       
     if adsenseEnabled  
       //adsense
-      script(data-ad-client='ca-pub-9559827534748081', async='', src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
+      script(data-ad-client=googleAdsenseId, async='', src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
       script(async='', custom-element='amp-ad', src='https://cdn.ampproject.org/v0/amp-ad-0.1.js')
 
     title= title
@@ -46,10 +47,10 @@ html(lang="es")
         {
           "@context": "http://schema.org/",
           "@type": "WebSite",
-          "url": "https://resopia.com/",
+          "url": "#{pageUrl}",
           "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://www.resopia.com/buscar?q={search_term_string}",
+            "target": "#{pageUrl}/buscar?q={search_term_string}",
             "query-input": "required name=search_term_string"
           },
           "image": [
@@ -59,11 +60,11 @@ html(lang="es")
           "dateModified": "#{pageDateModified}",
           "author": {
             "@type": "Organization",
-            "name": "Resopia"
+            "name": "#{pageAuthor}"
           },
           "publisher": {
             "@type": "Organization",
-            "name": "Resopia",
+            "name": "#{pageOrganization}",
             "logo": {
               "@type": "ImageObject",
                 "url": "#{pageLogo}"
@@ -89,7 +90,7 @@ html(lang="es")
             "recipeCategory": "#{pageRecipeCategory}",
             "author": {
               "@type": "Organization",
-              "name": "resopia.com"
+              "name": "#{pageAuthor}"
             },
             "prepTime":"#{pageRecipePrepTime}",
             "cookTime":"#{pageRecipeCookTime}",
@@ -113,12 +114,12 @@ html(lang="es")
               | Menu
             #dropdownMenuList.dropdown-menu(aria-labelledby='dropdownMenuButton')
               a#menuItemInicio.dropdown-item(href='/', title="Ir al inicio") Inicio
-              a#menuItemVideos.dropdown-item(href='https://www.facebook.com/Resopiacom-110467097132918', title="Facebook") Facebook
+              a#menuItemVideos.dropdown-item(href=facebookFanPageUrl, title="Facebook") Facebook
               a#menuItemVideos.dropdown-item(href='/recetas/video', title="Recetas con video") Videos
               a#menuItemCeliacos.dropdown-item(href='/recetas/celiacos', title="Recetas aptas para celíacos") Celíacos   
           h1
             a(href="/").text-dark
-              span.brand Resopia
+              span.brand=siteName
           div(style="width: 3rem") &nbsp; 
       
     .container-fluid
@@ -131,11 +132,6 @@ html(lang="es")
                   placeholder='Buscar una receta', onkeyup="searchTop(event)", 
                   value=searchText).form-control.form-control
           .col-md-3
-        if adsenseEnabled
-          .row
-            .col
-              amp-ad(width='100vw', height='320', type='adsense', data-ad-client='ca-pub-9559827534748081', data-ad-slot='8202617369', data-auto-format='rspv', data-full-width='')
-                div(overflow='')
         .row
           .col-md-3
             //left
@@ -143,7 +139,7 @@ html(lang="es")
             .mt-3
             block content
             .text-center.mt-3
-              a(href='https://www.facebook.com/Resopiacom-110467097132918')
+              a(href=facebookFanPageUrl)
                 img.lozad.img-fluid(data-src="https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,w_500,q_auto:low/v1577283800/resopia.com/facebook-fanpage.png")
             //related recipes
             if displayMoreRecipes
@@ -174,9 +170,9 @@ html(lang="es")
       .container.py-2
         .row.justify-content-center
           div
-            span.text-white © 2020 Copyright 
+            span.text-white © #{currentYear} Copyright 
             a(href='/', title="Go to home page")  
-              span.text-white www.resopia.com
+              span.text-white=pageUrl
            
   //jquery and popper cannot be loaded async since is a dependency of bootstra.min.js
   script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8' crossorigin='anonymous')
