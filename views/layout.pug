@@ -121,7 +121,7 @@ html(lang="es")
                 | Inicio 
                 span.sr-only (inicio)
             li.nav-item
-              a.nav-link(href=facebookFanPageUrl) Facebook
+              a.nav-link(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner') Facebook
             li.nav-item
               a.nav-link(href='/recetas/video-recetas') Video Recetas
             li.nav-item
@@ -145,7 +145,7 @@ html(lang="es")
             .mt-3
             block content
             .text-center.mt-3
-              a(href=facebookFanPageUrl)
+              a(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner')
                 img.lozad.img-fluid(data-src="https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,w_500,q_auto:low/v1577283800/resopia.com/facebook-fanpage.png")
             //related recipes
             if displayMoreRecipes

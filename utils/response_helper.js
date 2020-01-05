@@ -38,7 +38,7 @@ module.exports.getResponseJson = function (req) {
   responseJson.pageUrl = process.env.RESOPIA_BASE_URL;
   responseJson.pageDatePublished = process.env.RESOPIA_DATE_PUBLISHED || '2020-01-02';
   responseJson.pageDateModified = moment().format('YYYY-MM-DD');// today
-  responseJson.pageLogo = `${process.env.RESOPIA_IMAGES_BASE_URL}resopia-logo.png`;
+  responseJson.pageLogo = process.env.RESOPIA_FAV_ICON_URL;
   responseJson.pageDescription = responseJson.description;
   responseJson.pageRecipeVideo = process.env.RESOPIA_DEFAULT_VIDEO_URL || 'https://www.youtube.com/watch?v=mxqEM_1WiG8';
 
