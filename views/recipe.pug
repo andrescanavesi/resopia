@@ -27,16 +27,17 @@ block content
     if isMobile
         - img = recipe.secondary_image_url_mobile
     img.lozad(data-src=img, alt='imagen receta').img-fluid
-    h2.mx-1.mt-3 Elaboración 
-    img.lozad(data-src='/images/clock.svg', width="20px", alt="imagen reloj")
+    h2.mx-1.mt-1 Elaboración 
+    img.lozad.ml-1(data-src='/images/clock.svg', width="20px", alt="imagen reloj")
     span.text-muted.ml-2=recipe.total_time
     #steps
       ol.list-group.list-group-flush.list-group-ol.mt-2
         each step in recipe.steps_array
           li(style="cursor: pointer", onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol= step
     if recipe.has_notes
-      h2.mx-1.mt-3 Tips para preparar esta receta
-      span.pl-2=recipe.notes
+      .border.border-dark.rounded.mt-1.p-4.bg-light.mx-2
+        h2 Tips para preparar esta receta
+        span.pl-2=recipe.notes
     if recipe.has_youtube_video
       h2.mx-1.mt-3 Video receta
       - var youtube_video_embed_url = recipe.youtube_video_embed_url
@@ -45,10 +46,10 @@ block content
         onclick="loadYoutubeVideo(); trackEvent(this,'youtube_video_display')").play-youtube-video.img-fluid
 
     //social icons for sharing
-    .bg-light.text-center.py-3.mt-2
+    .bg-light.text-center.py-3.mt-2.mx-2
       a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl+'?utm_source=facebook&utm_medium=web&utm_campaign=recipe-detail',
         onclick="trackEvent(this,'social')").btn.btn-facebook.btn-social
-        span.pl-2.text-white Compartir (#{recipe.facebook_shares})
+        span.pl-2.text-white Facebook (#{recipe.facebook_shares})
       a#pinterestShare(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl+'?utm_source=pinterest&utm_medium=web&utm_campaign=recipe-detail',
         onclick="trackEvent(this,'social')").ml-1.btn.btn-pinterest.btn-social
         span.pl-2.text-white Pin (#{recipe.pinterest_pins})
@@ -58,10 +59,9 @@ block content
       a#whastappShare(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl+'?utm_source=whatsapp&utm_medium=web&utm_campaign=recipe-detail',
         onclick="trackEvent(this,'social')").ml-1.btn.btn-whatsapp.btn-social
         span.pl-2.text-white Whatsapp
-    .bg-light.border.py-1.mt-2
-      span.text-secondary.pl-2
-      .d-flex.justify-content-center
+    .bg-light.border.mt-2.mx-2
+      .d-flex.justify-content-center.py-4
         each tag in recipe.tags
-          h5.ml-1
+          span.ml-1
             a(href=`/recetas/${tag.name_seo}`, title="Ver mas recetas de esta categoría").badge.badge-pill.badge-info.py-2.px-3
               span=tag.name    
