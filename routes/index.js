@@ -187,4 +187,41 @@ router.get('/ads.txt', (req, res, next) => {
   }
 });
 
+router.get('/buscar/:text', (req, res, next) => {
+  try {
+    // for recetas-city.com support
+    res.redirect(`/buscar?q=${req.params.text}`);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/recetas/con/:ingredient', (req, res, next) => {
+  try {
+    // for recetas-city.com support
+    // we redirect to a tags page (we transform the ingredient from url to a tag)
+    res.redirect(`/recetas/${req.params.ingredient}`);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/recetas/keyword/:tag', (req, res, next) => {
+  try {
+    // for recetas-city.com support
+    res.redirect(`/recetas/${req.params.tag}`);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/sobre-el-sitio', (req, res, next) => {
+  try {
+    // for recetas-city.com support
+    res.redirect('/');
+  } catch (e) {
+    next(e);
+  }
+});
+
 module.exports = router;

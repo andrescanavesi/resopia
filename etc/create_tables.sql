@@ -22,7 +22,7 @@ CREATE TABLE recipes (
     yield character varying(20) NOT NULL,
     facebook_shares integer NOT NULL,
     pinterest_pins integer NOT NULL,
-    steps character varying(1000) NOT NULL,
+    steps character varying(2000) NOT NULL,
     featured_image_name character varying(40) NOT NULL,
     secondary_image_name character varying(40),
     extra_ingredients_title character varying(40),
