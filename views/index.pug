@@ -13,7 +13,7 @@ block content
         div
           .text-muted= recipe.description
         if !isMobile
-          h4.my-2.text-muted Ingredientes
+          h2.my-2 Ingredientes
           ul.list-group.list-group-flush
             each ingr in recipe.ingredients_array
               li(onclick="activateElem(this)").list-group-item= ingr
