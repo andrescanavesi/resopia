@@ -1,3 +1,4 @@
+const moment = require('moment');
 const parseDbUrl = require('parse-database-url');
 const { Pool } = require('pg');
 const { Logger } = require('../utils/Logger');
@@ -6,10 +7,10 @@ const utils = require('../utils/utils');
 const log = new Logger('rc-migration');
 
 let poolRcProd = null;
-let poolNewRcStaging = null;
+let poolNewRc = null;
 
 loadPoolRcProd();
-loadPoolNewRcStaging();
+loadPoolNewRc();
 
 function loadPoolRcProd() {
   if (poolRcProd === null) {
@@ -27,12 +28,12 @@ function loadPoolRcProd() {
   }
 }
 
-function loadPoolNewRcStaging() {
-  if (poolNewRcStaging === null) {
-    log.info('loading new staging pool');
-    const dbConfig = parseDbUrl(process.env.DATABASE_URL_NEW_RC_STAGING);
+function loadPoolNewRc() {
+  if (poolNewRc === null) {
+    log.info('loading new new rc pool');
+    const dbConfig = parseDbUrl(process.env.DATABASE_URL_NEW_RC_PROD);
 
-    poolNewRcStaging = new Pool({
+    poolNewRc = new Pool({
       user: dbConfig.user,
       host: dbConfig.host,
       database: dbConfig.database,
@@ -83,7 +84,7 @@ async function createTags() {
       log.info(query);
       const nameSeo = utils.dashString(tag);
       const bindings = [tag, `${nameSeo}.jpg`, 0, nameSeo, false];
-      promises.push(poolNewRcStaging.query(query, bindings));
+      promises.push(poolNewRc.query(query, bindings));
     }
   }
   await Promise.all(promises);
@@ -94,7 +95,7 @@ async function findTagIdByName(name) {
   log.info(`findTagIdByName: ${name}`);
   const query = 'SELECT * FROM tags WHERE name=$1';
   const bindings = [name];
-  const result = await poolNewRcStaging.query(query, bindings);
+  const result = await poolNewRc.query(query, bindings);
   if (result.rows.length > 0) {
     return result.rows[0].id;
   }
@@ -102,7 +103,7 @@ async function findTagIdByName(name) {
 }
 
 async function migrateRecipes() {
-  const query = 'SELECT * FROM recipes WHERE active=TRUE LIMIT 2';
+  const query = 'SELECT * FROM recipes WHERE active=TRUE LIMIT 1000';
   const result = await poolRcProd.query(query, []);
   log.info(`recipes to migrate: ${JSON.stringify(result.rows.length)}`);
   for (let i = 0; i < result.rows.length; i++) {
@@ -131,10 +132,11 @@ async function migrateRecipes() {
 }
 
 function convertRecipe(oldRecipe) {
+  const today = moment().format('YYYY-MM-DD HH:mm:ss');
   const newRecipe = { tags: [] };
   newRecipe.id = parseInt(oldRecipe.id);
   newRecipe.created_at = oldRecipe.createdat;
-  newRecipe.updated_at = oldRecipe.updatedat;
+  newRecipe.updated_at = today;
   newRecipe.description = oldRecipe.description;
   newRecipe.title = oldRecipe.title;
   newRecipe.title_seo = oldRecipe.titleforurl;
@@ -162,7 +164,10 @@ function convertRecipe(oldRecipe) {
 async function createRecipe(recipe) {
   log.info('Creating recipe');
   if (recipe.tags === null || recipe.tags.length === 0) {
-    throw new Error('Error creating the recipe. Tags are empty');
+    const tagId1 = await findTagIdByName('sencilla');
+    recipe.tags.push(tagId1);
+    const tagId2 = await findTagIdByName('facil');
+    recipe.tags.push(tagId2);
   }
   // validate tags values
   for (let index = 0; index < recipe.tags.length; index++) {
@@ -188,19 +193,21 @@ async function createRecipe(recipe) {
     recipe.youtube_video_id, recipe.tweets, recipe.id,
   ];
 
-  const result = await poolNewRcStaging.query(query, bindings);
+  const result = await poolNewRc.query(query, bindings);
 
   const recipeId = result.rows[0].id;
   log.info(`Recipe created: ${recipeId}`);
 
   // create relationship with tags
+  const promises = [];
   for (let index = 0; index < recipe.tags.length; index++) {
     const tagId = recipe.tags[index];
     if (isNaN(tagId)) {
       throw new Error(`the tag ${tagId} is not a number`);
     }
-    await createRecipeRelationship(recipeId, tagId);
+    promises.push(createRecipeRelationship(recipeId, tagId));
   }
+  await Promise.all(promises);
 
   return recipeId;
 }
@@ -209,7 +216,7 @@ async function createRecipeRelationship(recipeId, tagId) {
   log.info(`createRecipeRelationship, recipe: ${recipeId} tag: ${tagId}`);
   const query = 'INSERT INTO recipes_tags(recipe_id, tag_id) VALUES($1,$2) RETURNING id';
   const bindings = [recipeId, tagId];
-  const result = await poolNewRcStaging.query(query, bindings, false);
+  const result = await poolNewRc.query(query, bindings, false);
   const insertedId = result.rows[0].id;
   await updateQuantityRecipes(tagId);
   return insertedId;
@@ -221,14 +228,14 @@ function updateQuantityRecipes(tagId) {
     FROM (SELECT count(*) AS count FROM recipes_tags where tag_id=$1) t
     WHERE id=$1`;
   const bindings = [tagId];
-  return poolNewRcStaging.query(query, bindings);
+  return poolNewRc.query(query, bindings);
 }
 
 async function findRecipeById(id) {
   log.info(`findRecipeById: ${id}`);
   const query = 'SELECT * FROM recipes WHERE id=$1';
   const bindings = [id];
-  const result = await poolNewRcStaging.query(query, bindings);
+  const result = await poolNewRc.query(query, bindings);
   if (result.rows.length > 0) {
     return result.rows[0].id;
   }
