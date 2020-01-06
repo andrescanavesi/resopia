@@ -75,3 +75,15 @@ module.exports.createRecipeRelationship = async function (recipeId, tagId) {
   await updateQuantityRecipes(tagId);
   return insertedId;
 };
+
+/**
+ *
+ */
+module.exports.findByName = async function (name, withCache) {
+  const query = 'SELECT * FROM tags WHERE name=$1';
+  const bindings = [name];
+  const result = await dbHelper.query(query, bindings, withCache);
+  if (result.rows.length > 0) {
+    return convertTag(result.rows[0]);
+  }
+};
