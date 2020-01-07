@@ -135,6 +135,7 @@ function convertRecipe(row) {
   recipe.facebook_shares = row.facebook_shares;
   recipe.tweets = row.tweets;
   recipe.aggregate_rating = row.aggregate_rating;
+  recipe.rating_count = row.rating_count;
 
   return recipe;
 }
@@ -277,8 +278,8 @@ module.exports.create = async function (recipe) {
     ingredients, extra_ingredients_title, extra_ingredients, steps, active, 
     featured_image_name, secondary_image_name, facebook_shares, pinterest_pins,
     prep_time_seo, cook_time_seo,total_time_seo, prep_time,
-    cook_time, total_time, cuisine, yield, notes, youtube_video_id, tweets, aggregate_rating)
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26) 
+    cook_time, total_time, cuisine, yield, notes, youtube_video_id, tweets, aggregate_rating,rating_count)
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27) 
     RETURNING id`;
   const bindings = [
     today, today, recipe.title, recipe.title_seo, recipe.description,
@@ -321,8 +322,8 @@ module.exports.update = async function (recipe) {
      secondary_image_name=$10, prep_time_seo=$11, cook_time_seo=$12, total_time_seo=$13, 
      prep_time=$14, cook_time=$15, total_time=$16, cuisine=$17, yield=$18,
      facebook_shares=$19,pinterest_pins=$20,tweets=$21,youtube_video_id=$22,notes=$23, 
-     extra_ingredients=$24,aggregate_rating=$25
-       WHERE id=$26`;
+     extra_ingredients=$24,aggregate_rating=$25,rating_count=$26
+       WHERE id=$27`;
   const bindings = [
     recipe.ingredients,
     recipe.steps,
@@ -349,6 +350,7 @@ module.exports.update = async function (recipe) {
     recipe.notes,
     recipe.extra_ingredients,
     recipe.aggregate_rating,
+    recipe.rating_count,
     recipe.id,
   ];
   // log.info(sqlFormatter.format(query));

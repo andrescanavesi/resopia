@@ -34,7 +34,12 @@ CREATE TABLE recipes (
 );
 
 ALTER TABLE "public"."recipes" ADD COLUMN "aggregate_rating" decimal;
-UPDATE recipes SET aggregate_rating=4.3 WHERE id>0 
+UPDATE recipes SET aggregate_rating=4.3 WHERE id>0 ;
+
+ALTER TABLE "public"."recipes" ADD COLUMN "rating_count" integer;
+UPDATE recipes SET rating_count=22 WHERE id>0 ;
+
+
 
 -- Indices -------------------------------------------------------
 

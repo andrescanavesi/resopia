@@ -81,6 +81,7 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     responseJson.pageRecipeVideo = recipe.youtube_video_watch_url; // can be empty
 
     responseJson.aggregateRating = recipe.aggregate_rating;
+    responseJson.ratingCount = recipe.rating_count;
 
     res.render('recipe', responseJson);
   } catch (e) {

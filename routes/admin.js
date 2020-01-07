@@ -58,6 +58,7 @@ router.get('/receta/nueva', basicAuth(authOptions), async (req, res, next) => {
       notes: 'notas de la receta',
       youtube_video_id: '',
       aggregate_rating: 4.3,
+      rating_count: 23,
     };
     responseJson.newRecipe = true;
     responseJson.successMessage = null;
@@ -118,6 +119,7 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
       youtube_video_id: req.body.youtube_video_id,
       tags: req.body.tags_ids_csv.split(','),
       aggregate_rating: req.body.aggregate_rating,
+      rating_count: req.body.rating_count,
     };
     // log.info(recipeToUdate);
     if (recipeId === '0') {
