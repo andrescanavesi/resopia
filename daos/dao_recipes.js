@@ -113,9 +113,9 @@ function convertRecipe(row) {
   // social sharing buttons
   recipe.pinterestSharingUrl = `https://www.pinterest.com/pin/create/button/?url=${
     recipe.url
-    }&media=${
+  }&media=${
     recipe.thumbnail
-    }&description=${
+  }&description=${
     recipe.description}`;
   recipe.whatsappSharingUrl = `whatsapp://send?text=${recipe.url}`;
   recipe.facebookSharingUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURI(recipe.url)}`;
@@ -134,6 +134,7 @@ function convertRecipe(row) {
   recipe.pinterest_pins = row.pinterest_pins;
   recipe.facebook_shares = row.facebook_shares;
   recipe.tweets = row.tweets;
+  recipe.aggregate_rating = row.aggregate_rating;
 
   return recipe;
 }
@@ -276,8 +277,8 @@ module.exports.create = async function (recipe) {
     ingredients, extra_ingredients_title, extra_ingredients, steps, active, 
     featured_image_name, secondary_image_name, facebook_shares, pinterest_pins,
     prep_time_seo, cook_time_seo,total_time_seo, prep_time,
-    cook_time, total_time, cuisine, yield, notes, youtube_video_id, tweets)
-    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25) 
+    cook_time, total_time, cuisine, yield, notes, youtube_video_id, tweets, aggregate_rating)
+    VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26) 
     RETURNING id`;
   const bindings = [
     today, today, recipe.title, recipe.title_seo, recipe.description,
@@ -285,7 +286,7 @@ module.exports.create = async function (recipe) {
     recipe.featured_image_name, recipe.secondary_image_name, recipe.facebook_shares, recipe.pinterest_pins,
     recipe.prep_time_seo, recipe.cook_time_seo, recipe.total_time_seo, recipe.prep_time,
     recipe.cook_time, recipe.total_time, recipe.cuisine, recipe.yield, recipe.notes,
-    recipe.youtube_video_id, recipe.tweets,
+    recipe.youtube_video_id, recipe.tweets, recipe.aggregate_rating,
   ];
 
   const result = await dbHelper.query(query, bindings, false);
@@ -320,8 +321,8 @@ module.exports.update = async function (recipe) {
      secondary_image_name=$10, prep_time_seo=$11, cook_time_seo=$12, total_time_seo=$13, 
      prep_time=$14, cook_time=$15, total_time=$16, cuisine=$17, yield=$18,
      facebook_shares=$19,pinterest_pins=$20,tweets=$21,youtube_video_id=$22,notes=$23, 
-     extra_ingredients=$24
-       WHERE id=$25`;
+     extra_ingredients=$24,aggregate_rating=$25
+       WHERE id=$26`;
   const bindings = [
     recipe.ingredients,
     recipe.steps,
@@ -347,6 +348,7 @@ module.exports.update = async function (recipe) {
     recipe.youtube_video_id,
     recipe.notes,
     recipe.extra_ingredients,
+    recipe.aggregate_rating,
     recipe.id,
   ];
   // log.info(sqlFormatter.format(query));
@@ -358,7 +360,7 @@ module.exports.update = async function (recipe) {
 };
 
 module.exports.buildSearchIndex = async function () {
-  console.time('buildIndexTook');
+  // console.time('buildIndexTook');
   log.info('building index...');
 
   const allRecipes = await this.findAll();
@@ -371,7 +373,7 @@ module.exports.buildSearchIndex = async function () {
     searchIndex.add(key, content);
   }
   log.info(`index built, length: ${searchIndex.length}`);
-  console.timeEnd('buildIndexTook');
+  // console.timeEnd('buildIndexTook');
 };
 
 module.exports.findRelated = async function (text) {
