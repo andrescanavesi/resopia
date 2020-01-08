@@ -113,14 +113,7 @@ html(lang="es")
     link(rel="apple-touch-icon" href=pageLogo)
 
   body
-    //Toast for alert messages
-    #toast.alert.alert-success.alert-dismissible.fade.fixed-top.z-index-1(role='alert')
-      span#toastMessage Gracias!
-      button.close(type='button', onclick="hideAlert()", aria-label='Cerrar')
-        span(aria-hidden='true') ×
-    
     // Main Navigation
-
     header.mb-2.fixed-top
       nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         a.navbar-brand(href=pageUrl)
@@ -142,7 +135,13 @@ html(lang="es")
             li.nav-item
               a.nav-link(href='/recetas/celiacos') Celíacos
     // Main Navigation
-      
+
+    //Toast for alert messages
+    #toast.alert.alert-success.alert-dismissible.fade.fixed-top.z-index-1(role='alert')
+      span#toastMessage Gracias!
+      button.close(type='button', onclick="hideAlert()", aria-label='Cerrar')
+        span(aria-hidden='true') ×
+
     .container-fluid
         .row
           .col-md-3
