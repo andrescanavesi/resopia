@@ -287,7 +287,7 @@ module.exports.create = async function (recipe) {
     recipe.featured_image_name, recipe.secondary_image_name, recipe.facebook_shares, recipe.pinterest_pins,
     recipe.prep_time_seo, recipe.cook_time_seo, recipe.total_time_seo, recipe.prep_time,
     recipe.cook_time, recipe.total_time, recipe.cuisine, recipe.yield, recipe.notes,
-    recipe.youtube_video_id, recipe.tweets, recipe.aggregate_rating,
+    recipe.youtube_video_id, recipe.tweets, recipe.aggregate_rating, recipe.rating_count,
   ];
 
   const result = await dbHelper.query(query, bindings, false);
