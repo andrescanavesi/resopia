@@ -153,5 +153,15 @@ block content
                         .col-sm-10
                             input#yield(name='yield', type='text', placeholder='Yield',
                              value=recipe.yield).form-control.form-control-sm
+                    .form-group.row
+                        label(for="aggregate_rating").col-sm-2.col-form-label Aggregate rating:
+                        .col-sm-10
+                            input#aggregate_rating(name='aggregate_rating', type='text', placeholder='Aggregate_Rating',
+                             value=recipe.aggregate_rating).form-control.form-control-sm
+                    .form-group.row
+                        label(for="rating_count").col-sm-2.col-form-label Rating count:
+                        .col-sm-10
+                            input#rating_count(name='rating_count', type='text', placeholder='Rating count',
+                             value=recipe.rating_count).form-control.form-control-sm
                     .form-group.row  
                         button(type="submit" ).btn.btn-primary Save
