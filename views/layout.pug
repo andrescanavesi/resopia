@@ -108,8 +108,8 @@ html(lang="es")
 
   body
     // Main Navigation
-    header.mt-5.mb-2
-      nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    header.mb-2.fixed-top
+      nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         a.navbar-brand(href=pageUrl)
           strong.brand=siteName
         button.navbar-toggler(type='button', onclick="trackEvent(this,'menu')", data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
