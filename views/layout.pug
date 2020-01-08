@@ -114,7 +114,7 @@ html(lang="es")
 
   body
     //Toast for alert messages
-    #toast.alert.alert-success.alert-dismissible.fade.fixed-top(role='alert')
+    #toast.alert.alert-success.alert-dismissible.fade.fixed-top.z-index-1(role='alert')
       span#toastMessage Gracias!
       button.close(type='button', onclick="hideAlert()", aria-label='Cerrar')
         span(aria-hidden='true') ×

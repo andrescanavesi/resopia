@@ -70,10 +70,12 @@ function rateRecipe(element, rating) {
 }
 
 function showAlert(message) {
+  $('#toast').removeClass('z-index-1');
   $('#toast').addClass('show');
   $('#toastMessage').html(message);
 }
 
 function hideAlert() {
+  $('#toast').addClass('z-index-1');
   $('#toast').removeClass('show');
 }
