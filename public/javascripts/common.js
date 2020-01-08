@@ -62,5 +62,18 @@ function loadGiphy() {
 
 function rateRecipe(element, rating) {
   console.info(`rating recipe: ${element.id} rating: ${rating}`);
+  for (let index = 1; index <= rating; index++) {
+    $(`#rating${index}`).addClass('text-warning');
+  }
+  showAlert('Gracias por votar la receta!');
   trackEvent(element, `rating_${rating}`);
+}
+
+function showAlert(message) {
+  $('#toast').addClass('show');
+  $('#toastMessage').html(message);
+}
+
+function hideAlert() {
+  $('#toast').removeClass('show');
 }

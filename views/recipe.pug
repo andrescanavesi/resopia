@@ -39,12 +39,12 @@ block content
         h2 Tips para preparar esta receta
         span.pl-2=recipe.notes
     .mt-1.p-4.mx-2.text-center.h3
-      span#rating1.fa.fa-star.text-warning(onclick="rateRecipe(this,1);")
-      span#rating2.fa.fa-star.ml-1.text-warning(onclick="rateRecipe(this,2)")
-      span#rating3.fa.fa-star.ml-1.text-warning(onclick="rateRecipe(this,3)")
-      span#rating4.fa.fa-star.ml-1.text-warning(onclick="rateRecipe(this,4)")
+      span.mr-2.h4 Vota!
+      span#rating1.fa.fa-star(onclick="rateRecipe(this,1);")
+      span#rating2.fa.fa-star.ml-1(onclick="rateRecipe(this,2)")
+      span#rating3.fa.fa-star.ml-1(onclick="rateRecipe(this,3)")
+      span#rating4.fa.fa-star.ml-1(onclick="rateRecipe(this,4)")
       span#rating5.fa.fa-star.ml-1(onclick="rateRecipe(this,5)")
-      span (#{recipe.rating_count})
     if recipe.has_youtube_video
       h2.mx-1.mt-3 Video receta
       - var youtube_video_embed_url = recipe.youtube_video_embed_url
