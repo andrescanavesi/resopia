@@ -59,3 +59,23 @@ function loadGiphy() {
   wrapper.html('<div style="width:100%;height:0;padding-bottom:56%;position:relative;"><iframe src="https://giphy.com/embed/3o7TKr54I53mBu4qLm" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div>');
   wrapper.removeClass('text-center');
 }
+
+function rateRecipe(element, rating) {
+  console.info(`rating recipe: ${element.id} rating: ${rating}`);
+  for (let index = 1; index <= rating; index++) {
+    $(`#rating${index}`).addClass('text-warning');
+  }
+  showAlert('Gracias por votar la receta!');
+  trackEvent(element, `rating_${rating}`);
+}
+
+function showAlert(message) {
+  $('#toast').removeClass('z-index-1');
+  $('#toast').addClass('show');
+  $('#toastMessage').html(message);
+}
+
+function hideAlert() {
+  $('#toast').addClass('z-index-1');
+  $('#toast').removeClass('show');
+}

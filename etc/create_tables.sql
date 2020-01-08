@@ -29,8 +29,17 @@ CREATE TABLE recipes (
     extra_ingredients character varying(500),
     notes character varying(500),
     youtube_video_id character varying(60),
-    tweets integer
+    tweets integer,
+    aggregate_rating decimal
 );
+
+ALTER TABLE "public"."recipes" ADD COLUMN "aggregate_rating" decimal;
+UPDATE recipes SET aggregate_rating=4.3 WHERE id>0 ;
+
+ALTER TABLE "public"."recipes" ADD COLUMN "rating_count" integer;
+UPDATE recipes SET rating_count=22 WHERE id>0 ;
+
+
 
 -- Indices -------------------------------------------------------
 

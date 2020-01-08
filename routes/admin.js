@@ -44,12 +44,12 @@ router.get('/receta/nueva', basicAuth(authOptions), async (req, res, next) => {
       extra_ingredients: 'extra_ing1\nextra_ing2\nextra_ing3\nextra_ing4\n',
       description: 'descrip',
       steps: 'step1\nstep2\nstep3\nstep4\nstep5\n',
-      prep_time_seo: 'PT20M',
-      cook_time_seo: 'PT30M',
-      total_time_seo: 'PT50M',
-      prep_time: '20 minutos',
-      cook_time: '30 minutos',
-      total_time: '50 minutos',
+      prep_time_seo: 'PT10M',
+      cook_time_seo: 'PT20M',
+      total_time_seo: 'PT30M',
+      prep_time: '10 minutos',
+      cook_time: '20 minutos',
+      total_time: '40 minutos',
       cuisine: 'Americana',
       yield: '5 porciones',
       facebook_shares: 349,
@@ -57,6 +57,8 @@ router.get('/receta/nueva', basicAuth(authOptions), async (req, res, next) => {
       tweets: 155,
       notes: 'notas de la receta',
       youtube_video_id: '',
+      aggregate_rating: 4.3,
+      rating_count: 23,
     };
     responseJson.newRecipe = true;
     responseJson.successMessage = null;
@@ -116,6 +118,8 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
       tweets: req.body.tweets,
       youtube_video_id: req.body.youtube_video_id,
       tags: req.body.tags_ids_csv.split(','),
+      aggregate_rating: req.body.aggregate_rating,
+      rating_count: req.body.rating_count,
     };
     // log.info(recipeToUdate);
     if (recipeId === '0') {

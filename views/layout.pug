@@ -98,16 +98,29 @@ html(lang="es")
             "totalTime":"#{pageRecipeTotalTime}",
             "recipeCuisine":"#{pageRecipeCusine}",
             "recipeYield":"#{pageRecipeYield}",
-            "video":"#{pageRecipeVideo}"
+            "video":"#{pageRecipeVideo}",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "#{aggregateRating}",
+              "ratingCount": "#{ratingCount}"
+            },
         }         
     
     link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+    link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
     link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
     link(rel="icon", sizes="192x192", href=pageLogo)
     link(rel="apple-touch-icon" href=pageLogo)
 
   body
+    //Toast for alert messages
+    #toast.alert.alert-success.alert-dismissible.fade.fixed-top.z-index-1(role='alert')
+      span#toastMessage Gracias!
+      button.close(type='button', onclick="hideAlert()", aria-label='Cerrar')
+        span(aria-hidden='true') ×
+    
     // Main Navigation
+
     header.mb-2.fixed-top
       nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         a.navbar-brand(href=pageUrl)
