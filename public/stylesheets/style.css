@@ -128,16 +128,36 @@ h4 {
   background-color: #3b5998;
 }
 
+.facebook-color{
+  color: #3b5998;
+}
+
 .btn-pinterest{
   background-color: #c61118;
+}
+
+.pinterest-color{
+  color: #c61118;
 }
 
 .btn-twitter{
   background-color: #55acee;
 }
 
+.twitter-color{
+  color: #55acee;
+}
+
+.icon-social{
+  font-size: 3rem;
+}
+
 .btn-whatsapp{
   background-color: #25d366;
+}
+
+.whatsapp-color{
+  color: #25d366;
 }
 
 .container-fluid{

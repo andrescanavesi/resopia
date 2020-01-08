@@ -143,15 +143,17 @@ html(lang="es")
         span(aria-hidden='true') ×
 
     .container-fluid
-        .row
+        // top search box
+        .row.mt-4
           .col-md-3
           .col-md-6
-            .py-1.px-1
+            .py-1.px-1.mt-5
               input#searchTop(name='search', type='text', title="Buscar receta",
                   onclick="trackEvent(this,'search')"
                   placeholder='Buscar una receta', onkeyup="searchTop(event)", 
                   value=searchText).form-control.form-control
           .col-md-3
+        // content
         .row
           .col-md-3
             //left

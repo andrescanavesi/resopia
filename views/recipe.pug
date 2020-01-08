@@ -53,19 +53,19 @@ block content
         onclick="loadYoutubeVideo(); trackEvent(this,'youtube_video_display')").play-youtube-video.img-fluid
 
     //social icons for sharing
-    .bg-light.text-center.py-3.mt-2.mx-2
+    .text-center.py-3.mt-2.mx-2.border
       a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl+'?utm_source=facebook&utm_medium=web&utm_campaign=recipe-detail',
-        onclick="trackEvent(this,'social')").btn.btn-facebook.btn-social
-        span.pl-2.text-white Facebook (#{recipe.facebook_shares})
+        onclick="trackEvent(this,'social')")
+        i.fa.fa-facebook.icon-social.facebook-color
       a#pinterestShare(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl+'?utm_source=pinterest&utm_medium=web&utm_campaign=recipe-detail',
-        onclick="trackEvent(this,'social')").ml-1.btn.btn-pinterest.btn-social
-        span.pl-2.text-white Pin (#{recipe.pinterest_pins})
-      a.d-none#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
-        onclick="trackEvent(this,'social')").ml-1.btn.btn-twitter.btn-social
-        span.pl-2.text-white Tweet (#{recipe.tweets})
+        onclick="trackEvent(this,'social')").ml-3
+        i.fa.fa-pinterest.icon-social.pinterest-color
+      a#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
+        onclick="trackEvent(this,'social')").ml-3
+        i.fa.fa-twitter.icon-social.twitter-color
       a#whastappShare(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl+'?utm_source=whatsapp&utm_medium=web&utm_campaign=recipe-detail',
-        onclick="trackEvent(this,'social')").ml-1.btn.btn-whatsapp.btn-social
-        span.pl-2.text-white Whatsapp
+        onclick="trackEvent(this,'social')").ml-3
+        i.fa.fa-whatsapp.icon-social.whatsapp-color
     .bg-light.border.mt-2.mx-2
       .d-flex.justify-content-center.py-4
         each tag in recipe.tags
