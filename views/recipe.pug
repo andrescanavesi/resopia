@@ -2,7 +2,24 @@ extends layout
 
 block content
     h1.mx-1=recipe.title
-    span.mx-1.text-muted=recipe.created_at_es
+    .d-flex.justify-content-between
+      .mx-1.text-muted=recipe.created_at_es
+      //social icons for sharing
+      .mr-2
+        a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl+'?utm_source=facebook&utm_medium=web&utm_campaign=recipe-detail',
+          onclick="trackEvent(this,'social')")
+          i.fa.fa-facebook.icon-social.facebook-color
+        a#pinterestShare(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl+'?utm_source=pinterest&utm_medium=web&utm_campaign=recipe-detail',
+          onclick="trackEvent(this,'social')").ml-3
+          i.fa.fa-pinterest.icon-social.pinterest-color
+        a#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
+          onclick="trackEvent(this,'social')").ml-3
+          i.fa.fa-twitter.icon-social.twitter-color
+        a#whastappShare(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl+'?utm_source=whatsapp&utm_medium=web&utm_campaign=recipe-detail',
+          onclick="trackEvent(this,'social')").ml-3
+          i.fa.fa-whatsapp.icon-social.whatsapp-color
+    
+    
     - var img = recipe.featured_image_url
     if isMobile
         - img = recipe.featured_image_url_mobile
@@ -13,31 +30,40 @@ block content
         img#giphyGif.lozad(data-src='https://res.cloudinary.com/dniiru5xy/image/upload/c_thumb,w_512,g_face/v1577674089/resopia.com/gif-button.png', 
         onclick="loadGiphy(); trackEvent(this,'giphy_discover')", style="cursor: pointer").img-fluid
 
-    h2.mx-1.mt-3 Ingredientes
-    ul.list-group.list-group-flush
-      each ingr in recipe.ingredients_array
-        li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= ingr
-    if recipe.has_extra_ingredients
-      h3.mx-1.mt-3=recipe.extra_ingredients_title
+    // Ingredients
+    .bg-dark
+      h1.mx-1.mt-3.pt-2.text-white Ingredientes
       ul.list-group.list-group-flush
-        each extra_ingr in recipe.extra_ingredients_array
-          li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= extra_ingr
-    
+        each ingr in recipe.ingredients_array
+          li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item.list-group-item-dark= ingr
+      if recipe.has_extra_ingredients
+        h3.mx-1.mt-3.text-white=recipe.extra_ingredients_title
+        ul.list-group.list-group-flush
+          each extra_ingr in recipe.extra_ingredients_array
+            li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item.list-group-item-dark= extra_ingr
+      
     - var img = recipe.secondary_image_url
     if isMobile
         - img = recipe.secondary_image_url_mobile
     img.lozad(data-src=img, alt='imagen receta').img-fluid
-    h2.mx-1.mt-1 Elaboración 
-    img.lozad.ml-1(data-src='/images/clock.svg', width="20px", alt="imagen reloj")
-    span.text-muted.ml-2=recipe.total_time
-    #steps
-      ol.list-group.list-group-flush.list-group-ol.mt-2
-        each step in recipe.steps_array
-          li(style="cursor: pointer", onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol= step
+    
+    // Recipe steps
+    .bg-dark
+      h1.mx-1.pt-2.text-white Elaboración 
+      i.fa.fa-clock-o.ml-1.text-white
+      span.text-white.ml-2=recipe.total_time
+      #steps
+        ol.list-group.list-group-flush.list-group-ol.mt-2
+          each step in recipe.steps_array
+            li(style="cursor: pointer", onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol.list-group-item-dark= step
+    
+    // Recipe notes
     if recipe.has_notes
-      .border.border-dark.rounded.mt-1.p-4.bg-light.mx-2
+      .border.border-dark.rounded.mt-3.p-4.bg-light.mx-2
         h2 Tips para preparar esta receta
         span.pl-2=recipe.notes
+    
+    // Recipe star votes
     .mt-1.p-4.mx-2.text-center.h3
       span.mr-2.h4 Vota!
       span#rating1.fa.fa-star(onclick="rateRecipe(this,1);")
@@ -45,27 +71,16 @@ block content
       span#rating3.fa.fa-star.ml-1(onclick="rateRecipe(this,3)")
       span#rating4.fa.fa-star.ml-1(onclick="rateRecipe(this,4)")
       span#rating5.fa.fa-star.ml-1(onclick="rateRecipe(this,5)")
+    
+    // Recipe video
     if recipe.has_youtube_video
-      h2.mx-1.mt-3 Video receta
+      h1.mx-1.mt-3 Video receta
       - var youtube_video_embed_url = recipe.youtube_video_embed_url
       .mt-3.youtube-video-place(data-yt-url=youtube_video_embed_url)
         img#youtubeVideoImage.lozad(data-src='/images/youtube-thumbnail.jpg', 
         onclick="loadYoutubeVideo(); trackEvent(this,'youtube_video_display')").play-youtube-video.img-fluid
-
-    //social icons for sharing
-    .text-center.py-3.mt-2.mx-2.border
-      a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl+'?utm_source=facebook&utm_medium=web&utm_campaign=recipe-detail',
-        onclick="trackEvent(this,'social')")
-        i.fa.fa-facebook.icon-social.facebook-color
-      a#pinterestShare(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl+'?utm_source=pinterest&utm_medium=web&utm_campaign=recipe-detail',
-        onclick="trackEvent(this,'social')").ml-3
-        i.fa.fa-pinterest.icon-social.pinterest-color
-      a#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
-        onclick="trackEvent(this,'social')").ml-3
-        i.fa.fa-twitter.icon-social.twitter-color
-      a#whastappShare(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl+'?utm_source=whatsapp&utm_medium=web&utm_campaign=recipe-detail',
-        onclick="trackEvent(this,'social')").ml-3
-        i.fa.fa-whatsapp.icon-social.whatsapp-color
+    
+    // recipe tags
     .bg-light.border.mt-2.mx-2
       .d-flex.justify-content-center.py-4
         each tag in recipe.tags

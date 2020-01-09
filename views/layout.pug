@@ -114,7 +114,7 @@ html(lang="es")
 
   body
     // Main Navigation
-    header.mb-2.fixed-top
+    header.mb-2
       nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         a.navbar-brand(href=pageUrl)
           strong.brand=siteName
@@ -144,10 +144,10 @@ html(lang="es")
 
     .container-fluid
         // top search box
-        .row.mt-4
+        .row
           .col-md-3
           .col-md-6
-            .py-1.px-1.mt-5
+            .py-1.px-1.mt-1
               input#searchTop(name='search', type='text', title="Buscar receta",
                   onclick="trackEvent(this,'search')"
                   placeholder='Buscar una receta', onkeyup="searchTop(event)", 
@@ -158,7 +158,7 @@ html(lang="es")
           .col-md-3
             //left
           .col-md-6
-            .mt-3
+            .mt-1
             block content
             .text-center.mt-3
               a(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner')
