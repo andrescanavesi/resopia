@@ -32,6 +32,9 @@
         "test": "NODE_ENV=test nyc --check-coverage --lines 10 --per-file --reporter=html mocha tests/test_*.js --recursive --reporter mochawesome --reporter-options reportDir=./test_results --exit"
     },
     "dependencies": {
+        "@sendgrid/client": "^6.4.0",
+        "@sendgrid/contact-importer": "^6.4.0",
+        "@sendgrid/mail": "^6.4.0",
         "compression": "^1.7.4",
         "cookie-parser": "~1.4.4",
         "debug": "^4.1.1",
