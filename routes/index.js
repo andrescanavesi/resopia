@@ -2,6 +2,7 @@ const express = require('express');
 const daoRecipies = require('../daos/dao_recipes');
 const responseHelper = require('../utils/response_helper');
 const { Logger } = require('../utils/Logger');
+const utils = require('../utils/utils');
 
 const router = express.Router();
 const log = new Logger('route_index');
@@ -222,6 +223,25 @@ router.get('/sobre-el-sitio', (req, res, next) => {
   try {
     // for recetas-city.com support
     res.redirect('/');
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/status', (req, res, next) => {
+  try {
+    const json = {
+      secure: req.secure,
+      host: req.headers.host,
+      url: req.url,
+      headers: req.headers,
+    };
+    if (!utils.isSecure(req)) {
+      res.redirect(301, `https://${req.headers.host}${req.url}`);
+    } else {
+      res.status(200);
+      res.json(json);
+    }
   } catch (e) {
     next(e);
   }
