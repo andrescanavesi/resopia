@@ -13,6 +13,7 @@ const sitemapRouter = require('./routes/sitemap');
 const adminRouter = require('./routes/admin');
 
 const responseHelper = require('./utils/response_helper');
+const utils = require('./utils/utils');
 
 const log = new Logger('app');
 
@@ -31,6 +32,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// redirect any page form http to https
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'test' && !utils.isSecure(req)) {
+    res.redirect(301, `https://${req.headers.host}${req.url}`);
+  } else {
+    next();
+  }
+});
 
 app.use('/', indexRouter);
 app.use('/sitemap.xml', sitemapRouter);
