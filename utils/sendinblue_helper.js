@@ -23,16 +23,17 @@ apiKey.apiKey = process.env.RESOPIA_SENDINBLUE_API_KEY_V3;
 
 const api = new SibApiV3Sdk.SMTPApi();
 
+// sender: {
+//     name: 'Resopia 2',
+//     email: 'nodesponder@resopia.com',
+//   },
+
 const sendSmtpEmail = {
-  sender: {
-    name: 'Resopia',
-    email: 'nodesponder@resopia.com',
-  },
   to: [{
     email: 'andres.canavesi@gmail.com',
     name: 'Andres Canavesi',
   }],
-  templateId: 8,
+  templateId: 10,
   params: {
     name: 'John',
     surname: 'Doe',
