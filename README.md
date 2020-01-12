@@ -23,5 +23,8 @@ export RESOPIA_GOOGLE_ADSENSE_ID="ca-pub-9559827534748081"
 export RESOPIA_FACEBOOK_FAN_PAGE_URL=""
 export RESOPIA_ADSENSE_ADS_TXT_CONTENT=""
 export RESOPIA_FAV_ICON_URL=""
+export USE_LOCAL_HTTPS=false
+export KEY_PEM="/some/folder/key.pem"
+export CERT_PEM="/some/folder/cert.pem"
 
 ```
