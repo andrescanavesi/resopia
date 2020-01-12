@@ -35,7 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // redirect any page form http to https
 app.use((req, res, next) => {
-  if (!utils.isSecure(req)) {
+  if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'test' && !utils.isSecure(req)) {
     res.redirect(301, `https://${req.headers.host}${req.url}`);
   } else {
     next();
