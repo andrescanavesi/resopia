@@ -66,11 +66,11 @@ block content
     // Recipe star votes
     .mt-1.p-4.mx-2.text-center.h3
       span.mr-2.h4 Vota!
-      span#rating1.fa.fa-star(onclick="rateRecipe(this,1);")
-      span#rating2.fa.fa-star.ml-1(onclick="rateRecipe(this,2)")
-      span#rating3.fa.fa-star.ml-1(onclick="rateRecipe(this,3)")
-      span#rating4.fa.fa-star.ml-1(onclick="rateRecipe(this,4)")
-      span#rating5.fa.fa-star.ml-1(onclick="rateRecipe(this,5)")
+      span#rating1.fa.fa-star(onclick=`rateRecipe(this,1, ${recipe.id});`)
+      span#rating2.fa.fa-star.ml-1(onclick=`rateRecipe(this,2, ${recipe.id});`)
+      span#rating3.fa.fa-star.ml-1(onclick=`rateRecipe(this,3, ${recipe.id});`)
+      span#rating4.fa.fa-star.ml-1(onclick=`rateRecipe(this,4, ${recipe.id});`)
+      span#rating5.fa.fa-star.ml-1(onclick=`rateRecipe(this,5, ${recipe.id});`)
     
     // Recipe video
     if recipe.has_youtube_video

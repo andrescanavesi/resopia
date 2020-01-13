@@ -60,13 +60,13 @@ function loadGiphy() {
   wrapper.removeClass('text-center');
 }
 
-function rateRecipe(element, rating) {
-  console.info(`rating recipe: ${element.id} rating: ${rating}`);
+function rateRecipe(element, rating, recipeId) {
+  console.info(`rating recipe: ${element.id} rating: ${rating} recipe ${recipeId}`);
   for (let index = 1; index <= rating; index++) {
     $(`#rating${index}`).addClass('text-warning');
   }
   showAlert('Gracias por votar la receta!');
-  trackEvent(element, `rating_${rating}`);
+  trackEvent(element, `rating_${rating}_${recipeId}`);
 }
 
 function showAlert(message) {
