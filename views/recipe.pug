@@ -32,12 +32,12 @@ block content
 
     // Ingredients
     .bg-dark
-      h1.mx-1.mt-3.pt-2.text-white Ingredientes
+      h2.mx-1.mt-3.pt-2.text-white Ingredientes
       ul.list-group.list-group-flush
         each ingr in recipe.ingredients_array
           li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item.list-group-item-dark= ingr
       if recipe.has_extra_ingredients
-        h3.mx-1.mt-3.text-white=recipe.extra_ingredients_title
+        h2.mx-1.mt-3.text-white=recipe.extra_ingredients_title
         ul.list-group.list-group-flush
           each extra_ingr in recipe.extra_ingredients_array
             li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item.list-group-item-dark= extra_ingr
@@ -49,7 +49,7 @@ block content
     
     // Recipe steps
     .bg-dark
-      h1.mx-1.pt-2.text-white Elaboración 
+      h2.mx-1.pt-2.text-white Elaboración 
       i.fa.fa-clock-o.ml-1.text-white
       span.text-white.ml-2=recipe.total_time
       #steps
@@ -60,7 +60,7 @@ block content
     // Recipe notes
     if recipe.has_notes
       .border.border-dark.rounded.mt-3.p-4.bg-light.mx-2
-        h2 Tips para preparar esta receta
+        h3 Tips para preparar esta receta
         span.pl-2=recipe.notes
     
     // Recipe star votes
@@ -74,7 +74,7 @@ block content
     
     // Recipe video
     if recipe.has_youtube_video
-      h1.mx-1.mt-3 Video receta
+      h2.mx-1.mt-3 Video receta
       - var youtube_video_embed_url = recipe.youtube_video_embed_url
       .mt-3.youtube-video-place(data-yt-url=youtube_video_embed_url)
         img#youtubeVideoImage.lozad(data-src='/images/youtube-thumbnail.jpg', 
