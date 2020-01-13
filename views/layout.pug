@@ -169,19 +169,19 @@ html(lang="es")
                 h2.mx-1.pt-3 Más recetas
                 .row
                   each recipe in recipesSpotlight
-                    .card
-                    .row.no-gutters.mb-3
-                      .col-4
-                        - var img = recipe.thumbnail300
-                        img.lozad.card-img(data-src=img, alt='Imagen receta')
-                      .col-8
-                        .card-body
-                          h5.card-title
-                            a(href=`${recipe.url}`, title="Ver receta").blue-link.font-weight-bold=recipe.title
-                          p.card-text
-                            | #{recipe.description}
-                          p.card-text
-                            small.text-muted=recipe.created_at_es
+                    .card.border-0.mb-3
+                      .row.no-gutters
+                        .col-4
+                          - var img = recipe.thumbnail300
+                          img.lozad.card-img(data-src=img, alt='Imagen receta')
+                        .col-8
+                          .card-body
+                            h5.card-title
+                              a(href=`${recipe.url}`, title="Ver receta").blue-link.font-weight-bold=recipe.title
+                            p.card-text
+                              | #{recipe.description}
+                            p.card-text
+                              small.text-muted=recipe.created_at_es
                        
           .col-md-3
             //right column
