@@ -64,6 +64,13 @@ app.use((err, req, res, next) => {
 
   const responseJson = responseHelper.getResponseJson(req);
 
+  if (err.status === 404) {
+    responseJson.message = 'Página no encontrada';
+  } else if (process.env.NODE_ENV === 'production') {
+    // do not print internal messages in production
+    responseJson.message = 'Ha ocurrido un error inesperado. por favor, intenta más tarde';
+  }
+
   // render the error page
   res.status(err.status || 500);
   res.render('error', responseJson);

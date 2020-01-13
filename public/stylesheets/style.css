@@ -168,3 +168,7 @@ h4 {
 .z-index-1{
   z-index: -1;
 }
+
+.blue-link{
+  color: #3284FF;
+}
