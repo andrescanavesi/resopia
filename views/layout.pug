@@ -169,8 +169,8 @@ html(lang="es")
                 h2.mx-1.pt-3 Más recetas
                 .row
                   each recipe in recipesSpotlight
-                    .card.mb-3(style='max-width: 540px;')
-                    .row.no-gutters
+                    .card
+                    .row.no-gutters.mb-3
                       .col-4
                         - var img = recipe.thumbnail300
                         img.lozad.card-img(data-src=img, alt='Imagen receta')
