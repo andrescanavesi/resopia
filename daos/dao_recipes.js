@@ -263,7 +263,7 @@ async function findByIds(ids) {
 
 module.exports.create = async function (recipe) {
   log.info('Creating recipe');
-  if (recipe.tags === null || recipe.tags.length === 0) {
+  if (!recipe.tags || recipe.tags.length === 0) {
     throw new Error('Error creating the recipe. Tags are empty');
   }
   // validate tags values
