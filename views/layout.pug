@@ -169,13 +169,13 @@ html(lang="es")
                 h2.mx-1.pt-3 Más recetas
                 .row
                   each recipe in recipesSpotlight
-                    .card.border-0.mb-3
+                    .card.border-0.mb-3(style="max-width: 540px;")
                       .row.no-gutters
-                        .col-4
+                        .col-4(style="width: 390px;")
                           - var img = recipe.thumbnail300
                           img.lozad.card-img(data-src=img, alt='Imagen receta')
                         .col-8
-                          .card-body
+                          .ml-3
                             h5.card-title
                               a(href=`${recipe.url}`, title="Ver receta").blue-link.font-weight-bold=recipe.title
                             p.card-text
