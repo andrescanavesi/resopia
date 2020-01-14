@@ -2,7 +2,9 @@ doctype html
 html(lang="es")
   head
     link(rel="preconnect" href="//stackpath.bootstrapcdn.com"  crossorigin)
+    link(rel="preconnect" href="https://res.cloudinary.com"  crossorigin)
     if isProduction
+      link(rel="preconnect" href="https://www.google-analytics.com"  crossorigin)
       //Global site tag (gtag.js) - Google Analytics
       link(rel="preconnect" href="//googletagmanager.com"  crossorigin)
       - var gaUrl = 'https://www.googletagmanager.com/gtag/js?id='+googleAnalyticsId
@@ -106,9 +108,9 @@ html(lang="es")
             }
         }         
     
-    link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
-    link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
-    link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+    link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", id="bootstrapCss" rel="preload", as="style", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+    link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", id="fontawesomeCss", rel="preload", as="style", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
+    link(href='/stylesheets/style.css' id="stylesCss" rel='preload', as="style", type='text/css', )
     link(rel="icon", sizes="192x192", href=pageLogo)
     link(rel="apple-touch-icon" href=pageLogo)
 
@@ -162,7 +164,7 @@ html(lang="es")
             block content
             .text-center.mt-3
               a(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner')
-                img.lozad.img-fluid(data-src="https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,w_500,q_auto:low/v1577283800/resopia.com/facebook-fanpage.png")
+                img.lozad.img-fluid(data-src="https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,w_500,q_auto:low/v1577283800/resopia.com/facebook-fanpage.png", alt="facebook fna page image")
             //related recipes
             if displayMoreRecipes
               .mt-4.border-top
@@ -207,9 +209,11 @@ html(lang="es")
   //lozad to load images in a lazy way. Must be loaded sync
   script(src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js'  crossorigin='anonymous')
   
+  //scripts that can be loaded async
   script(async='', src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
   script(async='', src='/javascripts/track.js')
   script(async='', src='/javascripts/common.js')
+  
   script(type='text/javascript').
     $(document).ready(() => {
       // to load images in a lazy way
@@ -217,4 +221,9 @@ html(lang="es")
       const observer = lozad(); 
       observer.observe();
       console.info('lozad observing...');
+      
+      //load css styles after the page loaded
+      $('#bootstrapCss')[0].rel = 'stylesheet';
+      $('#fontawesomeCss')[0].rel = 'stylesheet';
+      $('#stylesCss')[0].rel = 'stylesheet';
     });
