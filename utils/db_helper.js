@@ -32,6 +32,7 @@ async function query(theQuery, bindings, withCache) {
     const value = queryCache.get(key);
     if (value === undefined) {
       try {
+        log.info('no cache for this query, will go to the DB');
         const queryResult = await pool.query(theQuery, bindings);
         queryCache.set(key, queryResult);
         return queryResult;

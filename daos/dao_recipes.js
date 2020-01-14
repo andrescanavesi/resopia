@@ -214,7 +214,7 @@ module.exports.findById = async function (id, ignoreActive, witchCache) {
   const bindings = [id];
   // log.info(sqlFormatter.format(query));
   log.info(`findById, bindings: ${bindings}`);
-  const result = await dbHelper.query(query, bindings, true);
+  const result = await dbHelper.query(query, bindings, witchCache);
   if (result.rows.length > 0) {
     const recipe = convertRecipe(result.rows[0]);
     const recipeTags = await daoTags.findByRecipe(recipe.id);
