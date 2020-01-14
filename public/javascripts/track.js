@@ -35,3 +35,12 @@ function trackEvent(element, category) {
     console.info('track not enabled');
   }
 }
+
+/**
+ *
+ * @param {*} element
+ * @param {*} recipeId
+ */
+function trackRecipeLink(element, recipeId) {
+  trackEvent(element, `recipe_link_${recipeId}`);
+}

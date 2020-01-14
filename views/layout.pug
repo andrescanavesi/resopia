@@ -177,7 +177,7 @@ html(lang="es")
                         .col-8
                           .ml-3
                             h5.card-title
-                              a(href=`${recipe.url}`, title="Ver receta").blue-link.font-weight-bold=recipe.title
+                              a(href=`${recipe.url}`, onclick=`trackRecipeLink(this,1, ${recipe.id});` title="Ver receta").blue-link.font-weight-bold=recipe.title
                             p.card-text
                               | #{recipe.description}
                             p.card-text
