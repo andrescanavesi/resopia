@@ -28,6 +28,7 @@ block content
       span.text-muted=recipe.description
     div#giphyWrapper.mt-1.text-center
         img#giphyGif.lozad(data-src='https://res.cloudinary.com/dniiru5xy/image/upload/c_thumb,w_512,g_face/v1577674089/resopia.com/gif-button.png', 
+        alt='giphy'
         onclick="loadGiphy(); trackEvent(this,'giphy_discover')", style="cursor: pointer").img-fluid
 
     // Ingredients
@@ -78,6 +79,7 @@ block content
       - var youtube_video_embed_url = recipe.youtube_video_embed_url
       .mt-3.youtube-video-place(data-yt-url=youtube_video_embed_url)
         img#youtubeVideoImage.lozad(data-src='/images/youtube-thumbnail.jpg', 
+        alt="youtube play"
         onclick="loadYoutubeVideo(); trackEvent(this,'youtube_video_display')").play-youtube-video.img-fluid
     
     // recipe tags
