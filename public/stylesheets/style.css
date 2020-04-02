@@ -172,3 +172,11 @@ h4 {
 .blue-link{
   color: #3284FF;
 }
+
+.bell-badge{
+  margin-left: -10px;
+}
+
+#searchTopContainer{
+  width: 74%;
+}

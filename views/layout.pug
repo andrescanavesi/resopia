@@ -115,7 +115,7 @@ html(lang="es")
   body
     // Main Navigation
     header.mb-2
-      nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+      nav.navbar.navbar-expand-md.navbar-dark.bg-dark
         a.navbar-brand(href=pageUrl)
           strong.brand=siteName
         button.navbar-toggler(type='button', onclick="trackEvent(this,'menu')", data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
@@ -134,7 +134,31 @@ html(lang="es")
               a.nav-link(href=pageUrl) Recetas
             li.nav-item
               a.nav-link(href='/recetas/celiacos') Celíacos
-    // Main Navigation
+      // sub nav bar    
+      nav.navbar.navbar-dark.bg-info
+          #searchTopContainer
+            input#searchTop(name='search', type='text', title="Buscar receta",
+                  onclick="trackEvent(this,'search')"
+                  placeholder='Buscar una receta', onkeyup="searchTop(event)", 
+                  value=searchText).form-control
+          a.text-white(onclick="trackEvent(this,'bell')", data-toggle='collapse', data-target='#navbarSupportedContent2', aria-controls='navbarSupportedContent2', aria-expanded='false', aria-label='Toggle navigation')
+            i.fa.fa-bell.fa-2x
+            span.badge.badge-pill.badge-danger.bell-badge 3
+          #navbarSupportedContent2.collapse.navbar-collapse
+            ul.navbar-nav.mr-auto
+              li.nav-item.active
+                a.nav-link(href=pageUrl)
+                  | Inicio 
+                  span.sr-only (inicio)
+              li.nav-item
+                a.nav-link(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner') Facebook
+              li.nav-item
+                a.nav-link(href='/recetas/video-recetas') Video Recetas
+              li.nav-item
+                a.nav-link(href=pageUrl) Recetas
+              li.nav-item
+                a.nav-link(href='/recetas/celiacos') Celíacos
+    // END Main Navigation
 
     //Toast for alert messages
     #toast.alert.alert-success.alert-dismissible.fade.fixed-top.z-index-1(role='alert')
@@ -148,10 +172,7 @@ html(lang="es")
           .col-md-3
           .col-md-6
             .py-1.px-1.mt-1
-              input#searchTop(name='search', type='text', title="Buscar receta",
-                  onclick="trackEvent(this,'search')"
-                  placeholder='Buscar una receta', onkeyup="searchTop(event)", 
-                  value=searchText).form-control.form-control
+              
           .col-md-3
         // content
         .row
