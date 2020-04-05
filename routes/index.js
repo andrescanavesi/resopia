@@ -13,6 +13,8 @@ router.get('/', async (req, res, next) => {
     responseJson.displayMoreRecipes = false;
 
     const recipes = await daoRecipies.findAll();
+    const recipesMostVisited = await daoRecipies.findRecipesMostVisited();
+    responseJson.recipesMostVisited = recipesMostVisited;
 
     if (!recipes) {
       throw Error('No Se han encontrado recetas');
@@ -40,6 +42,7 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     // titleforurl path param is for SEO purposes. It is ignored by the code
     const recipe = await daoRecipies.findById(recipeId, true);
     const recipesSpotlight = await daoRecipies.findRecipesSpotlight();
+    const recipesMostVisited = await daoRecipies.findRecipesMostVisited();
     const footerRecipes = await daoRecipies.findAll();
     // recipe.allow_edition = utils.allowEdition(req, recipe);
     recipe.allow_edition = responseJson.isUserAuthenticated;
@@ -52,6 +55,7 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     responseJson.metaImage = recipe.featured_image_url;
     responseJson.keywords = `receta,${recipe.tags_names_csv}`;
     responseJson.recipesSpotlight = recipesSpotlight;
+    responseJson.recipesMostVisited = recipesMostVisited;
     responseJson.isHomePage = false;
     responseJson.isRecipePage = true;
     responseJson.footerRecipes = footerRecipes;
@@ -97,6 +101,7 @@ router.get('/recetas/:tag', async (req, res, next) => {
     log.info(`recipes by tag: ${req.params.tag}`);
     const recipes = await daoRecipies.findWithKeyword(req.params.tag);
     const recipesSpotlight = await daoRecipies.findRecipesSpotlight();
+    const recipesMostVisited = await daoRecipies.findRecipesMostVisited();
     const footerRecipes = await daoRecipies.findAll();
 
     if (!recipes) {
@@ -109,6 +114,7 @@ router.get('/recetas/:tag', async (req, res, next) => {
     responseJson.linkToThisPage = `${process.env.RESOPIA_BASE_URL}recetas/${req.params.tag}`;
     responseJson.isHomePage = false;
     responseJson.recipesSpotlight = recipesSpotlight;
+    responseJson.recipesMostVisited = recipesMostVisited;
     responseJson.footerRecipes = footerRecipes;
     responseJson.displayMoreRecipes = true;
 
@@ -151,8 +157,9 @@ router.get('/buscar', async (req, res, next) => {
 
     const p2 = daoRecipies.findRecipesSpotlight();
     const p3 = daoRecipies.findAll();
+    const p4 = daoRecipies.findRecipesMostVisited();
 
-    let [recipes, recipesSpotlight, footerRecipes] = await Promise.all([p1, p2, p3]);
+    let [recipes, recipesSpotlight, footerRecipes, recipesMostVisited] = await Promise.all([p1, p2, p3, p4]);
     if (recipes.length === 0) {
       recipes = recipesSpotlight;
     }
@@ -160,6 +167,7 @@ router.get('/buscar', async (req, res, next) => {
     responseJson.isHomePage = false;
     responseJson.displayMoreRecipes = true;
     responseJson.recipesSpotlight = recipesSpotlight;
+    responseJson.recipesMostVisited = recipesMostVisited;
     responseJson.footerRecipes = footerRecipes;
     responseJson.searchText = phrase;
 

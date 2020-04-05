@@ -145,19 +145,24 @@ html(lang="es")
             i.fa.fa-bell.fa-2x
             span.badge.badge-pill.badge-danger.bell-badge 3
           #navbarSupportedContent2.collapse.navbar-collapse
-            ul.navbar-nav.mr-auto
-              li.nav-item.active
-                a.nav-link(href=pageUrl)
-                  | Inicio 
-                  span.sr-only (inicio)
-              li.nav-item
-                a.nav-link(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner') Facebook
-              li.nav-item
-                a.nav-link(href='/recetas/video-recetas') Video Recetas
-              li.nav-item
-                a.nav-link(href=pageUrl) Recetas
-              li.nav-item
-                a.nav-link(href='/recetas/celiacos') Celíacos
+            .card.mt-2
+              .card-header Recetas más vistas
+              .card-body
+                each recipe in recipesMostVisited
+                    .card.border-0.mb-3(style="max-width: 540px;")
+                      .row.no-gutters
+                        .col-4(style="width: 390px;")
+                          - var img = recipe.thumbnail300
+                          img.lozad.card-img(data-src=img, alt='Imagen receta')
+                        .col-8
+                          .ml-3
+                            h5.card-title
+                              a(href=`${recipe.url}`, onclick=`trackRecipeLink(this,1, ${recipe.id});` title="Ver receta").blue-link.font-weight-bold=recipe.title
+                            p.card-text
+                              | #{recipe.description}
+                            p.card-text
+                              small.text-muted=recipe.created_at_es
+                
     // END Main Navigation
 
     //Toast for alert messages
