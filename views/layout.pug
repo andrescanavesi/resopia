@@ -115,7 +115,7 @@ html(lang="es")
   body
     // Main Navigation
     header.mb-2
-      nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+      nav.navbar.navbar-expand-md.navbar-dark.bg-dark
         a.navbar-brand(href=pageUrl)
           strong.brand=siteName
         button.navbar-toggler(type='button', onclick="trackEvent(this,'menu')", data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
@@ -134,7 +134,34 @@ html(lang="es")
               a.nav-link(href=pageUrl) Recetas
             li.nav-item
               a.nav-link(href='/recetas/celiacos') Celíacos
-    // Main Navigation
+      // sub nav bar  wit search and bell
+      nav.navbar.navbar-dark
+          #searchTopContainer
+            input#searchTop(name='search', type='text', title="Buscar receta",
+                  onclick="trackEvent(this,'search_top')"
+                  placeholder='Buscar una receta', onkeyup="searchTop(event)", 
+                  value=searchText).form-control
+          a(onclick="trackEvent(this,'bell')", data-toggle='collapse', data-target='#navbarSupportedContent2', aria-controls='navbarSupportedContent2', aria-expanded='false', aria-label='Toggle navigation')
+            i.fa.fa-bell.fa-2x
+            span.badge.badge-pill.badge-danger.bell-badge 3
+          #navbarSupportedContent2.collapse.navbar-collapse
+            .card.mt-2
+              .card-header.font-weight-bold Recetas más vistas
+              .card-body
+                each recipe in recipesMostVisited
+                    .card.border-0.mb-3(style="max-width: 540px;")
+                      .row.no-gutters
+                        .col-4(style="width: 390px;")
+                          - var img = recipe.thumbnail300
+                          img.lozad.card-img(data-src=img, alt='Imagen receta')
+                        .col-8
+                          .ml-3
+                            h5.card-title
+                              a(href=`${recipe.url}`, onclick=`trackEvent(this, 'most_visited_${recipe.id}');`, title="Ver receta").blue-link.font-weight-bold=recipe.title
+                            p.card-text
+                              | #{recipe.description}
+                
+    // END Main Navigation
 
     //Toast for alert messages
     #toast.alert.alert-success.alert-dismissible.fade.fixed-top.z-index-1(role='alert')
@@ -142,32 +169,29 @@ html(lang="es")
       button.close(type='button', onclick="hideAlert()", aria-label='Cerrar')
         span(aria-hidden='true') ×
 
-    .container-fluid
+    .container_fluid
         // top search box
-        .row
+        .row.no-gutters
           .col-md-3
           .col-md-6
             .py-1.px-1.mt-1
-              input#searchTop(name='search', type='text', title="Buscar receta",
-                  onclick="trackEvent(this,'search')"
-                  placeholder='Buscar una receta', onkeyup="searchTop(event)", 
-                  value=searchText).form-control.form-control
+              
           .col-md-3
         // content
-        .row
+        .row.no-gutters
           .col-md-3
             //left
           .col-md-6
             .mt-1
             block content
             .text-center.mt-3
-              a(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner')
+              a(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner',  onclick=`trackEvent(this, 'click_facebook_banner');`)
                 img.lozad.img-fluid(data-src="https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,w_500,q_auto:low/v1577283800/resopia.com/facebook-fanpage.png", alt="facebook fna page image")
             //related recipes
             if displayMoreRecipes
               .mt-4.border-top
                 h2.mx-1.pt-3 Más recetas
-                .row
+                .row-no-gutters
                   each recipe in recipesSpotlight
                     .card.border-0.mb-3(style="max-width: 540px;")
                       .row.no-gutters
@@ -177,7 +201,7 @@ html(lang="es")
                         .col-8
                           .ml-3
                             h5.card-title
-                              a(href=`${recipe.url}`, onclick=`trackRecipeLink(this,1, ${recipe.id});` title="Ver receta").blue-link.font-weight-bold=recipe.title
+                              a(href=`${recipe.url}`, onclick=`trackEvent(this, 'more_recipes_${recipe.id}');`, title="Ver receta").blue-link.font-weight-bold=recipe.title
                             p.card-text
                               | #{recipe.description}
                             p.card-text
@@ -185,13 +209,16 @@ html(lang="es")
                        
           .col-md-3
             //right column
-    .row
-      .col   
-        .search-section.bg-primary.px-2
-          input#searchBottom(name='searchBottom' type='text', title="Buscar receta"
-                  onclick="trackEvent(this,'search')"
-                  placeholder='Buscar receta', onkeyup="searchBottom(event)", 
-                  value=searchText).form-control.form-control 
+    // search bottom
+    .bg-primary
+      .container
+        .row
+          .col   
+            .search-section.px-2
+              input#searchBottom(name='searchBottom' type='text', title="Buscar receta"
+                      onclick="trackEvent(this,'search_bottom')"
+                      placeholder='Buscar receta', onkeyup="searchBottom(event)", 
+                      value=searchText).form-control.form-control 
     //footer
     footer.bg-dark.py-5.background-carbon-fibre
       .container.py-2

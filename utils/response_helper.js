@@ -20,6 +20,7 @@ module.exports.getResponseJson = function (req) {
   responseJson.metaImage = process.env.RESOPIA_DEFAULT_IMAGE_URL;
   responseJson.keywords = process.env.RESOPIA_DEFAULT_KEYWORDS || 'recetas,comida,cocina';
   responseJson.recipesSpotlight = [];
+  responseJson.recipesMostVisited = [];
   responseJson.footerRecipes = [];
   responseJson.searchText = '';
 

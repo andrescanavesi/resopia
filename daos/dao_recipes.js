@@ -14,6 +14,7 @@ const searchIndex = new FlexSearch(preset);
 
 let allRecipes = [];
 let spotlightRecipes = [];
+let mostVisitedRecipes = [];
 
 /**
  *
@@ -158,6 +159,7 @@ async function findWithLimit(limit) {
 module.exports.resetCache = async function () {
   allRecipes = [];
   spotlightRecipes = [];
+  mostVisitedRecipes = [];
   await this.buildSearchIndex();
 };
 
@@ -174,6 +176,13 @@ async function findRecipesSpotlight() {
     spotlightRecipes = findWithLimit(50);
   }
   return spotlightRecipes;
+}
+
+async function findRecipesMostVisited() {
+  if (mostVisitedRecipes.length === 0) {
+    mostVisitedRecipes = findWithLimit(5);
+  }
+  return mostVisitedRecipes;
 }
 
 async function findWithKeyword(tag) {
@@ -404,4 +413,5 @@ module.exports.findRelated = async function (text) {
 module.exports.findByIds = findByIds;
 module.exports.findWithKeyword = findWithKeyword;
 module.exports.findRecipesSpotlight = findRecipesSpotlight;
+module.exports.findRecipesMostVisited = findRecipesMostVisited;
 module.exports.searchIndex = searchIndex;
