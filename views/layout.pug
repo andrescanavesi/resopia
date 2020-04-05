@@ -171,14 +171,14 @@ html(lang="es")
 
     .container_fluid
         // top search box
-        .row
+        .row.no-gutters
           .col-md-3
           .col-md-6
             .py-1.px-1.mt-1
               
           .col-md-3
         // content
-        .row
+        .row.no-gutters
           .col-md-3
             //left
           .col-md-6
@@ -191,7 +191,7 @@ html(lang="es")
             if displayMoreRecipes
               .mt-4.border-top
                 h2.mx-1.pt-3 Más recetas
-                .row
+                .row-no-gutters
                   each recipe in recipesSpotlight
                     .card.border-0.mb-3(style="max-width: 540px;")
                       .row.no-gutters
