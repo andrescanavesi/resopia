@@ -4,7 +4,7 @@ block content
   each recipe in recipes
     div.mt-3.mb-2
       h1.px-2.py-1
-        a(href=`${recipe.url}`, title="Go to this recipe detail").blue-link=recipe.title
+        a(href=`${recipe.url}`, title="Go to this recipe detail").blue-link.display-3=recipe.title
       - var img = recipe.featured_image_url
       if isMobile
         - img = recipe.featured_image_url_mobile

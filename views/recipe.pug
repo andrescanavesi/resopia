@@ -1,22 +1,22 @@
 extends layout
 
 block content
-    h1.mx-1=recipe.title
+    h1.mx-1.display-3=recipe.title
     .d-flex.justify-content-between
       .mx-1.text-muted=recipe.created_at_es
       //social icons for sharing
       .mr-2
         a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl+'?utm_source=facebook&utm_medium=web&utm_campaign=recipe-detail',
-          onclick="trackEvent(this,'social')")
+          onclick="trackEvent(this,'social_facebook')")
           i.fa.fa-facebook.icon-social.facebook-color
         a#pinterestShare(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl+'?utm_source=pinterest&utm_medium=web&utm_campaign=recipe-detail',
-          onclick="trackEvent(this,'social')").ml-3
+          onclick="trackEvent(this,'social_pinterest')").ml-3
           i.fa.fa-pinterest.icon-social.pinterest-color
         a#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
-          onclick="trackEvent(this,'social')").ml-3
+          onclick="trackEvent(this,'social_twitter')").ml-3
           i.fa.fa-twitter.icon-social.twitter-color
         a#whastappShare(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl+'?utm_source=whatsapp&utm_medium=web&utm_campaign=recipe-detail',
-          onclick="trackEvent(this,'social')").ml-3
+          onclick="trackEvent(this,'social_whatsapp')").ml-3
           i.fa.fa-whatsapp.icon-social.whatsapp-color
     
     
@@ -26,37 +26,37 @@ block content
     img.lozad(data-src=img, alt='imagen receta').img-fluid
     .mx-1.mt-3
       span.text-muted=recipe.description
-    div#giphyWrapper.mt-1.text-center
-        img#giphyGif.lozad(data-src='https://res.cloudinary.com/dniiru5xy/image/upload/c_thumb,w_512,g_face/v1577674089/resopia.com/gif-button.png', 
-        alt='giphy'
-        onclick="loadGiphy(); trackEvent(this,'giphy_discover')", style="cursor: pointer").img-fluid
+    //- div#giphyWrapper.mt-1.text-center
+    //-     img#giphyGif.lozad(data-src='https://res.cloudinary.com/dniiru5xy/image/upload/c_thumb,w_512,g_face/v1577674089/resopia.com/gif-button.png', 
+    //-     alt='giphy'
+    //-     onclick="loadGiphy(); trackEvent(this,'giphy_discover')", style="cursor: pointer").img-fluid
 
     // Ingredients
-    .bg-dark
-      h2.mx-1.mt-3.pt-2.text-white Ingredientes
-      ul.list-group.list-group-flush
+    div
+      h2.mx-1.mt-3.pt-2.display-4 Ingredientes
+      ul.list-group
         each ingr in recipe.ingredients_array
-          li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item.list-group-item-dark= ingr
+          li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= ingr
       if recipe.has_extra_ingredients
-        h2.mx-1.mt-3.text-white=recipe.extra_ingredients_title
-        ul.list-group.list-group-flush
+        h2.mx-1.mt-3=recipe.extra_ingredients_title
+        ul.list-group
           each extra_ingr in recipe.extra_ingredients_array
-            li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item.list-group-item-dark= extra_ingr
+            li(style="cursor: pointer", onclick="trackEvent(this,'ingredients_extra'); activateElem(this)").list-group-item= extra_ingr
       
     - var img = recipe.secondary_image_url
     if isMobile
         - img = recipe.secondary_image_url_mobile
-    img.lozad(data-src=img, alt='imagen receta').img-fluid
+    img.lozad.mt-2(data-src=img, alt='imagen receta').img-fluid
     
     // Recipe steps
-    .bg-dark
-      h2.mx-1.pt-2.text-white Elaboración 
-      i.fa.fa-clock-o.ml-1.text-white
-      span.text-white.ml-2=recipe.total_time
+    div
+      h2.mx-1.pt-2.display-4 Elaboración 
+      i.fa.fa-clock-o.ml-1
+      span.ml-2=recipe.total_time
       #steps
-        ol.list-group.list-group-flush.list-group-ol.mt-2
+        ol.list-group.list-group-ol.mt-2
           each step in recipe.steps_array
-            li(style="cursor: pointer", onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol.list-group-item-dark= step
+            li(style="cursor: pointer", onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol= step
     
     // Recipe notes
     if recipe.has_notes
@@ -87,5 +87,5 @@ block content
       .d-flex.justify-content-center.py-4
         each tag in recipe.tags
           span.ml-1
-            a(href=`/recetas/${tag.name_seo}`, title="Ver mas recetas de esta categoría").badge.badge-pill.badge-info.py-2.px-3
+            a(href=`/recetas/${tag.name_seo}`, onclick=`trackEvent(this, 'tag_click_${tag.name_seo}');`, title="Ver mas recetas de esta categoría").badge.badge-pill.badge-info.py-2.px-3
               span=tag.name    
