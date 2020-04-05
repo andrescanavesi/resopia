@@ -23,7 +23,7 @@ block content
     - var img = recipe.featured_image_url
     if isMobile
         - img = recipe.featured_image_url_mobile
-    img.lozad(data-src=img, alt='imagen receta').img-fluid
+    img.lozad(data-src=img, alt='imagen receta', onclick=`trackEvent(this, 'recipe_image_primary_${recipe.id}');`).img-fluid
     .mx-1.mt-3
       span.text-muted=recipe.description
     //- div#giphyWrapper.mt-1.text-center
@@ -46,7 +46,7 @@ block content
     - var img = recipe.secondary_image_url
     if isMobile
         - img = recipe.secondary_image_url_mobile
-    img.lozad.mt-2(data-src=img, alt='imagen receta').img-fluid
+    img.lozad.mt-2(data-src=img, alt='imagen receta', onclick=`trackEvent(this, 'recipe_image_secondary_${recipe.id}');`).img-fluid
     
     // Recipe steps
     div
@@ -66,7 +66,7 @@ block content
     
     // Recipe star votes
     .mt-1.p-4.mx-2.text-center.h3
-      span.mr-2.h4 Vota!
+      div.mr-2.h4 Dinos que piensas de esta receta
       span#rating1.fa.fa-star(onclick=`rateRecipe(this,1, ${recipe.id});`)
       span#rating2.fa.fa-star.ml-1(onclick=`rateRecipe(this,2, ${recipe.id});`)
       span#rating3.fa.fa-star.ml-1(onclick=`rateRecipe(this,3, ${recipe.id});`)
@@ -88,4 +88,12 @@ block content
         each tag in recipe.tags
           span.ml-1
             a(href=`/recetas/${tag.name_seo}`, onclick=`trackEvent(this, 'tag_click_${tag.name_seo}');`, title="Ver mas recetas de esta categoría").badge.badge-pill.badge-info.py-2.px-3
-              span=tag.name    
+              span=tag.name
+    
+    // related searches
+    .card.mt-2.mx-2
+      .card-header.font-weight-bold Búsquedas relacionadas con esta receta
+      .list-group
+      each search in relatedSearches
+        a.list-group-item.list-group-item-action.blue-link(href=`/buscar?q=${search.keyword}`, onclick=`trackEvent(this, 'related_search_${search.keyword_seo}');`, title="Ver mas recetas relacionadas")
+            span=search.title
