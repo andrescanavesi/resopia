@@ -66,7 +66,7 @@ function convertRecipe(row) {
   recipe.ingredients = row.ingredients;
   recipe.ingredients_array = row.ingredients.split('\n');
 
-  recipe.has_extra_ingredients = row.extra_ingredients_title !== null && row.extra_ingredients !== null;
+  recipe.has_extra_ingredients = row.extra_ingredients_title !== null && row.extra_ingredients_title.trim() !== '';
   if (recipe.has_extra_ingredients) {
     recipe.extra_ingredients_title = row.extra_ingredients_title;
     recipe.extra_ingredients = row.extra_ingredients;
