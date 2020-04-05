@@ -23,7 +23,7 @@ block content
     - var img = recipe.featured_image_url
     if isMobile
         - img = recipe.featured_image_url_mobile
-    img.lozad(data-src=img, alt='imagen receta').img-fluid
+    img.lozad(data-src=img, alt='imagen receta', onclick=`trackEvent(this, 'recipe_image_primary_${recipe.id}');`).img-fluid
     .mx-1.mt-3
       span.text-muted=recipe.description
     //- div#giphyWrapper.mt-1.text-center
@@ -46,7 +46,7 @@ block content
     - var img = recipe.secondary_image_url
     if isMobile
         - img = recipe.secondary_image_url_mobile
-    img.lozad.mt-2(data-src=img, alt='imagen receta').img-fluid
+    img.lozad.mt-2(data-src=img, alt='imagen receta', onclick=`trackEvent(this, 'recipe_image_secondary_${recipe.id}');`).img-fluid
     
     // Recipe steps
     div
