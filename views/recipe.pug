@@ -36,12 +36,14 @@ block content
       h2.mx-1.mt-3.pt-2.display-4 Ingredientes
       ul.list-group
         each ingr in recipe.ingredients_array
-          li(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)").list-group-item= ingr
+          li.list-group-item.d-flex.justify-content-between.align-items-center(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)")= ingr
+            i.fa.fa-check.text-light
       if recipe.has_extra_ingredients
         h2.mx-1.mt-3=recipe.extra_ingredients_title
         ul.list-group
           each extra_ingr in recipe.extra_ingredients_array
-            li(style="cursor: pointer", onclick="trackEvent(this,'ingredients_extra'); activateElem(this)").list-group-item= extra_ingr
+            li.list-group-item.d-flex.justify-content-between.align-items-center(style="cursor: pointer", onclick="trackEvent(this,'ingredients_extra'); activateElem(this)")= extra_ingr
+              i.fa.fa-check.text-light
       
     - var img = recipe.secondary_image_url
     if isMobile
@@ -54,10 +56,14 @@ block content
       i.fa.fa-clock-o.ml-1
       span.ml-2=recipe.total_time
       #steps
-        ol.list-group.list-group-ol.mt-2
-          each step in recipe.steps_array
-            li(style="cursor: pointer", onclick="trackEvent(this,'recipe_steps'); activateElem(this)").list-group-item.list-group-item-ol= step
-    
+        ul.list-group.list-group-ol.mt-2
+          each step, index in recipe.steps_array
+            - var num = index + 1
+            li.list-group-item.d-flex.justify-content-between.align-items-cente(style="cursor: pointer", onclick="trackEvent(this,'recipe_steps'); activateElem(this)")
+              div 
+                span.badge.badge-dark.mr-1.badge-steps=num
+                span= step
+              i.fa.fa-check.text-light.ml-1
     // Recipe notes
     if recipe.has_notes
       .border.border-dark.rounded.mt-3.p-4.bg-light.mx-2

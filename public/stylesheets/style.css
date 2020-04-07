@@ -180,3 +180,7 @@ h4 {
 #searchTopContainer{
   width: 74%;
 }
+
+.badge-steps{
+  font-size: 1rem;
+}
