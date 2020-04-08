@@ -1,254 +1,118 @@
-doctype html
-html(lang="es")
-  head
-    link(rel="preconnect" href="//stackpath.bootstrapcdn.com"  crossorigin)
-    if isProduction
-      //Global site tag (gtag.js) - Google Analytics
-      link(rel="preconnect" href="//googletagmanager.com"  crossorigin)
-      - var gaUrl = 'https://www.googletagmanager.com/gtag/js?id='+googleAnalyticsId
-      - var gaId = "'"+googleAnalyticsId+"'";
-      script(async='', src=gaUrl)
-      script.
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', #{gaId});
-      
-    if adsenseEnabled  
-      //adsense
-      script(data-ad-client=googleAdsenseId, async='', src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
-      script(async='', custom-element='amp-ad', src='https://cdn.ampproject.org/v0/amp-ad-0.1.js')
-
-    title= title
-   
-    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
-    meta(charset='utf-8')
-    meta(http-equiv='Cache-control', content=metaCache)
-    meta(name='theme-color', content='#009900')
-    meta(name='msapplication-square310x310logo', content=pageLogo)
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='author', content=author)
-    meta(name='language', content='es')
-    meta(name='keywords', content=keywords)
-    meta(name='robots', content='Index, Follow')
-    meta(property='og:locale', content='es_ES')
-    meta(property='og:type', content='article')
-    meta(property='og:site_name', content=siteName)
-    meta(property='article:publisher', content=publisher)
-    meta(property='article:author', content=author)
-    meta(name='title', content=title)
-    meta(name='description', content=description)
-    meta(property='og:title', content=title)
-    meta(property='og:description', content=description)
-    meta(property='og:url', content=linkToThisPage)
-    meta(property='og:image', content=metaImage)
-    meta(property='article:modified_time', content=updatedAt)
-    if isHomePage
-      script(async='async', defer='true', charset='UTF-8', type='application/ld+json').
-        {
-          "@context": "http://schema.org/",
-          "@type": "WebSite",
-          "url": "#{pageUrl}",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "#{pageUrl}/buscar?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-          },
-          "image": [
-            "#{pageImage}"
-          ],
-          "datePublished": "#{pageDatePublished}",
-          "dateModified": "#{pageDateModified}",
-          "author": {
-            "@type": "Organization",
-            "name": "#{pageOrganization}"
-          },
-          "publisher": {
-            "@type": "Organization",
-            "name": "#{pageOrganization}",
-            "logo": {
-              "@type": "ImageObject",
-                "url": "#{pageLogo}"
-            }
-          },
-          "description": "#{pageDescription}"
-        }
-    if isRecipePage
-      script(async='async', defer='true', charset='UTF-8', type='application/ld+json').
-        {
-            "@context": "http://schema.org/",
-            "@type": "#{pageType}",
-            "name": "#{pageName}",
-            "image": [
-              "#{pageImage}"
-            ],
-            "datePublished": "#{pageDatePublished}",
-            "dateModified": "#{pageDateModified}",
-            "description": "#{pageDescription}",
-            "keywords": "#{pageKeywords}",
-            "recipeIngredient": !{pageRecipeIngredients},
-            "recipeInstructions": !{pageRecipeInstructions},
-            "recipeCategory": "#{pageRecipeCategory}",
-            "author": {
-              "@type": "Organization",
-              "name": "#{pageOrganization}"
-            },
-            "prepTime":"#{pageRecipePrepTime}",
-            "cookTime":"#{pageRecipeCookTime}",
-            "totalTime":"#{pageRecipeTotalTime}",
-            "recipeCuisine":"#{pageRecipeCusine}",
-            "recipeYield":"#{pageRecipeYield}",
-            "video":"#{pageRecipeVideo}",
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "#{aggregateRating}",
-              "ratingCount": "#{ratingCount}"
-            }
-        }         
-    
-    link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", id="bootstrapCss" rel="preload", as="style", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
-    link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", id="fontawesomeCss", rel="preload", as="style", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
-    link(href='/stylesheets/style.css' id="stylesCss" rel='preload', as="style", type='text/css', )
-    link(rel="icon", sizes="192x192", href=pageLogo)
-    link(rel="apple-touch-icon" href=pageLogo)
-
-  body
-    // Main Navigation
-    header.mb-2
-      nav.navbar.navbar-expand-md.navbar-dark.bg-dark
-        a.navbar-brand(href=pageUrl)
-          strong.brand=siteName
-        button.navbar-toggler(type='button', onclick="trackEvent(this,'menu')", data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
-          span.navbar-toggler-icon
-        #navbarSupportedContent.collapse.navbar-collapse
-          ul.navbar-nav.mr-auto
-            li.nav-item.active
-              a.nav-link(href=pageUrl)
-                | Inicio 
-                span.sr-only (inicio)
-            li.nav-item
-              a.nav-link(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner') Facebook
-            li.nav-item
-              a.nav-link(href='/recetas/video-recetas') Video Recetas
-            li.nav-item
-              a.nav-link(href=pageUrl) Recetas
-            li.nav-item
-              a.nav-link(href='/recetas/celiacos') Celíacos
-      // sub nav bar  wit search and bell
-      nav.navbar.navbar-dark
-          #searchTopContainer
-            input#searchTop(name='search', type='text', title="Buscar receta",
-                  onclick="trackEvent(this,'search_top')"
-                  placeholder='Buscar una receta', onkeyup="searchTop(event)", 
-                  value=searchText).form-control
-          a(onclick="trackEvent(this,'bell')", data-toggle='collapse', data-target='#navbarSupportedContent2', aria-controls='navbarSupportedContent2', aria-expanded='false', aria-label='Toggle navigation')
-            i.fa.fa-bell.fa-2x
-            span.badge.badge-pill.badge-danger.bell-badge 3
-          #navbarSupportedContent2.collapse.navbar-collapse
-            .card.mt-2
-              .card-header.font-weight-bold Recetas más vistas
-              .card-body
-                each recipe in recipesMostVisited
-                    .card.border-0.mb-3(style="max-width: 540px;")
-                      .row.no-gutters
-                        .col-4(style="width: 390px;")
-                          - var img = recipe.thumbnail300
-                          img.lozad.card-img(data-src=img, alt='Imagen receta')
-                        .col-8
-                          .ml-3
-                            h5.card-title
-                              a(href=`${recipe.url}`, onclick=`trackEvent(this, 'most_visited_${recipe.id}');`, title="Ver receta").blue-link.font-weight-bold=recipe.title
-                            p.card-text
-                              | #{recipe.description}
-                
-    // END Main Navigation
-
-    //Toast for alert messages
-    #toast.alert.alert-success.alert-dismissible.fade.fixed-top.z-index-1(role='alert')
-      span#toastMessage Gracias!
-      button.close(type='button', onclick="hideAlert()", aria-label='Cerrar')
-        span(aria-hidden='true') ×
-
-    .container_fluid
-        // top search box
-        .row.no-gutters
-          .col-md-3
-          .col-md-6
-            .py-1.px-1.mt-1
+include head
+body
+  // Main Navigation
+  header.mb-2
+    nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+      a.navbar-brand(href=pageUrl)
+        strong.brand=siteName
+      button.navbar-toggler(type='button', onclick="trackEvent(this,'menu')", data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+      #navbarSupportedContent.collapse.navbar-collapse
+        ul.navbar-nav.mr-auto
+          li.nav-item.active
+            a.nav-link(href=pageUrl)
+              | Inicio 
+              span.sr-only (inicio)
+          li.nav-item
+            a.nav-link(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner') Facebook
+          li.nav-item
+            a.nav-link(href='/recetas/video-recetas') Video Recetas
+          li.nav-item
+            a.nav-link(href=pageUrl) Recetas
+          li.nav-item
+            a.nav-link(href='/recetas/celiacos') Celíacos
+    // sub nav bar  wit search and bell
+    nav.navbar.navbar-dark.border-bottom.bg-light
+        #searchTopContainer
+          input#searchTop(name='search', type='text', title="Buscar receta",
+                onclick="trackEvent(this,'search_top')"
+                placeholder='Buscar una receta', onkeyup="searchTop(event)", 
+                value=searchText).form-control
+        a(onclick="trackEvent(this,'bell')", data-toggle='collapse', data-target='#navbarSupportedContent2', aria-controls='navbarSupportedContent2', aria-expanded='false', aria-label='Toggle navigation')
+          i.fa.fa-bell.fa-2x
+          span.badge.badge-pill.badge-danger.bell-badge 3
+        #navbarSupportedContent2.collapse.navbar-collapse
+          .card.mt-2
+            .card-header.font-weight-bold Recetas más vistas
+            .card-body
+              each recipe in recipesMostVisited
+                  .card.border-0.mb-3(style="max-width: 540px;")
+                    .row.no-gutters
+                      .col-4(style="width: 390px;")
+                        - var img = recipe.thumbnail300
+                        img.lozad.card-img(data-src=img, alt='Imagen receta')
+                      .col-8
+                        .ml-3
+                          h5.card-title
+                            a(href=`${recipe.url}`, onclick=`trackEvent(this, 'most_visited_${recipe.id}');`, title="Ver receta").blue-link.font-weight-bold=recipe.title
+                          p.card-text
+                            | #{recipe.description}
               
-          .col-md-3
-        // content
-        .row.no-gutters
-          .col-md-3
-            //left
-          .col-md-6
-            .mt-1
-            block content
-            .text-center.mt-3
-              a(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner',  onclick=`trackEvent(this, 'click_facebook_banner');`)
-                img.lozad.img-fluid(data-src="https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,w_500,q_auto:low/v1577283800/resopia.com/facebook-fanpage.png", alt="facebook fna page image")
-            //related recipes
-            if displayMoreRecipes
-              .mt-4.border-top
-                h2.mx-1.pt-3 Más recetas
-                .row-no-gutters
-                  each recipe in recipesSpotlight
-                    .card.border-0.mb-3(style="max-width: 540px;")
-                      .row.no-gutters
-                        .col-4(style="width: 390px;")
-                          - var img = recipe.thumbnail300
-                          img.lozad.card-img(data-src=img, alt='Imagen receta')
-                        .col-8
-                          .ml-3
-                            h5.card-title
-                              a(href=`${recipe.url}`, onclick=`trackEvent(this, 'more_recipes_${recipe.id}');`, title="Ver receta").blue-link.font-weight-bold=recipe.title
-                            p.card-text
-                              | #{recipe.description}
-                            p.card-text
-                              small.text-muted=recipe.created_at_es
-                       
-          .col-md-3
-            //right column
-    // search bottom
-    .bg-primary
-      .container
-        .row
-          .col   
-            .search-section.px-2
-              input#searchBottom(name='searchBottom' type='text', title="Buscar receta"
-                      onclick="trackEvent(this,'search_bottom')"
-                      placeholder='Buscar receta', onkeyup="searchBottom(event)", 
-                      value=searchText).form-control.form-control 
-    //footer
-    footer.bg-dark.py-5.background-carbon-fibre
-      .container.py-2
-        .row.justify-content-center
-          div
-            span.text-white © #{currentYear} Copyright 
-            a(href='/', title="Go to home page")  
-              span.text-white=pageUrl
-           
-  //jquery and popper cannot be loaded async since is a dependency of bootstra.min.js
-  script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8' crossorigin='anonymous')
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
-  //lozad to load images in a lazy way. Must be loaded sync
-  script(src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js'  crossorigin='anonymous')
-  
-  //scripts that can be loaded async
-  script(async='', src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
-  script(async='', src='/javascripts/track.js')
-  script(async='', src='/javascripts/common.js')
-  
-  script(type='text/javascript').
-    $(document).ready(() => {
-      // to load images in a lazy way
-      // lazy loads elements with default selector as '.lozad'
-      const observer = lozad(); 
-      observer.observe();
-      console.info('lozad observing...');
-      
-      //load css styles after the page loaded
-      $('#bootstrapCss')[0].rel = 'stylesheet';
-      $('#fontawesomeCss')[0].rel = 'stylesheet';
-      $('#stylesCss')[0].rel = 'stylesheet';
-    });
+  // END Main Navigation
+
+  //Toast for alert messages
+  #toast.alert.alert-success.alert-dismissible.fade.fixed-top.z-index-1(role='alert')
+    span#toastMessage Gracias!
+    button.close(type='button', onclick="hideAlert()", aria-label='Cerrar')
+      span(aria-hidden='true') ×
+
+  .container_fluid
+      // top search box
+      .row.no-gutters
+        .col-md-3
+        .col-md-6
+          .py-1.px-1.mt-1
+            
+        .col-md-3
+      // content
+      .row.no-gutters
+        .col-md-3
+          //left
+        .col-md-6
+          .mt-1
+          block content
+          .text-center.mt-3
+            a(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner',  onclick=`trackEvent(this, 'click_facebook_banner');`)
+              img.lozad.img-fluid(data-src="https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,w_500,q_auto:low/v1577283800/resopia.com/facebook-fanpage.png", alt="facebook fna page image")
+          //related recipes
+          if displayMoreRecipes
+            .mt-4.border-top
+              h2.mx-1.pt-3 Más recetas
+              .row-no-gutters
+                each recipe in recipesSpotlight
+                  .card.border-0.mb-3(style="max-width: 540px;")
+                    .row.no-gutters
+                      .col-4(style="width: 390px;")
+                        - var img = recipe.thumbnail300
+                        img.lozad.card-img(data-src=img, alt='Imagen receta')
+                      .col-8
+                        .ml-3
+                          h5.card-title
+                            a(href=`${recipe.url}`, onclick=`trackEvent(this, 'more_recipes_${recipe.id}');`, title="Ver receta").blue-link.font-weight-bold=recipe.title
+                          p.card-text
+                            span.text-muted #{recipe.description}
+            .text-center.my-2 
+              a.btn.btn-primary.btn-lg.btn-block(href='/', onclick="trackEvent(this,'ver_mas_recetas')") Ver más recetas             
+                      
+        .col-md-3
+          //right column
+  // search bottom
+  .bg-light.border-top
+    .container
+      .row
+        .col   
+          .search-section.px-2
+            input#searchBottom(name='searchBottom' type='text', title="Buscar receta"
+                    onclick="trackEvent(this,'search_bottom')"
+                    placeholder='Buscar receta', onkeyup="searchBottom(event)", 
+                    value=searchText).form-control.form-control 
+  //footer
+  footer.bg-dark.py-5.background-carbon-fibre
+    .container.py-2
+      .row.justify-content-center
+        div
+          span.text-white © #{currentYear} Copyright 
+          a(href='/', title="Go to home page")  
+            span.text-white=pageUrl
+          
+include foot

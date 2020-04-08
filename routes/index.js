@@ -41,7 +41,8 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
 
     // titleforurl path param is for SEO purposes. It is ignored by the code
     const recipe = await daoRecipies.findById(recipeId, true);
-    const recipesSpotlight = await daoRecipies.findRecipesSpotlight();
+    // recipes spotlight in this case are related recipes
+    const recipesSpotlight = await daoRecipies.findRelatedRecipes(recipe);
     const recipesMostVisited = await daoRecipies.findRecipesMostVisited();
     const footerRecipes = await daoRecipies.findAll();
     // recipe.allow_edition = utils.allowEdition(req, recipe);
@@ -122,6 +123,46 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
   }
 });
 
+
+/**
+ * Renders the given recipe's image
+ */
+router.get('/imagen-receta/:recipeId/:imageName', async (req, res, next) => {
+  try {
+    const responseJson = responseHelper.getResponseJson(req);
+    log.info(`recipe ${req.params.recipeId} image name ${req.params.imageName}`);
+    const recipe = await daoRecipies.findById(req.params.recipeId);
+
+    if (!recipe) {
+      throw Error('Receta no encontrada');
+    }
+
+    const imageBase = process.env.RESOPIA_IMAGES_BASE_URL;
+
+    responseJson.image_url = imageBase + req.params.imageName;
+    responseJson.back_url = recipe.url;
+    responseJson.recipe_title = recipe.title;
+    responseJson.title = `Imagen de ${recipe.title} `;
+    responseJson.metaImage = responseJson.image_url;
+    responseJson.description = `Imagen de ${recipe.title}`;
+    responseJson.linkToThisPage = responseJson.image_url;
+    responseJson.isHomePage = false;
+    responseJson.recipesSpotlight = [];
+    responseJson.recipesMostVisited = [];
+    responseJson.footerRecipes = [];
+    responseJson.displayMoreRecipes = false;
+    responseJson.pageDatePublished = recipe.created_at;
+    responseJson.pageDateModified = recipe.updated_at;
+    responseJson.pageDescription = recipe.description;
+    responseJson.pageKeywords = 'receta,imagen';
+    responseJson.keywords = 'receta,imagen';
+
+    res.render('image-viewer', responseJson);
+  } catch (e) {
+    next(e);
+  }
+});
+
 router.get('/recetas/:tag', async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
@@ -137,8 +178,8 @@ router.get('/recetas/:tag', async (req, res, next) => {
     }
 
     responseJson.recipes = recipes;
-    responseJson.title = `Recetas ${req.params.tag} | resopia.com`;
-    responseJson.description = `Las mejores recetas de ${req.params.keyword} | resopia.com`;
+    responseJson.title = `Recetas de ${req.params.tag}`;
+    responseJson.description = `Las mejores recetas de ${req.params.keyword}`;
     responseJson.linkToThisPage = `${process.env.RESOPIA_BASE_URL}recetas/${req.params.tag}`;
     responseJson.isHomePage = false;
     responseJson.recipesSpotlight = recipesSpotlight;

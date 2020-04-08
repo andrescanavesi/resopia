@@ -28,7 +28,7 @@ async function importRecipes() {
   const promises = [];
   for (let i = 0; i < result.rows.length; i++) {
     const recipe = result.rows[i];
-    recipe.tags = [1];
+    recipe.tags = [1, 2, 5];
     log.info(JSON.stringify(recipe));
     promises.push(daoRecipes.create(recipe));
   }

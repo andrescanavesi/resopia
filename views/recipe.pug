@@ -3,27 +3,28 @@ extends layout
 block content
     h1.mx-1.display-3=recipe.title
     .d-flex.justify-content-between
-      .mx-1.text-muted=recipe.created_at_es
       //social icons for sharing
-      .mr-2
+      .ml-1
         a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl+'?utm_source=facebook&utm_medium=web&utm_campaign=recipe-detail',
           onclick="trackEvent(this,'social_facebook')")
-          i.fa.fa-facebook.icon-social.facebook-color
+          i.fa.fa-facebook.facebook-color.fa-2x
         a#pinterestShare(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl+'?utm_source=pinterest&utm_medium=web&utm_campaign=recipe-detail',
           onclick="trackEvent(this,'social_pinterest')").ml-3
-          i.fa.fa-pinterest.icon-social.pinterest-color
+          i.fa.fa-pinterest.pinterest-color.fa-2x
         a#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
           onclick="trackEvent(this,'social_twitter')").ml-3
-          i.fa.fa-twitter.icon-social.twitter-color
+          i.fa.fa-twitter.twitter-color.fa-2x
         a#whastappShare(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl+'?utm_source=whatsapp&utm_medium=web&utm_campaign=recipe-detail',
           onclick="trackEvent(this,'social_whatsapp')").ml-3
-          i.fa.fa-whatsapp.icon-social.whatsapp-color
-    
+          i.fa.fa-whatsapp.whatsapp-color.fa-2x
+      .mx-1.text-muted &nbsp;
     
     - var img = recipe.featured_image_url
     if isMobile
         - img = recipe.featured_image_url_mobile
-    img.lozad(data-src=img, alt='imagen receta', onclick=`trackEvent(this, 'recipe_image_primary_${recipe.id}');`).img-fluid
+    a(href=`/imagen-receta/${recipe.id}/${recipe.featured_image_name}`, 
+    onclick=`trackEvent(this, 'recipe_image_primary_${recipe.id}');`)
+      img.lozad.img-fluid(data-src=img, alt='imagen receta')
     .mx-1.mt-3
       span.text-muted=recipe.description
     //- div#giphyWrapper.mt-1.text-center
@@ -48,7 +49,8 @@ block content
     - var img = recipe.secondary_image_url
     if isMobile
         - img = recipe.secondary_image_url_mobile
-    img.lozad.mt-2(data-src=img, alt='imagen receta', onclick=`trackEvent(this, 'recipe_image_secondary_${recipe.id}');`).img-fluid
+    a(href=`/imagen-receta/${recipe.id}/${recipe.secondary_image_name}`, onclick=`trackEvent(this, 'recipe_image_secondary_${recipe.id}');`)
+      img.lozad.mt-2.img-fluid(data-src=img, alt='imagen receta')
     
     // Recipe steps
     div
@@ -64,6 +66,23 @@ block content
                 span.badge.badge-dark.mr-1.badge-steps=num
                 span= step
               i.fa.fa-check.text-light.ml-1
+        //bottom social icons
+        .d-flex.justify-content-between.mt-2
+          .mx-1.text-muted &nbsp;
+          .mr-2
+            a#facebookShare(data-pin-do='buttonFacebook', href=recipe.facebookSharingUrl+'?utm_source=facebook&utm_medium=web&utm_campaign=recipe-detail_bottom',
+              onclick="trackEvent(this,'social_facebook_bottom')")
+              i.fa.fa-facebook.facebook-color.fa-2x
+            a#pinterestShare(data-pin-do='buttonPin', href=recipe.pinterestSharingUrl+'?utm_source=pinterest&utm_medium=web&utm_campaign=recipe-detail_bottom',
+              onclick="trackEvent(this,'social_pinterest_bottom')").ml-3
+              i.fa.fa-pinterest.pinterest-color.fa-2x
+            a#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
+              onclick="trackEvent(this,'social_twitter_bottom')").ml-3
+              i.fa.fa-twitter.twitter-color.fa-2x
+            a#whastappShare(data-pin-do='buttonWhatsapp', href=recipe.whatsappSharingUrl+'?utm_source=whatsapp&utm_medium=web&utm_campaign=recipe-detail_bottom',
+              onclick="trackEvent(this,'social_whatsapp_bottom')").ml-3
+              i.fa.fa-whatsapp.whatsapp-color.fa-2x
+      
     // Recipe notes
     if recipe.has_notes
       .border.border-dark.rounded.mt-3.p-4.bg-light.mx-2

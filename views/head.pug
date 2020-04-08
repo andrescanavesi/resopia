@@ -1,0 +1,113 @@
+doctype html
+html(lang="es")
+  head
+    link(rel="preconnect" href="//stackpath.bootstrapcdn.com"  crossorigin)
+    if isProduction
+      //Global site tag (gtag.js) - Google Analytics
+      link(rel="preconnect" href="//googletagmanager.com"  crossorigin)
+      - var gaUrl = 'https://www.googletagmanager.com/gtag/js?id='+googleAnalyticsId
+      - var gaId = "'"+googleAnalyticsId+"'";
+      script(async='', src=gaUrl)
+      script.
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', #{gaId});
+      
+    if adsenseEnabled  
+      //adsense
+      script(data-ad-client=googleAdsenseId, async='', src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
+      script(async='', custom-element='amp-ad', src='https://cdn.ampproject.org/v0/amp-ad-0.1.js')
+
+    title= title
+   
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(charset='utf-8')
+    meta(http-equiv='Cache-control', content=metaCache)
+    meta(name='theme-color', content='#009900')
+    meta(name='msapplication-square310x310logo', content=pageLogo)
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='author', content=author)
+    meta(name='language', content='es')
+    meta(name='keywords', content=keywords)
+    meta(name='robots', content='Index, Follow')
+    meta(property='og:locale', content='es_ES')
+    meta(property='og:type', content='article')
+    meta(property='og:site_name', content=siteName)
+    meta(property='article:publisher', content=publisher)
+    meta(property='article:author', content=author)
+    meta(name='title', content=title)
+    meta(name='description', content=description)
+    meta(property='og:title', content=title)
+    meta(property='og:description', content=description)
+    meta(property='og:url', content=linkToThisPage)
+    meta(property='og:image', content=metaImage)
+    meta(property='article:modified_time', content=updatedAt)
+    if isHomePage
+      script(async='async', defer='true', charset='UTF-8', type='application/ld+json').
+        {
+          "@context": "http://schema.org/",
+          "@type": "WebSite",
+          "url": "#{pageUrl}",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "#{pageUrl}/buscar?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          },
+          "image": [
+            "#{pageImage}"
+          ],
+          "datePublished": "#{pageDatePublished}",
+          "dateModified": "#{pageDateModified}",
+          "author": {
+            "@type": "Organization",
+            "name": "#{pageOrganization}"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "#{pageOrganization}",
+            "logo": {
+              "@type": "ImageObject",
+                "url": "#{pageLogo}"
+            }
+          },
+          "description": "#{pageDescription}"
+        }
+    if isRecipePage
+      script(async='async', defer='true', charset='UTF-8', type='application/ld+json').
+        {
+            "@context": "http://schema.org/",
+            "@type": "#{pageType}",
+            "name": "#{pageName}",
+            "image": [
+              "#{pageImage}"
+            ],
+            "datePublished": "#{pageDatePublished}",
+            "dateModified": "#{pageDateModified}",
+            "description": "#{pageDescription}",
+            "keywords": "#{pageKeywords}",
+            "recipeIngredient": !{pageRecipeIngredients},
+            "recipeInstructions": !{pageRecipeInstructions},
+            "recipeCategory": "#{pageRecipeCategory}",
+            "author": {
+              "@type": "Organization",
+              "name": "#{pageOrganization}"
+            },
+            "prepTime":"#{pageRecipePrepTime}",
+            "cookTime":"#{pageRecipeCookTime}",
+            "totalTime":"#{pageRecipeTotalTime}",
+            "recipeCuisine":"#{pageRecipeCusine}",
+            "recipeYield":"#{pageRecipeYield}",
+            "video":"#{pageRecipeVideo}",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "#{aggregateRating}",
+              "ratingCount": "#{ratingCount}"
+            }
+        }         
+    
+    link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", id="bootstrapCss" rel="preload", as="style", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
+    link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", id="fontawesomeCss", rel="preload", as="style", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
+    link(href='/stylesheets/style.css' id="stylesCss" rel='preload', as="style", type='text/css', )
+    link(rel="icon", sizes="192x192", href=pageLogo)
+    link(rel="apple-touch-icon" href=pageLogo)

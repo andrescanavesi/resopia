@@ -209,7 +209,7 @@ async function findWithKeyword(tag) {
  * @param {boolean} ignoreActive true to find active true and false
  * @param {boolean} witchCache
  */
-module.exports.findById = async function (id, ignoreActive, witchCache) {
+module.exports.findById = async function (id, ignoreActive, witchCache = true) {
   if (!id) {
     throw Error('id param not defined');
   }
@@ -414,6 +414,36 @@ module.exports.deleteDummyData = async function () {
   const query = "DELETE FROM recipes WHERE title_seo = 'from-test'";
   const result = await dbHelper.query(query, [], false);
   log.info(result);
+};
+
+/**
+ * Related criteria is a full-text search over recipe's tags names
+ * @param {object} recipe
+ * @return {[]} array with related recipes. If not related recipes it filess up with latest recipes
+ */
+module.exports.findRelatedRecipes = async function (recipe) {
+  if (this.searchIndex.length === 0) {
+    await this.buildSearchIndex();
+  }
+  const phrase = recipe.tags_names_csv;
+  log.info(`Searching related recipes to recipe ${recipe.id} with the tags: ${recipe.tags_names_csv}`);
+  // search using flexsearch. It will return a list of IDs we used as keys during indexing
+  const resultIds = await this.searchIndex.search({
+    query: phrase,
+    limit: 6,
+  });
+  let result = [];
+  if (resultIds.length > 0) {
+    result = await this.findByIds(resultIds);
+    log.info(`related recipes found for recipe ${recipe.id}: ${result.length}`);
+  }
+
+  if (result.length < 5) {
+    log.info('not enought related recipes, result will filled up with more recipes');
+    const moreRecipes = await findWithLimit(5);
+    result = result.concat(moreRecipes);
+  }
+  return result;
 };
 
 module.exports.findByIds = findByIds;

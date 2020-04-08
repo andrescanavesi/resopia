@@ -3,22 +3,20 @@ extends layout
 block content
   each recipe in recipes
     div.mt-3.mb-2
-      h1.px-2.py-1
-        a(href=`${recipe.url}`, title="Go to this recipe detail").blue-link.display-3=recipe.title
+      h1.px-2.py-1.mb-0.border.rounded-top
+        a(href=`${recipe.url}`, title="Go to this recipe detail", 
+        onclick="trackEvent(this,'home_recipe_title')").blue-link.display-4=recipe.title
       - var img = recipe.featured_image_url
       if isMobile
         - img = recipe.featured_image_url_mobile
-      img.lozad.img-fluid(data-src=img, alt='imagen receta')
+      img.lozad.img-fluid(data-src=img, alt='imagen receta', 
+      onclick=`trackEvent(this,'home_recipe_image_click')`)
       div.px-2.py-1.border.rounded-bottom
         div
           .text-muted= recipe.description
-        if !isMobile
-          h2.my-2 Ingredientes
-          ul.list-group.list-group-flush
-            each ingr in recipe.ingredients_array
-              li(onclick="activateElem(this)").list-group-item= ingr
         p.text-right.mt-2.lead
-          a(href=`${recipe.url}`, title="Go to the recipe detail") Abrir &#8594;    
+          a(href=`${recipe.url}`, title="Go to the recipe detail",
+          onclick="trackEvent(this,'home_recipe_abrir')") Abrir &#8594;    
               
               
 
