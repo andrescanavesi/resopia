@@ -410,6 +410,12 @@ module.exports.findRelated = async function (text) {
   return results;
 };
 
+module.exports.deleteDummyData = async function () {
+  const query = "DELETE FROM recipes WHERE title_seo = 'from-test'";
+  const result = await dbHelper.query(query, [], false);
+  log.info(result);
+};
+
 module.exports.findByIds = findByIds;
 module.exports.findWithKeyword = findWithKeyword;
 module.exports.findRecipesSpotlight = findRecipesSpotlight;
