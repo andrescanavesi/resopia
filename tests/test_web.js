@@ -61,7 +61,7 @@ describe('Test Web', function () {
 
   it('should display a recipe', (done) => {
     chai.request(app)
-      .get('/receta/41/from-test')
+      .get('/receta/285/from-test')
       .end((err, res) => {
         assertNotError(err, res);
         expect(res).to.have.status(200);

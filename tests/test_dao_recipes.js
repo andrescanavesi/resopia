@@ -19,7 +19,11 @@ chai.should();
 describe('Test at Dao level', function () {
   this.timeout(5 * 1000);
 
-  it('should create a recipe', async () => {
+  this.afterAll(async () => {
+    await daoRecipes.deleteDummyData();
+  });
+
+  it('should create and update a recipe', async () => {
     const title = `from test create ${randomstring.generate(5)}`;
     const recipe = {
       title,
@@ -57,24 +61,32 @@ describe('Test at Dao level', function () {
     assert.isAtLeast(recipeId, 1);
     const recipeCreated = await daoRecipes.findById(recipeId);
     assert.equal(title, recipeCreated.title);
-  });
 
-  it('should update a recipe', async () => {
-    const id = 4;
-    const recipe = await daoRecipes.findById(id);
-    if (!recipe) {
-      assert.fail(`Recipe with id ${id} does not exist`);
-    }
+    // test update
     const newTitle = `from test ${randomstring.generate(5)}`;
-    recipe.title = newTitle;
-    await daoRecipes.update(recipe);
+    recipeCreated.title = newTitle;
+    await daoRecipes.update(recipeCreated);
 
-    const recipeUpdated = await daoRecipes.findById(id);
+    const recipeUpdated = await daoRecipes.findById(recipeId);
     assert.equal(newTitle, recipeUpdated.title);
   });
 
+  // it('should update a recipe', async () => {
+  //   const id = 4;
+  //   const recipe = await daoRecipes.findById(id);
+  //   if (!recipe) {
+  //     assert.fail(`Recipe with id ${id} does not exist`);
+  //   }
+  //   const newTitle = `from test ${randomstring.generate(5)}`;
+  //   recipe.title = newTitle;
+  //   await daoRecipes.update(recipe);
+
+  //   const recipeUpdated = await daoRecipes.findById(id);
+  //   assert.equal(newTitle, recipeUpdated.title);
+  // });
+
   it('should get related recipes', async () => {
-    const keyword = 'easy';
+    const keyword = 'chocolate';
     const results = await daoRecipes.findRelated(keyword);
 
     assert.isNotNull(results);
