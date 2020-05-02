@@ -6,6 +6,7 @@ const FlexSearch = require('flexsearch');
 const dbHelper = require('../utils/db_helper');
 const daoTags = require('./dao_tags');
 const { Logger } = require('../utils/Logger');
+const utils = require('../utils/utils');
 
 const log = new Logger('dao_recipes');
 
@@ -379,7 +380,7 @@ module.exports.buildSearchIndex = async function () {
   const size = allRecipes.length;
   for (let i = 0; i < size; i++) {
     // we might concatenate the fields we want for our content
-    const content = `${allRecipes[i].title} ${allRecipes[i].description}`;
+    const content = `${allRecipes[i].title} ${allRecipes[i].description} ${allRecipes[i].tags_names_csv}`;
     const key = parseInt(allRecipes[i].id);
     searchIndex.add(key, content);
   }
@@ -387,6 +388,9 @@ module.exports.buildSearchIndex = async function () {
   // console.timeEnd('buildIndexTook');
 };
 
+/**
+ * @param {string} text to search
+ */
 module.exports.findRelated = async function (text) {
   log.info(`look for related results with: ${text}`);
   if (this.searchIndex.length === 0) {
@@ -407,6 +411,12 @@ module.exports.findRelated = async function (text) {
     results = await this.findByIds(resultIds);
   }
 
+  if (results.length < 5) {
+    log.info('not enought related recipes, result will filled up with more recipes');
+    const moreRecipes = await findWithLimit(5);
+    results = results.concat(moreRecipes);
+  }
+
   return results;
 };
 
@@ -416,34 +426,40 @@ module.exports.deleteDummyData = async function () {
   log.info(result);
 };
 
-/**
- * Related criteria is a full-text search over recipe's tags names
- * @param {object} recipe
- * @return {[]} array with related recipes. If not related recipes it filess up with latest recipes
- */
-module.exports.findRelatedRecipes = async function (recipe) {
-  if (this.searchIndex.length === 0) {
-    await this.buildSearchIndex();
-  }
-  const phrase = recipe.tags_names_csv;
-  log.info(`Searching related recipes to recipe ${recipe.id} with the tags: ${recipe.tags_names_csv}`);
-  // search using flexsearch. It will return a list of IDs we used as keys during indexing
-  const resultIds = await this.searchIndex.search({
-    query: phrase,
-    limit: 6,
-  });
-  let result = [];
-  if (resultIds.length > 0) {
-    result = await this.findByIds(resultIds);
-    log.info(`related recipes found for recipe ${recipe.id}: ${result.length}`);
-  }
+// /**
+//  * Related criteria is a full-text search over recipe's tags names
+//  * @param {object} recipe
+//  * @return {[]} array with related recipes. If not related recipes it filess up with latest recipes
+//  */
+// module.exports.findRelatedRecipes = async function (recipe) {
+//   if (this.searchIndex.length === 0) {
+//     await this.buildSearchIndex();
+//   }
+//   const phrase = recipe.tags_names_csv;
+//   log.info(`Searching related recipes to recipe ${recipe.id} with the tags: ${recipe.tags_names_csv}`);
+//   // search using flexsearch. It will return a list of IDs we used as keys during indexing
+//   const resultIds = await this.searchIndex.search({
+//     query: phrase,
+//     limit: 6,
+//   });
+//   let result = [];
+//   if (resultIds.length > 0) {
+//     result = await this.findByIds(resultIds);
+//     log.info(`related recipes found for recipe ${recipe.id}: ${result.length}`);
+//   }
 
-  if (result.length < 5) {
-    log.info('not enought related recipes, result will filled up with more recipes');
-    const moreRecipes = await findWithLimit(5);
-    result = result.concat(moreRecipes);
-  }
-  return result;
+//   if (result.length < 5) {
+//     log.info('not enought related recipes, result will filled up with more recipes');
+//     const moreRecipes = await findWithLimit(5);
+//     result = result.concat(moreRecipes);
+//   }
+//   return result;
+// };
+
+module.exports.findRandom = async function (limit) {
+  // this collection is cached, that's we take 200 records and then shuffle
+  const all = await this.findWithKeyword(200);
+  return utils.shuffle(all).subarray(0, limit - 1);
 };
 
 module.exports.findByIds = findByIds;
