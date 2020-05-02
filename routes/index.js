@@ -42,7 +42,7 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     // titleforurl path param is for SEO purposes. It is ignored by the code
     const recipe = await daoRecipies.findById(recipeId, true);
     // recipes spotlight in this case are related recipes
-    const recipesSpotlight = await daoRecipies.findRelatedRecipes(recipe);
+    const recipesSpotlight = await daoRecipies.findRelated(recipe.tags_names_csv);
     const recipesMostVisited = await daoRecipies.findRecipesMostVisited();
     const footerRecipes = await daoRecipies.findAll();
     // recipe.allow_edition = utils.allowEdition(req, recipe);
@@ -209,21 +209,22 @@ router.get('/buscar', async (req, res, next) => {
       await daoRecipies.buildSearchIndex();
     }
 
-    // search using flexsearch. It will return a list of IDs we used as keys during indexing
-    const resultIds = await daoRecipies.searchIndex.search({
-      query: phrase,
-      limit: 15,
-      suggest: true, // When suggestion is enabled all results will be filled up (until limit, default 1000) with similar matches ordered by relevance.
-    });
+    // // search using flexsearch. It will return a list of IDs we used as keys during indexing
+    // const resultIds = await daoRecipies.searchIndex.search({
+    //   query: phrase,
+    //   limit: 15,
+    //   suggest: true, // When suggestion is enabled all results will be filled up (until limit, default 1000) with similar matches ordered by relevance.
+    // });
 
-    log.info(`results found for '${phrase}': ${resultIds.length}`);
-    let p1;
-    if (resultIds.length === 0) {
-      p1 = daoRecipies.findRecipesSpotlight();
-    } else {
-      p1 = daoRecipies.findByIds(resultIds);
-    }
+    // log.info(`results found for '${phrase}': ${resultIds.length}`);
+    // let p1;
+    // if (resultIds.length === 0) {
+    //   p1 = daoRecipies.findRecipesSpotlight();
+    // } else {
+    //   p1 = daoRecipies.findByIds(resultIds);
+    // }
 
+    const p1 = daoRecipies.findRelated(phrase);
     const p2 = daoRecipies.findRecipesSpotlight();
     const p3 = daoRecipies.findAll();
     const p4 = daoRecipies.findRecipesMostVisited();
