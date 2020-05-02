@@ -181,7 +181,8 @@ async function findRecipesSpotlight() {
 
 async function findRecipesMostVisited() {
   if (mostVisitedRecipes.length === 0) {
-    mostVisitedRecipes = findWithLimit(5);
+    // mostVisitedRecipes = findWithLimit(5);
+    mostVisitedRecipes = this.findRandom(5);
   }
   return mostVisitedRecipes;
 }
@@ -458,8 +459,9 @@ module.exports.deleteDummyData = async function () {
 
 module.exports.findRandom = async function (limit) {
   // this collection is cached, that's we take 200 records and then shuffle
-  const all = await this.findWithKeyword(200);
-  return utils.shuffle(all).subarray(0, limit - 1);
+  const all = await findWithLimit(200);
+  const shuff = utils.shuffle(all);
+  return shuff.slice(0, limit - 1);
 };
 
 module.exports.findByIds = findByIds;
