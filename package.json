@@ -58,7 +58,7 @@
         "eslint-config-airbnb-base": "^14.0.0",
         "eslint-plugin-import": "^2.20.2",
         "mocha": "^7.1.2",
-        "mochawesome": "^4.1.0",
+        "mochawesome": "^6.1.1",
         "nodemon": "^2.0.2",
         "nyc": "^15.0.0",
         "randomstring": "^1.1.5"
