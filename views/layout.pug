@@ -77,7 +77,7 @@ body
           //related recipes
           if displayMoreRecipes
             .mt-4.border-top
-              h2.mx-1.pt-3 Más recetas
+              h2.mx-1.pt-3=wordMoreRecipes
               .row-no-gutters
                 each recipe in recipesSpotlight
                   .card.border-0.mb-3(style="max-width: 540px;")
@@ -92,7 +92,7 @@ body
                           p.card-text
                             span.text-muted #{recipe.description}
             .text-center.my-2 
-              a.btn.btn-primary.btn-lg.btn-block(href='/', onclick="trackEvent(this,'ver_mas_recetas')") Ver más recetas             
+              a.btn.btn-primary.btn-lg.btn-block(href='/', onclick="trackEvent(this,'ver_mas_recetas')")=wordSeeMoreRecipes
                       
         .col-md-3
           //right column

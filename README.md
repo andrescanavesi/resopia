@@ -45,6 +45,7 @@ export RESOPIA_WORD_RECIPE_TIPS="Tips para preparar esta receta"
 export RESOPIA_WORD_RECIPE_VIDEO="Video receta"
 export RESOPIA_WORD_OPEN"Abrir"
 export RESOPIA_WORD_MOST_VISITED_RECIPES"Recetas más vistas"
+export RESOPIA_WORD_SEE_MORE_RECIPES="Ver más recetas"
 
 ```
 

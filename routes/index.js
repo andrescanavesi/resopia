@@ -97,34 +97,19 @@ router.get(`/${recipeWord}/:id/:titleforurl`, async (req, res, next) => {
     responseJson.aggregateRating = recipe.aggregate_rating;
     responseJson.ratingCount = recipe.rating_count;
 
-    // for now it's a static collection
-    const relatedSearches = [{
-      title: 'Receta de faina con masa licuada',
-      keyword: 'faina',
-      keyword_seo: 'faina',
-    },
-    {
-      title: 'Como hacer scones de queso',
-      keyword: 'scones',
-      keyword_seo: 'scones',
-    },
-    {
-      title: 'Receta de torta de naranja',
-      keyword: 'torta de naranja',
-      keyword_seo: 'torta_de_naranja',
-    },
-    {
-      title: 'Como hacer tallarines caseros',
-      keyword: 'tallarines caseros',
-      keyword_seo: 'tallarines_caseros',
-    },
-    {
-      title: 'Receta de torta de vainilla',
-      keyword: 'torta de vainilla',
-      keyword_seo: 'torta_de_vainilla',
-    }];
-    responseJson.relatedSearches = relatedSearches;
+    const relatedSearches = [];
+    const defaultTag = responseJson.lang === 'es' ? 'facil' : 'easy';
+    const relatedAux = recipesSpotlight.slice(0, 5);
+    relatedAux.forEach((element) => {
+      const related = {
+        title: element.title,
+        keyword: defaultTag,
+        keyword_seo: defaultTag,
+      };
 
+      relatedSearches.push(related);
+    });
+    responseJson.relatedSearches = relatedSearches;
     res.render('recipe', responseJson);
   } catch (e) {
     next(e);
