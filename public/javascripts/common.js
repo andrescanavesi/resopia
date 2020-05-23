@@ -3,18 +3,18 @@
  *
  * @param {*} event
  */
-function searchBottom(event) {
+function searchBottom(event, wordSearch = 'buscar') {
   const element = document.getElementById('searchBottom');
-  search(event, element);
+  search(event, element, wordSearch);
 }
 
 /**
  *
  * @param {*} event
  */
-function searchTop(event) {
+function searchTop(event, wordSearch = 'buscar') {
   const element = document.getElementById('searchTop');
-  search(event, element);
+  search(event, element, wordSearch);
 }
 
 /**
@@ -22,12 +22,12 @@ function searchTop(event) {
  * @param {*} event
  * @param {*} element
  */
-function search(event, element) {
+function search(event, element, wordSearch = 'buscar') {
   if (event.keyCode === 13) {
     // listen to 'enter' key
     const phrase = element.value;
     if (phrase.length > 0) {
-      window.location.href = `/buscar?q=${phrase}`;
+      window.location.href = `/${wordSearch}?q=${phrase}`;
     } else {
       window.location.href = '/';
     }

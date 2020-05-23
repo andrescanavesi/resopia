@@ -24,9 +24,9 @@ body
     // sub nav bar  wit search and bell
     nav.navbar.navbar-dark.border-bottom.bg-light
         #searchTopContainer
-          input#searchTop(name='search', type='text', title="Buscar receta",
+          input#searchTop(name='search', type='text', title=`${wordSearch} ${wordRecipe}`,
                 onclick="trackEvent(this,'search_top')"
-                placeholder=`${wordSearch}`, onkeyup="searchTop(event)", 
+                placeholder=`${wordSearch} ${wordRecipe}`, onkeyup=`searchTop(event, '${wordSearch}')`, 
                 value=searchText).form-control
         a(onclick="trackEvent(this,'bell')", data-toggle='collapse', data-target='#navbarSupportedContent2', aria-controls='navbarSupportedContent2', aria-expanded='false', aria-label='Toggle navigation')
           i.fa.fa-bell.fa-2x
@@ -104,7 +104,7 @@ body
           .search-section.px-2
             input#searchBottom(name='searchBottom' type='text', title="Buscar receta"
                     onclick="trackEvent(this,'search_bottom')"
-                    placeholder='Buscar receta', onkeyup="searchBottom(event)", 
+                    placeholder='Buscar receta',  onkeyup=`searchBottom(event, '${wordSearch}')`, 
                     value=searchText).form-control.form-control 
   //footer
   footer.bg-dark.py-5.background-carbon-fibre
