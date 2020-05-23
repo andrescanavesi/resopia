@@ -43,6 +43,7 @@ export RESOPIA_WORD_RELATED_SEARCHES="Búsquedas relacionadas con esta receta"
 export RESOPIA_WORD_RATE_TITLE="Dinos que piensas de esta receta"
 export RESOPIA_WORD_RECIPE_TIPS="Tips para preparar esta receta"
 export RESOPIA_WORD_RECIPE_VIDEO="Video receta"
+export RESOPIA_WORD_OPEN"Abrir"
 
 ```
 

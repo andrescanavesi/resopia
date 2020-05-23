@@ -100,7 +100,9 @@ function convertRecipe(row) {
   recipe.updated_at = moment(row.updated_at, enFormat);
   recipe.updated_at = recipe.updated_at.format(enFormat);
 
-  recipe.url = `${process.env.RESOPIA_BASE_URL}/receta/${recipe.id}/${recipe.title_seo}`;
+  const recipeWord = process.env.RESOPIA_WORD_RECIPE || 'receta';
+
+  recipe.url = `${process.env.RESOPIA_BASE_URL}/${recipeWord}/${recipe.id}/${recipe.title_seo}`;
   recipe.active = row.active;
   recipe.notes = row.notes;
   recipe.has_notes = recipe.notes !== null;

@@ -66,6 +66,9 @@ module.exports.getResponseJson = function (req) {
   responseJson.wordRateTitle = process.env.RESOPIA_WORD_RATE_TITLE || 'Dinos que piensas de esta receta';
   responseJson.wordRecipeTips = process.env.RESOPIA_WORD_RECIPE_TIPS || 'Tips para preparar esta receta';
   responseJson.wordRecipeVideo = process.env.RESOPIA_WORD_RECIPE_VIDEO || 'Video receta';
+  responseJson.wordRecipe = process.env.RESOPIA_WORD_RECIPE || 'recetas';
+  responseJson.wordRecipes = process.env.RESOPIA_WORD_RECIPES || 'recetas';
+  responseJson.wordOpen = process.env.RESOPIA_WORD_OPEN || 'Abrir';
 
   return responseJson;
 };
