@@ -30,7 +30,8 @@ CREATE TABLE recipes (
     notes character varying(500),
     youtube_video_id character varying(60),
     tweets integer,
-    aggregate_rating decimal
+    aggregate_rating numeric,
+    rating_count integer
 );
 
 ALTER TABLE "public"."recipes" ADD COLUMN "aggregate_rating" decimal;
