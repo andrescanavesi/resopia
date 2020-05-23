@@ -112,7 +112,7 @@ block content
       .d-flex.justify-content-center.py-4
         each tag in recipe.tags
           span.ml-1
-            a(href=`/recetas/${tag.name_seo}`, onclick=`trackEvent(this, 'tag_click_${tag.name_seo}');`, title="Ver mas recetas de esta categoría").badge.badge-pill.badge-info.py-2.px-3
+            a(href=`/${wordRecipes}/${tag.name_seo}`, onclick=`trackEvent(this, 'tag_click_${tag.name_seo}');`, title="Ver mas recetas de esta categoría").badge.badge-pill.badge-info.py-2.px-3
               span=tag.name
     
     // related searches
@@ -120,5 +120,5 @@ block content
       .card-header.font-weight-bold=wordRelatedSearches
       .list-group
       each search in relatedSearches
-        a.list-group-item.list-group-item-action.blue-link(href=`/buscar?q=${search.keyword}`, onclick=`trackEvent(this, 'related_search_${search.keyword_seo}');`, title="Ver mas recetas relacionadas")
+        a.list-group-item.list-group-item-action.blue-link(href=`/${wordSearch}?q=${search.keyword}`, onclick=`trackEvent(this, 'related_search_${search.keyword_seo}');`, title="Ver mas recetas relacionadas")
             span=search.title

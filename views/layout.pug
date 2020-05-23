@@ -26,14 +26,14 @@ body
         #searchTopContainer
           input#searchTop(name='search', type='text', title="Buscar receta",
                 onclick="trackEvent(this,'search_top')"
-                placeholder='Buscar una receta', onkeyup="searchTop(event)", 
+                placeholder=`${wordSearch}`, onkeyup="searchTop(event)", 
                 value=searchText).form-control
         a(onclick="trackEvent(this,'bell')", data-toggle='collapse', data-target='#navbarSupportedContent2', aria-controls='navbarSupportedContent2', aria-expanded='false', aria-label='Toggle navigation')
           i.fa.fa-bell.fa-2x
           span.badge.badge-pill.badge-danger.bell-badge 3
         #navbarSupportedContent2.collapse.navbar-collapse
           .card.mt-2
-            .card-header.font-weight-bold Recetas más vistas
+            .card-header.font-weight-bold=wordMostVisitedRecipes
             .card-body
               each recipe in recipesMostVisited
                   .card.border-0.mb-3(style="max-width: 540px;")
