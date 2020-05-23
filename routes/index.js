@@ -7,6 +7,14 @@ const utils = require('../utils/utils');
 const router = express.Router();
 const log = new Logger('route_index');
 
+const recipeWord = process.env.RESOPIA_WORD_RECIPE || 'receta';
+const recipesWord = process.env.RESOPIA_WORD_RECIPES || 'recetas';
+const recipeImageWord = process.env.RESOPIA_WORD_RECIPE_IMAGE || 'imagen-receta';
+const recipesBestOfWord = process.env.RESOPIA_WORD_RECIPE_BEST_OF || 'Las mejores recetas de';
+const recipesOfWord = process.env.RESOPIA_WORD_RECIPE_OF || 'Recetas de';
+const searchWord = process.env.RESOPIA_WORD_SEARCH || 'buscar';
+const withWord = process.env.RESOPIA_WORD_WITH || 'con';
+
 router.get('/', async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
@@ -32,7 +40,7 @@ router.get('/', async (req, res, next) => {
 /**
  * Renders the detail of a given recipe by id
  */
-router.get('/receta/:id/:titleforurl', async (req, res, next) => {
+router.get(`/${recipeWord}/:id/:titleforurl`, async (req, res, next) => {
   try {
     const recipeId = req.params.id;
     log.info(`View recipe: ${req.params.id}`);
@@ -47,7 +55,7 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     const footerRecipes = await daoRecipies.findAll();
     // recipe.allow_edition = utils.allowEdition(req, recipe);
     recipe.allow_edition = responseJson.isUserAuthenticated;
-    responseJson.title = `Receta de ${recipe.title}`;
+    responseJson.title = `${recipesOfWord} ${recipe.title}`;
     responseJson.recipe = recipe;
     responseJson.createdAt = recipe.created_at;
     responseJson.updatedAt = recipe.updated_at;
@@ -63,12 +71,12 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
 
     // structured data for SEO
     responseJson.pageType = 'recipe';
-    responseJson.pageName = `Receta de ${recipe.title}`;
+    responseJson.pageName = `${recipesOfWord} ${recipe.title}`;
     responseJson.pageImage = recipe.featured_image_url;
     responseJson.pageDatePublished = recipe.created_at;
     responseJson.pageDateModified = recipe.updated_at;
     responseJson.pageDescription = recipe.description;
-    responseJson.pageKeywords = `receta,${recipe.tags_names_csv}`;
+    responseJson.pageKeywords = `${recipeWord},${recipe.tags_names_csv}`;
     responseJson.pageRecipeIngredients = JSON.stringify(recipe.ingredients);
     const instructions = [];
     for (let i = 0; i < recipe.steps_array.length; i++) {
@@ -127,14 +135,14 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
 /**
  * Renders the given recipe's image
  */
-router.get('/imagen-receta/:recipeId/:imageName', async (req, res, next) => {
+router.get(`/${recipeImageWord}/:recipeId/:imageName`, async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
     log.info(`recipe ${req.params.recipeId} image name ${req.params.imageName}`);
     const recipe = await daoRecipies.findById(req.params.recipeId);
 
     if (!recipe) {
-      throw Error('Receta no encontrada');
+      throw Error('Recipe not found');
     }
 
     const imageBase = process.env.RESOPIA_IMAGES_BASE_URL;
@@ -154,8 +162,8 @@ router.get('/imagen-receta/:recipeId/:imageName', async (req, res, next) => {
     responseJson.pageDatePublished = recipe.created_at;
     responseJson.pageDateModified = recipe.updated_at;
     responseJson.pageDescription = recipe.description;
-    responseJson.pageKeywords = 'receta,imagen';
-    responseJson.keywords = 'receta,imagen';
+    responseJson.pageKeywords = `${recipeWord},imagen`;
+    responseJson.keywords = `${recipeWord},imagen`;
 
     res.render('image-viewer', responseJson);
   } catch (e) {
@@ -163,7 +171,7 @@ router.get('/imagen-receta/:recipeId/:imageName', async (req, res, next) => {
   }
 });
 
-router.get('/recetas/:tag', async (req, res, next) => {
+router.get(`/${recipesWord}/:tag`, async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
     responseJson.displayMoreRecipes = false;
@@ -178,9 +186,9 @@ router.get('/recetas/:tag', async (req, res, next) => {
     }
 
     responseJson.recipes = recipes;
-    responseJson.title = `Recetas de ${req.params.tag}`;
-    responseJson.description = `Las mejores recetas de ${req.params.keyword}`;
-    responseJson.linkToThisPage = `${process.env.RESOPIA_BASE_URL}recetas/${req.params.tag}`;
+    responseJson.title = `${recipesOfWord} ${req.params.tag}`;
+    responseJson.description = `${recipesBestOfWord} ${req.params.keyword}`;
+    responseJson.linkToThisPage = `${process.env.RESOPIA_BASE_URL}${recipesWord}/${req.params.tag}`;
     responseJson.isHomePage = false;
     responseJson.recipesSpotlight = recipesSpotlight;
     responseJson.recipesMostVisited = recipesMostVisited;
@@ -194,7 +202,7 @@ router.get('/recetas/:tag', async (req, res, next) => {
 });
 
 
-router.get('/buscar', async (req, res, next) => {
+router.get(`/${searchWord}`, async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
     responseJson.displayMoreRecipes = false;
@@ -269,29 +277,29 @@ router.get('/ads.txt', (req, res, next) => {
   }
 });
 
-router.get('/buscar/:text', (req, res, next) => {
+router.get(`/${searchWord}/:text`, (req, res, next) => {
   try {
     // for recetas-city.com support
-    res.redirect(`/buscar?q=${req.params.text}`);
+    res.redirect(`/${searchWord}?q=${req.params.text}`);
   } catch (e) {
     next(e);
   }
 });
 
-router.get('/recetas/con/:ingredient', (req, res, next) => {
+router.get(`/${recipesWord}/${withWord}/:ingredient`, (req, res, next) => {
   try {
     // for recetas-city.com support
     // we redirect to a tags page (we transform the ingredient from url to a tag)
-    res.redirect(`/recetas/${req.params.ingredient}`);
+    res.redirect(`/${recipesWord}/${req.params.ingredient}`);
   } catch (e) {
     next(e);
   }
 });
 
-router.get('/recetas/keyword/:tag', (req, res, next) => {
+router.get(`/${recipesWord}/keyword/:tag`, (req, res, next) => {
   try {
     // for recetas-city.com support
-    res.redirect(`/recetas/${req.params.tag}`);
+    res.redirect(`/${recipesWord}/${req.params.tag}`);
   } catch (e) {
     next(e);
   }

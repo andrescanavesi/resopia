@@ -58,5 +58,14 @@ module.exports.getResponseJson = function (req) {
   responseJson.lang = process.env.RESOPIA_LANG || 'es';
   responseJson.locale = process.env.RESOPIA_LOCALE || 'es_ES';
 
+  responseJson.wordIngredients = process.env.RESOPIA_WORD_INGREDIENTS || 'Ingredientes';
+  responseJson.wordSteps = process.env.RESOPIA_WORD_STEPS || 'Elaboración';
+
+  responseJson.wordMoreRecipes = process.env.RESOPIA_WORD_MORE_RECIPES || 'Más recetas';
+  responseJson.wordRelatedSearches = process.env.RESOPIA_WORD_RELATED_SEARCHES || 'Búsquedas relacionadas con esta receta';
+  responseJson.wordRateTitle = process.env.RESOPIA_WORD_RATE_TITLE || 'Dinos que piensas de esta receta';
+  responseJson.wordRecipeTips = process.env.RESOPIA_WORD_RECIPE_TIPS || 'Tips para preparar esta receta';
+  responseJson.wordRecipeVideo = process.env.RESOPIA_WORD_RECIPE_VIDEO || 'Video receta';
+
   return responseJson;
 };

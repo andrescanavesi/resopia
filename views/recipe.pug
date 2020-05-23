@@ -34,7 +34,7 @@ block content
 
     // Ingredients
     div
-      h2.mx-1.mt-3.pt-2.display-4 Ingredientes
+      h2.mx-1.mt-3.pt-2.display-4=wordIngredients
       ul.list-group
         each ingr in recipe.ingredients_array
           li.list-group-item.d-flex.justify-content-between.align-items-center(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)")= ingr
@@ -54,7 +54,7 @@ block content
     
     // Recipe steps
     div
-      h2.mx-1.pt-2.display-4 Elaboración 
+      h2.mx-1.pt-2.display-4=wordSteps 
       i.fa.fa-clock-o.ml-1
       span.ml-2=recipe.total_time
       #steps
@@ -86,12 +86,12 @@ block content
     // Recipe notes
     if recipe.has_notes
       .border.border-dark.rounded.mt-3.p-4.bg-light.mx-2
-        h3 Tips para preparar esta receta
+        h3=wordRecipeTips
         span.pl-2=recipe.notes
     
     // Recipe star votes
     .mt-1.p-4.mx-2.text-center.h3
-      div.mr-2.h4 Dinos que piensas de esta receta
+      div.mr-2.h4=wordRateTitle
       span#rating1.fa.fa-star(onclick=`rateRecipe(this,1, ${recipe.id});`)
       span#rating2.fa.fa-star.ml-1(onclick=`rateRecipe(this,2, ${recipe.id});`)
       span#rating3.fa.fa-star.ml-1(onclick=`rateRecipe(this,3, ${recipe.id});`)
@@ -100,7 +100,7 @@ block content
     
     // Recipe video
     if recipe.has_youtube_video
-      h2.mx-1.mt-3 Video receta
+      h2.mx-1.mt-3=wordRecipeVideo
       - var youtube_video_embed_url = recipe.youtube_video_embed_url
       .mt-3.youtube-video-place(data-yt-url=youtube_video_embed_url)
         img#youtubeVideoImage.lozad(data-src='/images/youtube-thumbnail.jpg', 
@@ -117,7 +117,7 @@ block content
     
     // related searches
     .card.mt-2.mx-2
-      .card-header.font-weight-bold Búsquedas relacionadas con esta receta
+      .card-header.font-weight-bold=wordRelatedSearches
       .list-group
       each search in relatedSearches
         a.list-group-item.list-group-item-action.blue-link(href=`/buscar?q=${search.keyword}`, onclick=`trackEvent(this, 'related_search_${search.keyword_seo}');`, title="Ver mas recetas relacionadas")
