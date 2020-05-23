@@ -55,5 +55,8 @@ module.exports.getResponseJson = function (req) {
   responseJson.facebookFanPageUrl = process.env.RESOPIA_FACEBOOK_FAN_PAGE_URL || '#';
   responseJson.currentYear = moment().format('YYYY');
 
+  responseJson.lang = process.env.RESOPIA_LANG || 'es';
+  responseJson.locale = process.env.RESOPIA_LOCALE || 'es_ES';
+
   return responseJson;
 };

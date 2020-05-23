@@ -26,6 +26,8 @@ export RESOPIA_FAV_ICON_URL=""
 export USE_LOCAL_HTTPS=false
 export KEY_PEM="/some/folder/key.pem"
 export CERT_PEM="/some/folder/cert.pem"
+export RESOPIA_LANG="lang"
+export RESOPIA_LOCALE="es_ES"
 
 ```
 

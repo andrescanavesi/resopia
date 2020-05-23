@@ -1,5 +1,5 @@
 doctype html
-html(lang="es")
+html(lang=lang)
   head
     link(rel="preconnect" href="//stackpath.bootstrapcdn.com"  crossorigin)
     if isProduction
@@ -28,10 +28,10 @@ html(lang="es")
     meta(name='msapplication-square310x310logo', content=pageLogo)
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='author', content=author)
-    meta(name='language', content='es')
+    meta(name='language', content=lang)
     meta(name='keywords', content=keywords)
     meta(name='robots', content='Index, Follow')
-    meta(property='og:locale', content='es_ES')
+    meta(property='og:locale', content=locale)
     meta(property='og:type', content='article')
     meta(property='og:site_name', content=siteName)
     meta(property='article:publisher', content=publisher)
