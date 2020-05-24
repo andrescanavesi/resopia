@@ -22,9 +22,9 @@ block content
     - var img = recipe.featured_image_url
     if isMobile
         - img = recipe.featured_image_url_mobile
-    a(href=`/imagen-receta/${recipe.id}/${recipe.featured_image_name}`, 
+    a(href=`/${wordRecipeImage}/${recipe.id}/${recipe.featured_image_name}`, 
     onclick=`trackEvent(this, 'recipe_image_primary_${recipe.id}');`)
-      img.lozad.img-fluid(data-src=img, alt='imagen receta')
+      img.lozad.img-fluid(data-src=img, alt=`${wordRecipeImage}`)
     .mx-1.mt-3
       span.text-muted=recipe.description
     //- div#giphyWrapper.mt-1.text-center
@@ -49,8 +49,8 @@ block content
     - var img = recipe.secondary_image_url
     if isMobile
         - img = recipe.secondary_image_url_mobile
-    a(href=`/imagen-receta/${recipe.id}/${recipe.secondary_image_name}`, onclick=`trackEvent(this, 'recipe_image_secondary_${recipe.id}');`)
-      img.lozad.mt-2.img-fluid(data-src=img, alt='imagen receta')
+    a(href=`/${wordRecipeImage}/${recipe.id}/${recipe.secondary_image_name}`, onclick=`trackEvent(this, 'recipe_image_secondary_${recipe.id}');`)
+      img.lozad.mt-2.img-fluid(data-src=img, alt=`${wordRecipeImage}`)
     
     // Recipe steps
     div

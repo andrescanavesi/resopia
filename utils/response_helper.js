@@ -72,6 +72,7 @@ module.exports.getResponseJson = function (req) {
   responseJson.wordSearch = process.env.RESOPIA_WORD_SEARCH || 'buscar';
   responseJson.wordMostVisitedRecipes = process.env.RESOPIA_WORD_MOST_VISITED_RECIPES || 'Recetas más vistas';
   responseJson.wordSeeMoreRecipes = process.env.RESOPIA_WORD_SEE_MORE_RECIPES || 'Ver más recetas';
+  responseJson.wordRecipeImage = process.env.RESOPIA_WORD_RECIPE_IMAGE || 'imagen-receta';
 
   return responseJson;
 };
