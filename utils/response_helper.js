@@ -73,6 +73,9 @@ module.exports.getResponseJson = function (req) {
   responseJson.wordMostVisitedRecipes = process.env.RESOPIA_WORD_MOST_VISITED_RECIPES || 'Recetas más vistas';
   responseJson.wordSeeMoreRecipes = process.env.RESOPIA_WORD_SEE_MORE_RECIPES || 'Ver más recetas';
   responseJson.wordRecipeImage = process.env.RESOPIA_WORD_RECIPE_IMAGE || 'imagen-receta';
+  responseJson.wordAmerican = process.env.RESOPIA_WORD_AMERICAN || 'Americana';
+  responseJson.wordServings = process.env.RESOPIA_WORD_SERVINGS || 'porciones';
+  responseJson.wordMinutes = process.env.RESOPIA_WORD_MINUTES || 'minutes';
 
   return responseJson;
 };

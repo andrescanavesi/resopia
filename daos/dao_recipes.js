@@ -105,7 +105,7 @@ function convertRecipe(row) {
   recipe.url = `${process.env.RESOPIA_BASE_URL}/${recipeWord}/${recipe.id}/${recipe.title_seo}`;
   recipe.active = row.active;
   recipe.notes = row.notes;
-  recipe.has_notes = recipe.notes !== null;
+  recipe.has_notes = recipe.notes && recipe.notes.trim() !== '';
   recipe.youtube_video_id = row.youtube_video_id;
   recipe.has_youtube_video = recipe.youtube_video_id !== null && recipe.youtube_video_id.trim() !== '';
   if (recipe.has_youtube_video) {

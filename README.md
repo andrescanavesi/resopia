@@ -46,6 +46,9 @@ export RESOPIA_WORD_RECIPE_VIDEO="Video receta"
 export RESOPIA_WORD_OPEN"Abrir"
 export RESOPIA_WORD_MOST_VISITED_RECIPES"Recetas más vistas"
 export RESOPIA_WORD_SEE_MORE_RECIPES="Ver más recetas"
+export RESOPIA_WORD_AMERICAN="Americana"
+export RESOPIA_WORD_SERVINGS="porciones"
+export RESOPIA_WORD_MINUTES="minutes"
 
 ```
 
