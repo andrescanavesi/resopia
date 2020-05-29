@@ -1,6 +1,6 @@
 const moment = require('moment');
 
-moment.locale('es');
+moment.locale('es'); // TODO make it dynamic
 
 const FlexSearch = require('flexsearch');
 const dbHelper = require('../utils/db_helper');
