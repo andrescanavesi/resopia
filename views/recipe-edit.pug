@@ -32,6 +32,12 @@ block content
                                 - var urlRecetasParaCeliacos = recipe.url+'?utm_source=facebook&utm_medium=recetas-para-celiacos&utm_campaign=fanpage'
                                 div=urlRecetasParaCeliacos
                                 a(href='https://www.facebook.com/recetasparaceliacos.info', target='_blank') Recetas para celiacos
+                        .form-group.row
+                            div recipes21: 
+                                - var urlRecipes21 = recipe.url+'?utm_source=facebook&utm_medium=recipes21&utm_campaign=fanpage'
+                                div=urlRecipes21
+                                a(href='https://www.facebook.com/recipes21com', target='_blank') Recipes21
+
                     if !recipe.active
                         .form-group.row
                             span.text-danger Unpublished recipe
