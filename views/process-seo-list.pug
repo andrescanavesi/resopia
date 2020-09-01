@@ -1,0 +1,14 @@
+extends layout-admin
+
+block content
+  div.mt-3
+    if successMessage
+        div(role='alert').alert.alert-success= successMessage
+    - var action = "/admin/process-seo-list"
+    form(action=action method="POST")
+        .card.mt-2.mb-5.border-0                 
+            .card-body  
+                .form-group.row
+                    textarea(name='csv', cols="100", rows="10", placeholder="csv...").form-control
+                .form-group.row  
+                    button(type="submit" ).btn.btn-primary Process

@@ -7,7 +7,13 @@ const { Logger } = require('./Logger');
 const log = new Logger('db_helper');
 const queryCache = new NodeCache();
 
-const dbConfig = parseDbUrl(process.env.DATABASE_URL);
+let dbConfig;
+if (process.env.NODE_ENV === 'development') {
+  dbConfig = parseDbUrl(process.env.RESOPIA_DATABASE_URL);
+} else {
+  dbConfig = parseDbUrl(process.env.DATABASE_URL);
+}
+
 
 const pool = new Pool({
   user: dbConfig.user,

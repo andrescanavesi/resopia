@@ -79,3 +79,23 @@ CREATE TABLE recipes_tags (
 -- Indices -------------------------------------------------------
 
 CREATE UNIQUE INDEX recipes_tags_pkey ON recipes_tags(id int4_ops);
+
+
+CREATE TABLE search_terms (
+    id SERIAL PRIMARY KEY,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    term character varying(120) NOT NULL,
+    term_seo character varying(100) NOT NULL,
+    active boolean NOT NULL DEFAULT false,
+    related_recipes_csv character varying(100),
+    CONSTRAINT term_unique UNIQUE (term),
+    CONSTRAINT term_seo_unique UNIQUE (term_seo)
+);
+
+INSERT INTO public.search_terms
+(created_at, updated_at, term, term_seo, active, related_posts_csv)
+VALUES
+('2020-06-02', '2020-06-02', 'scones de queso', 'scones-de-queso', true, '1,2,3'),
+('2020-06-02', '2020-06-02', 'tarta de manzana', 'tarta-de-manzana', true, '1,2,3'),
+('2020-06-02', '2020-06-02', 'faina licuada', 'faina-licuada', true, '')
