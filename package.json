@@ -30,6 +30,7 @@
         "start": "node ./bin/www",
         "dev": "nodemon ./bin/www",
         "test": "NODE_ENV=test nyc --check-coverage --lines 10 --per-file --reporter=html mocha tests/test_*.js --recursive --reporter mochawesome --reporter-options reportDir=./test_results --exit",
+        "test:web": "NODE_ENV=test nyc --check-coverage --lines 10 --per-file --reporter=html mocha tests/test_web.js --recursive --reporter mochawesome --reporter-options reportDir=./test_results --exit",
         "test:controller_search_terms": "NODE_ENV=development nyc --check-coverage --lines 10 --per-file --reporter=html mocha tests/test_controller_search_terms.js --recursive --reporter mochawesome --reporter-options reportDir=./test_results --exit"
     },
     "dependencies": {
