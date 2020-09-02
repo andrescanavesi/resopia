@@ -77,5 +77,7 @@ module.exports.getResponseJson = function (req) {
   responseJson.wordServings = process.env.RESOPIA_WORD_SERVINGS || 'porciones';
   responseJson.wordMinutes = process.env.RESOPIA_WORD_MINUTES || 'minutes';
 
+  responseJson.defaultLoadingImage = process.env.RESOPIA_DEFAULT_LOADING_IMAGE;
+
   return responseJson;
 };

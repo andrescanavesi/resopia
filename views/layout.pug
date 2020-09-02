@@ -40,7 +40,7 @@ body
                     .row.no-gutters
                       .col-4(style="width: 390px;")
                         - var img = recipe.thumbnail300
-                        img.lozad.card-img(data-src=img, alt='Imagen receta')
+                        img.lozad.card-img(data-src=img, src=recipe.default_thumb_loading_image, alt='Imagen receta')
                       .col-8
                         .ml-3
                           h5.card-title

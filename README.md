@@ -49,6 +49,8 @@ export RESOPIA_WORD_SEE_MORE_RECIPES="Ver más recetas"
 export RESOPIA_WORD_AMERICAN="Americana"
 export RESOPIA_WORD_SERVINGS="porciones"
 export RESOPIA_WORD_MINUTES="minutes"
+export RESOPIA_DEFAULT_LOADING_IMAGE=https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,f_auto,q_65,w_900/v1599054405/resopia.com/default-image.jpg
+export RESOPIA_DEFAULT_THUMB_LOADING_IMAGE=https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,f_auto,q_65,w_300/v1599054405/resopia.com/default-image.jpg
 
 ```
 
