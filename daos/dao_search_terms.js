@@ -27,8 +27,9 @@ function convertRow(row) {
     updated_at_friendly_3: moment(row.updated_at).format('YYYY-MM-DD HH:mm:ss'),
     active: row.active,
     related_recipes_csv: row.related_recipes_csv,
-    url: `${process.env.RESOPIA_BASE_URL}l/${row.term_seo}`,
+    url: `${process.env.RESOPIA_BASE_URL}/l/${row.term_seo}`,
     featured_image_url: `${process.env.RESOPIA_DEFAULT_IMAGE_URL}`,
+    thumbnail_image_url: `${process.env.RESOPIA_DEFAULT_IMAGE_URL}`,
   };
 }
 
