@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  each link in links
+    div.d-flex.flex-row
+      .p-2
+        img.lozad.img-fluid(data-src=link.featured_image_url, alt='imagen receta' style="width: 100px")
+      .p-2
+        a(href=`${link.url}`, title="Go to this recipe detail").blue-link=link.name

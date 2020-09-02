@@ -3,6 +3,8 @@ const daoRecipies = require('../daos/dao_recipes');
 const responseHelper = require('../utils/response_helper');
 const { Logger } = require('../utils/Logger');
 const utils = require('../utils/utils');
+const daoSearchTerms = require('../daos/dao_search_terms');
+const daoTags = require('../daos/dao_tags');
 
 const router = express.Router();
 const log = new Logger('route_index');
@@ -317,5 +319,92 @@ router.get('/status', (req, res, next) => {
     next(e);
   }
 });
+
+/**
+ * SEO list of posts
+ */
+router.get('/l/:termSeo', async (req, res, next) => {
+  try {
+    const { termSeo } = req.params;
+    const responseJson = responseHelper.getResponseJson(req);
+    const searchTerm = await daoSearchTerms.findByTerm(termSeo, false, true, true);
+
+    const term = searchTerm ? searchTerm.term : termSeo.split('_').join(' ');
+
+    const posts = await daoRecipies.findRelated(term);
+
+    responseJson.posts = posts;
+    responseJson.isHomePage = false;
+    responseJson.searchText = term;
+    responseJson.title = `${term}`;
+    responseJson.description = responseJson.title;
+    res.render('seo-list', responseJson);
+  } catch (e) {
+    next(e);
+  }
+});
+
+/**
+ * All tags, posts and search terms list
+ */
+router.get('/all/:kind', async (req, res, next) => {
+  try {
+    const { kind } = req.params;
+    const responseJson = responseHelper.getResponseJson(req);
+    const links = [];
+    let title = '';
+    let description = '';
+    let records;
+    switch (kind) {
+      case 'tags':
+        title = 'All tags';
+        description = 'All tags';
+        records = await daoTags.findAllTags(true);
+        records.forEach((item) => {
+          links.push({
+            url: item.url,
+            name: item.name,
+            featured_image_url: item.featured_image_url,
+          });
+        });
+        break;
+      case 'search':
+        title = 'All search terms';
+        description = 'All search terms';
+        records = await daoSearchTerms.findAll(false, true);
+        records.forEach((item) => {
+          links.push({
+            url: item.url,
+            name: item.term,
+            featured_image_url: item.featured_image_url,
+          });
+        });
+        break;
+      case 'recipes':
+        title = 'All recipes';
+        description = 'All recipes';
+        records = await daoRecipies.findAll();
+        records.forEach((item) => {
+          links.push({
+            url: item.url,
+            name: item.title,
+            featured_image_url: item.thumb_image_url,
+          });
+        });
+        break;
+      default: throw new Error('Unsupported kind');
+    }
+
+    responseJson.links = links;
+    responseJson.isHomePage = false;
+    responseJson.searchText = '';
+    responseJson.title = title;
+    responseJson.description = description;
+    res.render('link-list', responseJson);
+  } catch (e) {
+    next(e);
+  }
+});
+
 
 module.exports = router;

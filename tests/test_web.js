@@ -22,6 +22,12 @@ function assertNotError(err, res) {
   }
 }
 
+function assertHtmlResponse(res) {
+  assert.equal(res.status, 200);
+  assert.equal(res.headers['content-type'], 'text/html; charset=utf-8');
+  assert.isAtLeast(res.text.length, 1); // the html content
+}
+
 describe('Test Web', function () {
   this.timeout(10 * 1000);
 
@@ -91,27 +97,46 @@ describe('Test Web', function () {
   //     });
   // });
 
-  // it('should display sitemap.xml', (done) => {
-  //   chai.request(app)
-  //     .get('/sitemap.xml')
-  //     .end((err, res) => {
-  //       assertNotError(err, res);
-  //       expect(res).to.have.status(200);
-  //       expect(res).to.have.headers;
-  //       expect(res).to.be.all; // TODO validate xml
-  //       done();
-  //     });
-  // });
+  it('should display sitemap.xml', (done) => {
+    chai.request(app)
+      .get('/sitemap.xml')
+      .end((err, res) => {
+        assertNotError(err, res);
+        assert.equal(res.status, 200);
+        // expect(res).to.have.status(200);
+        // expect(res).to.have.headers;
+        // expect(res).to.be.all; // TODO validate xml
+        done();
+      });
+  });
 
-  // it('should display robots.txt', (done) => {
-  //   chai.request(app)
-  //     .get('/robots.txt')
-  //     .end((err, res) => {
-  //       assertNotError(err, res);
-  //       expect(res).to.have.status(200);
-  //       expect(res).to.have.headers;
-  //       expect(res).to.be.all; // TODO validate txt content
-  //       done();
-  //     });
-  // });
+  it('should display robots.txt', (done) => {
+    chai.request(app)
+      .get('/robots.txt')
+      .end((err, res) => {
+        assertNotError(err, res);
+        assert.equal(res.status, 200);
+        done();
+      });
+  });
+
+  it('should display search term lists', (done) => {
+    chai.request(app)
+      .get('/all/search')
+      .end((err, res) => {
+        assertNotError(err, res);
+        assertHtmlResponse(res);
+        done();
+      });
+  });
+
+  it('should display a specific search term', (done) => {
+    chai.request(app)
+      .get('/l/tarta-de-manzana')
+      .end((err, res) => {
+        assertNotError(err, res);
+        assertHtmlResponse(res);
+        done();
+      });
+  });
 });

@@ -5,6 +5,7 @@ const daoTags = require('../daos/dao_tags');
 const responseHelper = require('../utils/response_helper');
 const utils = require('../utils/utils');
 const { Logger } = require('../utils/Logger');
+const controllerSearchTerms = require('../controllers/controller_search_terms');
 
 const router = express.Router();
 const log = new Logger('route_admin');
@@ -129,6 +130,32 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
     }
 
     res.redirect(`/admin/receta/editar/${recipeId}`);
+  } catch (e) {
+    next(e);
+  }
+});
+
+
+router.get('/process-seo-list', basicAuth(authOptions), async (req, res, next) => {
+  try {
+    const responseJson = responseHelper.getResponseJson(req);
+
+    res.render('process-seo-list', responseJson);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post('/process-seo-list', basicAuth(authOptions), async (req, res, next) => {
+  try {
+    const responseJson = responseHelper.getResponseJson(req);
+    responseJson.csv = '';
+    responseJson.successMessage = 'csv processed';
+
+    const { csv } = req.body;
+    await controllerSearchTerms.processCsv(csv);
+
+    res.render('process-seo-list', responseJson);
   } catch (e) {
     next(e);
   }
