@@ -24,7 +24,7 @@ block content
         - img = recipe.featured_image_url_mobile
     a(href=`/${wordRecipeImage}/${recipe.id}/${recipe.featured_image_name}`, 
     onclick=`trackEvent(this, 'recipe_image_primary_${recipe.id}');`)
-      img.lozad.img-fluid(data-src=img, alt=`${wordRecipeImage}`)
+      img.lozad.img-fluid(data-src=img, src=recipe.default_loading_image, alt=`${wordRecipeImage}`)
     .mx-1.mt-3
       span.text-muted=recipe.description
     //- div#giphyWrapper.mt-1.text-center

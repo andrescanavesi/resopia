@@ -27,7 +27,7 @@ function convertRecipe(row) {
   const thumbnailImageBase = imageBase.replace('w_900', 'w_400');
   const thumbnail200ImageBase = imageBase.replace('w_900', 'w_200');
   const thumbnail500ImageBase = imageBase.replace('w_900', 'w_500');
-  const thumbnail300ImageBase = imageBase.replace('w_900', 'w_300');
+  const thumbnail300ImageBase = imageBase.replace('w_900', 'w_300').replace('h_600', 'h_200');
 
   // const featured_image_name = row.featured_image_name.replace("jpg", "webp");
   const featuredImageName = row.featured_image_name;
@@ -140,6 +140,9 @@ function convertRecipe(row) {
   recipe.tweets = row.tweets;
   recipe.aggregate_rating = row.aggregate_rating;
   recipe.rating_count = row.rating_count;
+
+  recipe.default_loading_image = process.env.RESOPIA_DEFAULT_LOADING_IMAGE;
+  recipe.default_thumb_loading_image = process.env.RESOPIA_DEFAULT_THUMB_LOADING_IMAGE;
 
   return recipe;
 }
