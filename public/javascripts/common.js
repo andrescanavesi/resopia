@@ -70,12 +70,12 @@ function rateRecipe(element, rating, recipeId) {
 }
 
 function showAlert(message) {
-  $('#toast').removeClass('z-index-1');
-  $('#toast').addClass('show');
-  $('#toastMessage').html(message);
+  // $('#toast').removeClass('z-index-1');
+  // $('#toast').addClass('show');
+  // $('#toastMessage').html(message);
 }
 
 function hideAlert() {
-  $('#toast').addClass('z-index-1');
-  $('#toast').removeClass('show');
+  // $('#toast').addClass('z-index-1');
+  // $('#toast').removeClass('show');
 }

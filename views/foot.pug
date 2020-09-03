@@ -1,16 +1,23 @@
 //jquery and popper cannot be loaded async since is a dependency of bootstra.min.js
-script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8' crossorigin='anonymous')
-script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
+// script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8' crossorigin='anonymous')
+// script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
 //lozad to load images in a lazy way. Must be loaded sync
-script(src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js'  crossorigin='anonymous')
+// script(src='https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js'  crossorigin='anonymous')
 
 //scripts that can be loaded async
-script(async='', src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
-script(async='', src='/javascripts/track.js')
-script(async='', src='/javascripts/common.js')
+// script(async='', src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
+// script(async='', src='/javascripts/track.js')
+// script(async='', src='/javascripts/common.js')
+
+script(type="text/javascript").
+  !{staticResources.track}
+script(type="text/javascript"). 
+  !{staticResources.common}
+script(type="text/javascript").
+  !{staticResources.lozad}
 
 script(type='text/javascript').
-  $(document).ready(() => {
+   document.addEventListener("DOMContentLoaded", function(event) { 
     // to load images in a lazy way
     // lazy loads elements with default selector as '.lozad'
     const observer = lozad(); 
@@ -19,6 +26,17 @@ script(type='text/javascript').
     
     //load css styles after the page loaded
     // $('#bootstrapCss')[0].rel = 'stylesheet';
-    $('#fontawesomeCss')[0].rel = 'stylesheet';
+    // $('#fontawesomeCss')[0].rel = 'stylesheet';
+    document.getElementById('fontawesomeCss').rel='stylesheet'
     // $('#stylesCss')[0].rel = 'stylesheet';
   });
+
+  function toggleBell(){
+    const element = document.getElementById('navbarSupportedContent2');
+    element.classList.toggle('show');
+  }
+
+  function toggleNavbar() {
+    const element = document.getElementById('navbarMenu');
+    element.classList.toggle('show');
+  }

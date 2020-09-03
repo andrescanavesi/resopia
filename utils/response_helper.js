@@ -1,5 +1,8 @@
 const moment = require('moment');
+const fs = require('fs');
+const path = require('path');
 
+let staticResources = null;
 /**
  *
  */
@@ -78,6 +81,35 @@ module.exports.getResponseJson = function (req) {
   responseJson.wordMinutes = process.env.RESOPIA_WORD_MINUTES || 'minutes';
 
   responseJson.defaultLoadingImage = process.env.RESOPIA_DEFAULT_LOADING_IMAGE;
+
+  // load styles and js to print them directly into the body to reduce quantoty of requests in user's browser
+  if (!staticResources) {
+    const base = path.resolve(__dirname);
+    let dir = path.join(base, '../public/stylesheets/styles.min.css');
+    const styles = fs.readFileSync(dir, 'utf8'); // with 'utf8' it will read as a String instoad of Buffer
+    // TODO minify these styles https://www.npmjs.com/package/minify
+
+    dir = path.join(base, '../public/stylesheets/bootstrap.min.css');
+    const bootstrap = fs.readFileSync(dir, 'utf8');
+
+    dir = path.join(base, '../public/javascripts/lozad.min.js');
+    const lozad = fs.readFileSync(dir, 'utf8');
+
+    dir = path.join(base, '../public/javascripts/track.min.js');
+    const track = fs.readFileSync(dir, 'utf8');
+
+    dir = path.join(base, '../public/javascripts/common.min.js');
+    const common = fs.readFileSync(dir, 'utf8');
+
+    // console.info(track);
+
+
+    staticResources = {
+      styles, lozad, track, common, bootstrap,
+    };
+  }
+
+  responseJson.staticResources = staticResources;
 
   return responseJson;
 };
