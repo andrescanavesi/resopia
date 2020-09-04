@@ -25,8 +25,8 @@ function convertRecipe(row) {
   const imageBase = process.env.RESOPIA_IMAGES_BASE_URL;
   const featuredImageBase = imageBase;
   const thumbnailImageBase = imageBase.replace('w_900', 'w_400');
-  const thumbnail200ImageBase = imageBase.replace('w_900', 'w_200');
-  const thumbnail500ImageBase = imageBase.replace('w_900', 'w_500');
+  const thumbnail200ImageBase = imageBase.replace('w_900', 'w_200').replace('h_600', 'h_150');
+  const thumbnail500ImageBase = imageBase.replace('w_900', 'w_500').replace('h_600', 'h_300');
   const thumbnail300ImageBase = imageBase.replace('w_900', 'w_300').replace('h_600', 'h_200');
 
   // const featured_image_name = row.featured_image_name.replace("jpg", "webp");

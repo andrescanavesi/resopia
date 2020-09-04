@@ -31,7 +31,7 @@ body
                 placeholder=`${wordSearch} ${wordRecipe}`, onkeyup=`searchTop(event, '${wordSearch}')`, 
                 value=searchText).form-control
         a(onclick="toggleBell(); trackEvent(this,'bell')", data-toggle='collapse', data-target='#navbarSupportedContent2', aria-controls='navbarSupportedContent2', aria-expanded='false', aria-label='Toggle navigation')
-          i.fa.fa-bell.fa-2x
+          img(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTUuMTM3IDMuOTQ1Yy0uNjQ0LS4zNzQtMS4wNDItMS4wNy0xLjA0MS0xLjgydi0uMDAzYy4wMDEtMS4xNzItLjkzOC0yLjEyMi0yLjA5Ni0yLjEyMnMtMi4wOTcuOTUtMi4wOTcgMi4xMjJ2LjAwM2MuMDAxLjc1MS0uMzk2IDEuNDQ2LTEuMDQxIDEuODItNC42NjcgMi43MTItMS45ODUgMTEuNzE1LTYuODYyIDEzLjMwNnYxLjc0OWgyMHYtMS43NDljLTQuODc3LTEuNTkxLTIuMTk1LTEwLjU5NC02Ljg2My0xMy4zMDZ6bS0zLjEzNy0yLjk0NWMuNTUyIDAgMSAuNDQ5IDEgMSAwIC41NTItLjQ0OCAxLTEgMXMtMS0uNDQ4LTEtMWMwLS41NTEuNDQ4LTEgMS0xem0zIDIwYzAgMS41OTgtMS4zOTIgMy0yLjk3MSAzcy0zLjAyOS0xLjQwMi0zLjAyOS0zaDZ6Ii8+PC9zdmc+")
           span.badge.badge-pill.badge-danger.bell-badge 3
         #navbarSupportedContent2.collapse.navbar-collapse
           .card.mt-2
