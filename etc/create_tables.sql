@@ -31,8 +31,15 @@ CREATE TABLE recipes (
     youtube_video_id character varying(60),
     tweets integer,
     aggregate_rating numeric,
-    rating_count integer
+    rating_count integer,
+    images_names_csv character varying(250),
+    tags_csv character varying(100),
 );
+
+ALTER TABLE "public"."recipes"
+  ADD COLUMN "images_names_csv" character varying(300),
+  ADD COLUMN "tags_csv" character varying(100);
+
 
 ALTER TABLE "public"."recipes" ADD COLUMN "aggregate_rating" decimal;
 UPDATE recipes SET aggregate_rating=4.3 WHERE id>0 ;

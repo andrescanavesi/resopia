@@ -26,6 +26,18 @@ const authOptions = {
   authorizeAsync: false,
   unauthorizedResponse: getUnauthorizedResponse,
 };
+router.get('/', basicAuth(authOptions), async (req, res, next) => {
+  try {
+    const responseJson = responseHelper.getResponseJson(req);
+    const recipes = await daoRecipies.findAll(false, false);
+    responseJson.recipes = recipes;
+
+    res.render('admin', responseJson);
+  } catch (e) {
+    next(e);
+  }
+});
+
 
 router.get('/receta/nueva', basicAuth(authOptions), async (req, res, next) => {
   try {
@@ -33,18 +45,20 @@ router.get('/receta/nueva', basicAuth(authOptions), async (req, res, next) => {
     responseJson.recipe = {
       id: 0,
       title: '',
-      featured_image_name: 'cookies-test.jpg',
-      secondary_image_name: 'pizza-test.jpg',
+      featured_image_name: 'recipe-default.jpg',
+      secondary_image_name: 'recipe-default.jpg',
+      images_names_csv: process.env.RESOPIA_DEFAULT_IMAGES_NAMES_CSV || 'recipe-default.jpg,recipe-default.jpg',
       tags: [],
       tags_ids_csv: '',
       tags_names_csv: '',
+      tags_csv: 'american,easy',
       active: false,
       title_seo: '',
-      ingredients: 'ing1\ning2\ning3\n',
+      ingredients: '',
       extra_ingredients_title: '',
       extra_ingredients: '',
-      description: 'descrip',
-      steps: 'step1\nstep2\nstep3\nstep4\nstep5\n',
+      description: '',
+      steps: '',
       prep_time_seo: 'PT10M',
       cook_time_seo: 'PT20M',
       total_time_seo: 'PT30M',
@@ -121,7 +135,12 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
       tags: req.body.tags_ids_csv.split(','),
       aggregate_rating: req.body.aggregate_rating,
       rating_count: req.body.rating_count,
+      images_names_csv: req.body.images_names_csv,
+      tags_csv: req.body.tags_csv,
     };
+
+    recipeToUdate.featured_image_name = recipeToUdate.images_names_csv.split(',')[0] || 'recipe-default.jpg';
+    recipeToUdate.secondary_image_name = recipeToUdate.images_names_csv.split(',')[1] || 'recipe-default.jpg';
     // log.info(recipeToUdate);
     if (recipeId === '0') {
       recipeId = await daoRecipies.create(recipeToUdate);

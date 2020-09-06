@@ -82,6 +82,8 @@ module.exports.getResponseJson = function (req) {
 
   responseJson.defaultLoadingImage = process.env.RESOPIA_DEFAULT_LOADING_IMAGE;
 
+  responseJson.imagesBaseUrl = process.env.RESOPIA_IMAGES_BASE_URL;
+
   // load styles and js to print them directly into the body to reduce quantoty of requests in user's browser
   if (!staticResources) {
     const base = path.resolve(__dirname);

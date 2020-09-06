@@ -1,0 +1,19 @@
+extends layout-admin
+
+block content
+  table.table
+    thead
+      tr
+        th #
+        th Imagen
+        th Título
+    tbody
+      each recipe in recipes
+        tr
+          td=recipe.id
+          td
+            img.img-fluid(src=recipe.thumbnail200, alt='imagen receta' style="width: 100px")
+          td
+            a(href=`${recipe.url_edit}`, title="Edit this recipe")=recipe.title
+      
+            

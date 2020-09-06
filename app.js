@@ -1,5 +1,4 @@
 const express = require('express');
-const apicache = require('apicache');
 const favicon = require('express-favicon');
 const compression = require('compression');
 const path = require('path');
@@ -42,10 +41,7 @@ app.use((req, res, next) => {
   }
 });
 
-const cache = apicache.middleware;
-// with cache at web level using apicache module.
-// all public endpoints are being cached
-app.use('/', cache('24 hours'), indexRouter);
+app.use('/', indexRouter);
 
 app.use('/sitemap.xml', sitemapRouter);
 app.use('/admin', adminRouter);

@@ -40,6 +40,7 @@ html(lang="en")
             button#dropdownMenuButton.btn.btn-outline-dark.dropdown-toggle(type='button', onclick="trackEvent(this,'default')", data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
               | Menu
             #dropdownMenuList.dropdown-menu(aria-labelledby='dropdownMenuButton')
+              a#menuItemInicio.dropdown-item(href='/admin/', title="Nueva receta") Recetas
               a#menuItemInicio.dropdown-item(href='/admin/receta/nueva', title="Nueva receta") Nueva receta
               a#menuItemInicio.dropdown-item(href='/admin/process-seo-list', title="Process SEO list") SEO list
           h1
@@ -49,9 +50,9 @@ html(lang="en")
       
     .container-fluid
         .row
-          .col-md-3
+          .col-md-1
             //left
-          .col-md-6
+          .col-md-10
             .mt-3
             block content
             //related recipes
@@ -67,7 +68,7 @@ html(lang="en")
                       a(href=`${recipe.url}`, title="Ver receta")
                         img.lozad(data-src=img, alt='imagen receta').img-fluid.mb-2
                        
-          .col-md-3
+          .col-md-1
             //right column
      
     //footer
