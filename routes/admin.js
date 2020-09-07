@@ -6,6 +6,7 @@ const responseHelper = require('../utils/response_helper');
 const utils = require('../utils/utils');
 const { Logger } = require('../utils/Logger');
 const controllerSearchTerms = require('../controllers/controller_search_terms');
+const cloudinaryHelper = require('../utils/cloudinary_helper');
 
 const router = express.Router();
 const log = new Logger('route_admin');
@@ -144,6 +145,7 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
     // log.info(recipeToUdate);
     if (recipeId === '0') {
       recipeId = await daoRecipies.create(recipeToUdate);
+      await cloudinaryHelper.uploadImages(req.body.images_urls_csv, recipeId);
     } else {
       await daoRecipies.update(recipeToUdate);
     }

@@ -52,6 +52,10 @@ export RESOPIA_WORD_MINUTES="minutes"
 export RESOPIA_DEFAULT_LOADING_IMAGE=https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,f_auto,q_65,w_900/v1599054405/resopia.com/default-image.jpg
 export RESOPIA_DEFAULT_THUMB_LOADING_IMAGE=https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,f_auto,q_65,w_300/v1599054405/resopia.com/default-image.jpg
 export RESOPIA_DEFAULT_IMAGES_NAMES_CSV=cookies-test.jpg,pizza-test.jpg
+export RESOPIA_CLOUDINARY_CLOUD_NAME=******
+export RESOPIA_CLOUDINARY_API_KEY=******
+export RESOPIA_CLOUDINARY_API_SECRET=******
+export RESOPIA_CLOUDINARY_FOLDER=rpc
 ```
 
 Export / Inport config

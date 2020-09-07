@@ -2,6 +2,18 @@ extends layout-admin
 
 block content
   div.mt-3
+    script.
+        function fromJson(obj){
+            console.info(obj);
+            // const obj = JSON.parse(text);
+            // const obj = text;
+            $('#title').val(obj.title)
+            $('#ingredients').val(obj.ingredients)
+            $('#steps').val(obj.steps)
+            const imgs = $('#images').val().split(',');
+            $('#images').val(`${obj.img_name},${imgs[1]}`)
+            $('#images_url').val(obj.img_url)
+        }
     if successMessage
         div(role='alert').alert.alert-success= successMessage
     - var action = "/admin/receta/editar/"+recipe.id
@@ -75,10 +87,14 @@ block content
                         textarea(name='extra_ingredients', cols="100", rows="5", placeholder="Extra ingredients").form-control= recipe.extra_ingredients
                     .form-group.row
                         label(for="steps") Directions:
-                        textarea(name='steps', cols="100", rows="10",  placeholder="Directions").form-control= recipe.steps
+                        textarea#steps(name='steps', cols="100", rows="10",  placeholder="Directions").form-control= recipe.steps
                     .form-group.row
                         label(for="images_names_csv") Images names:
-                        input(name='images_names_csv', type='text', placeholder='image1jpg, image2.jpg...', value=recipe.images_names_csv).form-control.form-control-sm
+                        input#images(name='images_names_csv', type='text', placeholder='image1.jpg, image2.jpg, ...', value=recipe.images_names_csv).form-control.form-control-sm
+                    if newRecipe
+                    .form-group.row
+                        label(for="images_urls_csv") Images urls:
+                        input#images_url(name='images_urls_csv', type='text', placeholder='url1, url2, ...', value="").form-control.form-control-sm
                     if !newRecipe
                       .form-group.row
                         .d-flex
