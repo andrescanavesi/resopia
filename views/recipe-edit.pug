@@ -38,7 +38,7 @@ block content
                             span.text-danger Unpublished recipe
                     .form-group.row
                         label(for="title") Title:
-                        input(name='title', type='text', placeholder='Recipe title', value=recipe.title).form-control.form-control-sm
+                        input#title(name='title', type='text', placeholder='Recipe title', value=recipe.title).form-control.form-control-sm
                     .form-group.row.d-none
                         label(for="tagsCsv").col-sm-2.col-form-label Tags ids:
                         .col-sm-10
@@ -66,7 +66,7 @@ block content
                         textarea(name='description', cols="100", rows="2", placeholder="Description").form-control= recipe.description
                     .form-group.row
                         label(for="ingredients") Ingredients:
-                        textarea(name='ingredients', cols="100", rows="10", placeholder="Ingredients").form-control= recipe.ingredients
+                        textarea#ingredients(name='ingredients', cols="100", rows="10", placeholder="Ingredients").form-control= recipe.ingredients
                     .form-group.row
                         label(for="extra_ingredients_title") Extra ingredients title:
                         input(name='extra_ingredients_title', type='text', placeholder='Extra ingredients title', value=recipe.extra_ingredients_title).form-control.form-control-sm
