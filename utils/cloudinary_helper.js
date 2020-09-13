@@ -32,14 +32,18 @@ module.exports.uploadImages = async function (imagesCsv, recipeId) {
   log.info(`[uploadImages] images: ${array.length}`);
   let index = 0;
   const folder = process.env.RESOPIA_CLOUDINARY_FOLDER || '';
+  const imagesNames = [];
   // eslint-disable-next-line no-restricted-syntax
   for (const url of array) {
+    const imageName = `${recipeId}_${index}`;
+    imagesNames.push(imageName);
     // eslint-disable-next-line no-await-in-loop
-    const result = await uploadUrl(url.trim(), folder, `${recipeId}_${index}`);
+    const result = await uploadUrl(url.trim(), folder, imageName);
     log.info(result.asset_id);
     // console.info(url);
     index++;
   }
+  return imagesNames;
 };
 
 

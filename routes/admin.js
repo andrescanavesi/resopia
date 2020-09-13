@@ -145,7 +145,14 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
     // log.info(recipeToUdate);
     if (recipeId === '0') {
       recipeId = await daoRecipies.create(recipeToUdate);
-      await cloudinaryHelper.uploadImages(req.body.images_urls_csv, recipeId);
+      if (req.body.images_urls_csv && req.body.images_urls_csv.length > 0) {
+        const names = await cloudinaryHelper.uploadImages(req.body.images_urls_csv, recipeId);
+        recipeToUdate.images_names_csv = names.join(',');
+        recipeToUdate.id = recipeId;
+        recipeToUdate.featured_image_name = recipeToUdate.images_names_csv[0] || 'recipe-default.jpg';
+        recipeToUdate.secondary_image_name = recipeToUdate.images_names_csv[1] || 'recipe-default.jpg';
+        await daoRecipies.update(recipeToUdate);
+      }
     } else {
       await daoRecipies.update(recipeToUdate);
     }
