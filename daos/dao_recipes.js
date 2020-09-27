@@ -65,17 +65,20 @@ function convertRecipe(row) {
   }
 
   recipe.ingredients = row.ingredients;
-  recipe.ingredients_array = row.ingredients.split('\n');
+  // remove empty new lines with filter
+  recipe.ingredients_array = row.ingredients.split('\n').filter((item) => item && item.length > 0 && item.trim() !== '');
 
   recipe.has_extra_ingredients = row.extra_ingredients_title !== null && row.extra_ingredients_title.trim() !== '';
   if (recipe.has_extra_ingredients) {
     recipe.extra_ingredients_title = row.extra_ingredients_title;
     recipe.extra_ingredients = row.extra_ingredients;
-    recipe.extra_ingredients_array = row.extra_ingredients.split('\n');
+    // remove empty new lines with filter
+    recipe.extra_ingredients_array = row.extra_ingredients.split('\n').filter((item) => item && item.length > 0 && item.trim() !== '');
   }
 
   recipe.steps = row.steps;
-  recipe.steps_array = row.steps.split('\n');
+  // remove empty new lines with filter
+  recipe.steps_array = row.steps.split('\n').filter((item) => item && item.length > 0 && item.trim() !== '');
   if (row.keywords) {
     recipe.keywords = row.keywords;
     recipe.keywords_array = row.keywords.split(',');

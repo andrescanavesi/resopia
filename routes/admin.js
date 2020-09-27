@@ -1,5 +1,6 @@
 const express = require('express');
 const basicAuth = require('express-basic-auth');
+const apicache = require('apicache');
 const daoRecipies = require('../daos/dao_recipes');
 const daoTags = require('../daos/dao_tags');
 const responseHelper = require('../utils/response_helper');
@@ -85,6 +86,51 @@ router.get('/receta/nueva', basicAuth(authOptions), async (req, res, next) => {
   }
 });
 
+router.get('/receta/from-json', basicAuth(authOptions), async (req, res, next) => {
+  try {
+    const responseJson = responseHelper.getResponseJson(req);
+    responseJson.recipe = {
+      id: 0,
+      title: '',
+      featured_image_name: 'recipe-default.jpg',
+      secondary_image_name: 'recipe-default.jpg',
+      images_names_csv: process.env.RESOPIA_DEFAULT_IMAGES_NAMES_CSV || 'recipe-default.jpg,recipe-default.jpg',
+      tags: [],
+      tags_ids_csv: '',
+      tags_names_csv: '',
+      tags_csv: 'american,easy',
+      active: false,
+      title_seo: '',
+      ingredients: '',
+      extra_ingredients_title: '',
+      extra_ingredients: '',
+      description: '',
+      steps: '',
+      prep_time_seo: 'PT10M',
+      cook_time_seo: 'PT20M',
+      total_time_seo: 'PT30M',
+      prep_time: `10 ${responseJson.wordMinutes}`,
+      cook_time: `20 ${responseJson.wordMinutes}`,
+      total_time: `40 ${responseJson.wordMinutes}`,
+      cuisine: responseJson.wordAmerican,
+      yield: `6 ${responseJson.wordServings}`,
+      facebook_shares: 349,
+      pinterest_pins: 257,
+      tweets: 155,
+      notes: '',
+      youtube_video_id: '',
+      aggregate_rating: 4.3,
+      rating_count: 23,
+    };
+    responseJson.newRecipe = true;
+    responseJson.successMessage = null;
+    responseJson.allTags = await daoTags.findAll(false);
+    res.render('recipe-from-json', responseJson);
+  } catch (e) {
+    next(e);
+  }
+});
+
 
 router.get('/receta/editar/:id', basicAuth(authOptions), async (req, res, next) => {
   try {
@@ -115,7 +161,7 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
       ingredients: req.body.ingredients,
       extra_ingredients_title: req.body.extra_ingredients_title,
       extra_ingredients: req.body.extra_ingredients,
-      description: req.body.description,
+      description: req.body.description || req.body.title,
       notes: req.body.notes,
       steps: req.body.steps,
       featured_image_name: req.body.featured_image_name,
@@ -133,7 +179,7 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
       pinterest_pins: req.body.pinterest_pins,
       tweets: req.body.tweets,
       youtube_video_id: req.body.youtube_video_id,
-      tags: req.body.tags_ids_csv.split(','),
+      // tags: req.body.tags_ids_csv.split(','),
       aggregate_rating: req.body.aggregate_rating,
       rating_count: req.body.rating_count,
       images_names_csv: req.body.images_names_csv,
@@ -156,6 +202,8 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
     } else {
       await daoRecipies.update(recipeToUdate);
     }
+
+    apicache.clear(); // clear all cache at api web level
 
     res.redirect(`/admin/receta/editar/${recipeId}`);
   } catch (e) {
