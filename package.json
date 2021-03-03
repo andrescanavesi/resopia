@@ -55,7 +55,7 @@
         "node-html-parser": "^1.2.20",
         "parse-database-url": "^0.3.0",
         "pg": "^7.18.2",
-        "pug": "^2.0.4",
+        "pug": "^3.0.1",
         "sql-formatter": "^2.3.3"
     },
     "devDependencies": {
