@@ -21,7 +21,7 @@ const pool = new Pool({
   database: dbConfig.database,
   password: dbConfig.password,
   port: dbConfig.port,
-  ssl: true,
+  ssl: false,
 });
 
 /**
