@@ -50,7 +50,7 @@
         "log4js": "^6.3.0",
         "moment": "^2.24.0",
         "morgan": "~1.10.0",
-        "node-cache": "^5.1.0",
+        "node-cache": "^5.1.2",
         "node-fetch": "^2.6.1",
         "node-html-parser": "^1.2.20",
         "parse-database-url": "^0.3.0",
