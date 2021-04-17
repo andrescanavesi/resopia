@@ -8,8 +8,10 @@ const log = new Logger('db_helper');
 const queryCache = new NodeCache();
 
 let dbConfig;
+let rejectUnauthorized = false;
 if (process.env.NODE_ENV === 'development') {
   dbConfig = parseDbUrl(process.env.RESOPIA_DATABASE_URL);
+   rejectUnauthorized = false;
 } else {
   dbConfig = parseDbUrl(process.env.DATABASE_URL);
 }
@@ -21,7 +23,9 @@ const pool = new Pool({
   database: dbConfig.database,
   password: dbConfig.password,
   port: dbConfig.port,
-  ssl: false,
+  ssl: {
+    rejectUnauthorized,
+  },
 });
 
 /**
