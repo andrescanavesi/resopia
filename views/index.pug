@@ -9,14 +9,14 @@ block content
       - var img = recipe.featured_image_url
       if isMobile
         - img = recipe.featured_image_url_mobile
-      img.lozad.img-fluid(data-src=img, alt='imagen receta', 
+      img.lozad.img-fluid(data-src=img, src=recipe.default_loading_image, alt='imagen receta', 
       onclick=`trackEvent(this,'home_recipe_image_click')`)
       div.px-2.py-1.border.rounded-bottom
         div
           .text-muted= recipe.description
         p.text-right.mt-2.lead
           a(href=`${recipe.url}`, title="Go to the recipe detail",
-          onclick="trackEvent(this,'home_recipe_abrir')") Abrir &#8594;    
+          onclick="trackEvent(this,'home_recipe_abrir')")=wordOpen
               
               
 

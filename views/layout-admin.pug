@@ -40,7 +40,10 @@ html(lang="en")
             button#dropdownMenuButton.btn.btn-outline-dark.dropdown-toggle(type='button', onclick="trackEvent(this,'default')", data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
               | Menu
             #dropdownMenuList.dropdown-menu(aria-labelledby='dropdownMenuButton')
+              a#menuItemInicio.dropdown-item(href='/admin/', title="Nueva receta") Recetas
               a#menuItemInicio.dropdown-item(href='/admin/receta/nueva', title="Nueva receta") Nueva receta
+              a#menuItemInicio.dropdown-item(href='/admin/receta/from-json', title="Nueva receta") Nueva receta from json
+              a#menuItemInicio.dropdown-item(href='/admin/process-seo-list', title="Process SEO list") SEO list
           h1
             a(href="/").text-dark
               span.brand Resopia Admin
@@ -48,9 +51,9 @@ html(lang="en")
       
     .container-fluid
         .row
-          .col-md-3
+          .col-md-1
             //left
-          .col-md-6
+          .col-md-10
             .mt-3
             block content
             //related recipes
@@ -66,7 +69,7 @@ html(lang="en")
                       a(href=`${recipe.url}`, title="Ver receta")
                         img.lozad(data-src=img, alt='imagen receta').img-fluid.mb-2
                        
-          .col-md-3
+          .col-md-1
             //right column
      
     //footer
@@ -79,7 +82,8 @@ html(lang="en")
               span.text-white www.resopia.com
            
   //jquery and popper cannot be loaded async since is a dependency of bootstra.min.js
-  script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8' crossorigin='anonymous')
+  // script(src='https://code.jquery.com/jquery-3.4.1.slim.min.js' integrity='sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8' crossorigin='anonymous')
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js")
   script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
   script(async='', src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
   script(async='', src='/javascripts/admin.js')

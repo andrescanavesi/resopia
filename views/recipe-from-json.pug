@@ -1,0 +1,55 @@
+extends layout-admin
+
+block content
+  div.mt-3
+    script.
+        function fromJson(){
+            
+            const obj = JSON.parse($('#json').val());
+            // const obj = text;
+            $('#title').val(obj.title)
+            $('#ingredients').val(obj.ingredients)
+            $('#steps').val(obj.steps)
+            const imgs = $('#images').val().split(',');
+            $('#images').val(`${obj.img_name},${imgs[1]}`)
+            $('#images_url').val(obj.img_url)
+            $('#tagsCsv').val(obj.tags_csv)
+        }
+    if successMessage
+        div(role='alert').alert.alert-success= successMessage
+    - var action = "/admin/receta/editar/"+recipe.id
+    form(action=action method="POST")
+            .card.mt-2.mb-5.border-0                 
+                .card-body  
+                    .form-group.row
+                        label(for="json") JSON:
+                        textarea#json(name='json', cols="100", rows="10",  placeholder="JSON", onChange="fromJson()").form-control
+                    .form-group.row
+                        label(for="title") Title:
+                        input#title(name='title', type='text', placeholder='Recipe title', value=recipe.title).form-control.form-control-sm
+                    .form-group.row
+                        label(for="ingredients") Ingredients:
+                        textarea#ingredients(name='ingredients', cols="100", rows="10", placeholder="Ingredients").form-control= recipe.ingredients
+                    .form-group.row
+                        label(for="steps") Directions:
+                        textarea#steps(name='steps', cols="100", rows="10",  placeholder="Directions").form-control= recipe.steps
+                    .form-group.row
+                        label(for="images_names_csv") Images names:
+                        input#images(name='images_names_csv', type='text', placeholder='image1.jpg, image2.jpg, ...', value=recipe.images_names_csv).form-control.form-control-sm
+                    if newRecipe
+                    .form-group.row
+                        label(for="images_urls_csv") Images urls:
+                        input#images_url(name='images_urls_csv', type='text', placeholder='url1, url2, ...', value="").form-control.form-control-sm
+                   
+                    .form-group.row
+                        label(for="tags_csv") Tags:
+                        input#tagsCsv(name='tags_csv', type='text', placeholder='tag1, tag2, tag3').form-control.form-control-sm
+                    .form-group.row
+                        .form-check
+                            input(type='radio', name='active', id='active', value='active' checked=true).form-check-input
+                            label(for='active').form-check-label Active
+                        .form-check.ml-2
+                            input(type='radio', name='active', id='inactive', value='inactive' checked=false).form-check-input
+                            label(for='inactive').form-check-label Inactive
+                    .form-group.row  
+                        button(type="submit" ).btn.btn-primary Guardar

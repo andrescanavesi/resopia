@@ -1,12 +1,27 @@
 const express = require('express');
+const apicache = require('apicache');
 const daoRecipies = require('../daos/dao_recipes');
 const responseHelper = require('../utils/response_helper');
 const { Logger } = require('../utils/Logger');
 const utils = require('../utils/utils');
+const daoSearchTerms = require('../daos/dao_search_terms');
+const daoTags = require('../daos/dao_tags');
 
 const router = express.Router();
 const log = new Logger('route_index');
 
+const recipeWord = process.env.RESOPIA_WORD_RECIPE || 'receta';
+const recipesWord = process.env.RESOPIA_WORD_RECIPES || 'recetas';
+const recipeImageWord = process.env.RESOPIA_WORD_RECIPE_IMAGE || 'imagen-receta';
+const recipesBestOfWord = process.env.RESOPIA_WORD_RECIPE_BEST_OF || 'Las mejores recetas de';
+const recipesOfWord = process.env.RESOPIA_WORD_RECIPE_OF || 'Recetas de';
+const searchWord = process.env.RESOPIA_WORD_SEARCH || 'buscar';
+const withWord = process.env.RESOPIA_WORD_WITH || 'con';
+
+const cache = apicache.middleware;
+const cacheDuration = '24 hours';
+
+// do not add cache(...) to the index to avoid caching all urls, even admin urls
 router.get('/', async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
@@ -32,7 +47,7 @@ router.get('/', async (req, res, next) => {
 /**
  * Renders the detail of a given recipe by id
  */
-router.get('/receta/:id/:titleforurl', async (req, res, next) => {
+router.get(`/${recipeWord}/:id/:titleforurl`, cache(cacheDuration), async (req, res, next) => {
   try {
     const recipeId = req.params.id;
     log.info(`View recipe: ${req.params.id}`);
@@ -42,12 +57,12 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     // titleforurl path param is for SEO purposes. It is ignored by the code
     const recipe = await daoRecipies.findById(recipeId, true);
     // recipes spotlight in this case are related recipes
-    const recipesSpotlight = await daoRecipies.findRelatedRecipes(recipe);
+    const recipesSpotlight = await daoRecipies.findRelated(recipe.tags_names_csv);
     const recipesMostVisited = await daoRecipies.findRecipesMostVisited();
     const footerRecipes = await daoRecipies.findAll();
     // recipe.allow_edition = utils.allowEdition(req, recipe);
     recipe.allow_edition = responseJson.isUserAuthenticated;
-    responseJson.title = `Receta de ${recipe.title}`;
+    responseJson.title = `${recipesOfWord} ${recipe.title}`;
     responseJson.recipe = recipe;
     responseJson.createdAt = recipe.created_at;
     responseJson.updatedAt = recipe.updated_at;
@@ -63,12 +78,12 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
 
     // structured data for SEO
     responseJson.pageType = 'recipe';
-    responseJson.pageName = `Receta de ${recipe.title}`;
+    responseJson.pageName = `${recipesOfWord} ${recipe.title}`;
     responseJson.pageImage = recipe.featured_image_url;
     responseJson.pageDatePublished = recipe.created_at;
     responseJson.pageDateModified = recipe.updated_at;
     responseJson.pageDescription = recipe.description;
-    responseJson.pageKeywords = `receta,${recipe.tags_names_csv}`;
+    responseJson.pageKeywords = `${recipeWord},${recipe.tags_names_csv}`;
     responseJson.pageRecipeIngredients = JSON.stringify(recipe.ingredients);
     const instructions = [];
     for (let i = 0; i < recipe.steps_array.length; i++) {
@@ -78,7 +93,8 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
 
     responseJson.pageRecipeInstructions = JSON.stringify(instructions);
 
-    responseJson.pageRecipeCategory = recipe.tags[0].name; // there's always at least one tag
+    // responseJson.pageRecipeCategory = recipe.tags[0].name; // there's always at least one tag
+    responseJson.pageRecipeCategory = recipe.tags_csv.split(',')[0] || 'default'; // there's always at least one tag
     responseJson.pageRecipePrepTime = recipe.prep_time_seo;
     responseJson.pageRecipeCookTime = recipe.cook_time_seo;
     responseJson.pageRecipeTotalTime = recipe.total_time_seo;
@@ -89,34 +105,19 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
     responseJson.aggregateRating = recipe.aggregate_rating;
     responseJson.ratingCount = recipe.rating_count;
 
-    // for now it's a static collection
-    const relatedSearches = [{
-      title: 'Receta de faina con masa licuada',
-      keyword: 'faina',
-      keyword_seo: 'faina',
-    },
-    {
-      title: 'Como hacer scones de queso',
-      keyword: 'scones',
-      keyword_seo: 'scones',
-    },
-    {
-      title: 'Receta de torta de naranja',
-      keyword: 'torta de naranja',
-      keyword_seo: 'torta_de_naranja',
-    },
-    {
-      title: 'Como hacer tallarines caseros',
-      keyword: 'tallarines caseros',
-      keyword_seo: 'tallarines_caseros',
-    },
-    {
-      title: 'Receta de torta de vainilla',
-      keyword: 'torta de vainilla',
-      keyword_seo: 'torta_de_vainilla',
-    }];
-    responseJson.relatedSearches = relatedSearches;
+    const relatedSearches = [];
+    const defaultTag = responseJson.lang === 'es' ? 'facil' : 'easy';
+    const relatedAux = recipesSpotlight.slice(0, 5);
+    relatedAux.forEach((element) => {
+      const related = {
+        title: element.title,
+        keyword: defaultTag,
+        keyword_seo: defaultTag,
+      };
 
+      relatedSearches.push(related);
+    });
+    responseJson.relatedSearches = relatedSearches;
     res.render('recipe', responseJson);
   } catch (e) {
     next(e);
@@ -127,14 +128,14 @@ router.get('/receta/:id/:titleforurl', async (req, res, next) => {
 /**
  * Renders the given recipe's image
  */
-router.get('/imagen-receta/:recipeId/:imageName', async (req, res, next) => {
+router.get(`/${recipeImageWord}/:recipeId/:imageName`, cache(cacheDuration), async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
     log.info(`recipe ${req.params.recipeId} image name ${req.params.imageName}`);
     const recipe = await daoRecipies.findById(req.params.recipeId);
 
     if (!recipe) {
-      throw Error('Receta no encontrada');
+      throw Error('Recipe not found');
     }
 
     const imageBase = process.env.RESOPIA_IMAGES_BASE_URL;
@@ -154,8 +155,8 @@ router.get('/imagen-receta/:recipeId/:imageName', async (req, res, next) => {
     responseJson.pageDatePublished = recipe.created_at;
     responseJson.pageDateModified = recipe.updated_at;
     responseJson.pageDescription = recipe.description;
-    responseJson.pageKeywords = 'receta,imagen';
-    responseJson.keywords = 'receta,imagen';
+    responseJson.pageKeywords = `${recipeWord},imagen`;
+    responseJson.keywords = `${recipeWord},imagen`;
 
     res.render('image-viewer', responseJson);
   } catch (e) {
@@ -163,7 +164,7 @@ router.get('/imagen-receta/:recipeId/:imageName', async (req, res, next) => {
   }
 });
 
-router.get('/recetas/:tag', async (req, res, next) => {
+router.get(`/${recipesWord}/:tag`, cache(cacheDuration), async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
     responseJson.displayMoreRecipes = false;
@@ -178,9 +179,9 @@ router.get('/recetas/:tag', async (req, res, next) => {
     }
 
     responseJson.recipes = recipes;
-    responseJson.title = `Recetas de ${req.params.tag}`;
-    responseJson.description = `Las mejores recetas de ${req.params.keyword}`;
-    responseJson.linkToThisPage = `${process.env.RESOPIA_BASE_URL}recetas/${req.params.tag}`;
+    responseJson.title = `${recipesOfWord} ${req.params.tag}`;
+    responseJson.description = `${recipesBestOfWord} ${req.params.keyword}`;
+    responseJson.linkToThisPage = `${process.env.RESOPIA_BASE_URL}${recipesWord}/${req.params.tag}`;
     responseJson.isHomePage = false;
     responseJson.recipesSpotlight = recipesSpotlight;
     responseJson.recipesMostVisited = recipesMostVisited;
@@ -194,7 +195,7 @@ router.get('/recetas/:tag', async (req, res, next) => {
 });
 
 
-router.get('/buscar', async (req, res, next) => {
+router.get(`/${searchWord}`, cache(cacheDuration), async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
     responseJson.displayMoreRecipes = false;
@@ -209,21 +210,22 @@ router.get('/buscar', async (req, res, next) => {
       await daoRecipies.buildSearchIndex();
     }
 
-    // search using flexsearch. It will return a list of IDs we used as keys during indexing
-    const resultIds = await daoRecipies.searchIndex.search({
-      query: phrase,
-      limit: 15,
-      suggest: true, // When suggestion is enabled all results will be filled up (until limit, default 1000) with similar matches ordered by relevance.
-    });
+    // // search using flexsearch. It will return a list of IDs we used as keys during indexing
+    // const resultIds = await daoRecipies.searchIndex.search({
+    //   query: phrase,
+    //   limit: 15,
+    //   suggest: true, // When suggestion is enabled all results will be filled up (until limit, default 1000) with similar matches ordered by relevance.
+    // });
 
-    log.info(`results found for '${phrase}': ${resultIds.length}`);
-    let p1;
-    if (resultIds.length === 0) {
-      p1 = daoRecipies.findRecipesSpotlight();
-    } else {
-      p1 = daoRecipies.findByIds(resultIds);
-    }
+    // log.info(`results found for '${phrase}': ${resultIds.length}`);
+    // let p1;
+    // if (resultIds.length === 0) {
+    //   p1 = daoRecipies.findRecipesSpotlight();
+    // } else {
+    //   p1 = daoRecipies.findByIds(resultIds);
+    // }
 
+    const p1 = daoRecipies.findRelated(phrase);
     const p2 = daoRecipies.findRecipesSpotlight();
     const p3 = daoRecipies.findAll();
     const p4 = daoRecipies.findRecipesMostVisited();
@@ -246,7 +248,7 @@ router.get('/buscar', async (req, res, next) => {
   }
 });
 
-router.get('/robots.txt', async (req, res, next) => {
+router.get('/robots.txt', cache(cacheDuration), async (req, res, next) => {
   try {
     const content = `User-agent: *\nAllow: /\nSitemap: ${process.env.RESOPIA_BASE_URL}/sitemap.xml`;
     res.set('Content-Type', 'text/plain');
@@ -268,29 +270,29 @@ router.get('/ads.txt', (req, res, next) => {
   }
 });
 
-router.get('/buscar/:text', (req, res, next) => {
+router.get(`/${searchWord}/:text`, (req, res, next) => {
   try {
     // for recetas-city.com support
-    res.redirect(`/buscar?q=${req.params.text}`);
+    res.redirect(`/${searchWord}?q=${req.params.text}`);
   } catch (e) {
     next(e);
   }
 });
 
-router.get('/recetas/con/:ingredient', (req, res, next) => {
+router.get(`/${recipesWord}/${withWord}/:ingredient`, (req, res, next) => {
   try {
     // for recetas-city.com support
     // we redirect to a tags page (we transform the ingredient from url to a tag)
-    res.redirect(`/recetas/${req.params.ingredient}`);
+    res.redirect(`/${recipesWord}/${req.params.ingredient}`);
   } catch (e) {
     next(e);
   }
 });
 
-router.get('/recetas/keyword/:tag', (req, res, next) => {
+router.get(`/${recipesWord}/keyword/:tag`, (req, res, next) => {
   try {
     // for recetas-city.com support
-    res.redirect(`/recetas/${req.params.tag}`);
+    res.redirect(`/${recipesWord}/${req.params.tag}`);
   } catch (e) {
     next(e);
   }
@@ -323,5 +325,92 @@ router.get('/status', (req, res, next) => {
     next(e);
   }
 });
+
+/**
+ * SEO list of posts
+ */
+router.get('/l/:termSeo', cache(cacheDuration), async (req, res, next) => {
+  try {
+    const { termSeo } = req.params;
+    const responseJson = responseHelper.getResponseJson(req);
+    const searchTerm = await daoSearchTerms.findByTerm(termSeo, false, true, true);
+
+    const term = searchTerm ? searchTerm.term : termSeo.split('_').join(' ');
+
+    const posts = await daoRecipies.findRelated(term);
+
+    responseJson.posts = posts;
+    responseJson.isHomePage = false;
+    responseJson.searchText = term;
+    responseJson.title = `${term}`;
+    responseJson.description = responseJson.title;
+    res.render('seo-list', responseJson);
+  } catch (e) {
+    next(e);
+  }
+});
+
+/**
+ * All tags, posts and search terms list
+ */
+router.get('/all/:kind', cache(cacheDuration), async (req, res, next) => {
+  try {
+    const { kind } = req.params;
+    const responseJson = responseHelper.getResponseJson(req);
+    const links = [];
+    let title = '';
+    let description = '';
+    let records;
+    switch (kind) {
+      case 'tags':
+        title = 'All tags';
+        description = 'All tags';
+        records = await daoTags.findAllTags(true);
+        records.forEach((item) => {
+          links.push({
+            url: item.url,
+            name: item.name,
+            featured_image_url: item.featured_image_url,
+          });
+        });
+        break;
+      case 'search':
+        title = 'All search terms';
+        description = 'All search terms';
+        records = await daoSearchTerms.findAll(false, true);
+        records.forEach((item) => {
+          links.push({
+            url: item.url,
+            name: item.term,
+            featured_image_url: item.featured_image_url,
+          });
+        });
+        break;
+      case 'recipes':
+        title = 'All recipes';
+        description = 'All recipes';
+        records = await daoRecipies.findAll();
+        records.forEach((item) => {
+          links.push({
+            url: item.url,
+            name: item.title,
+            featured_image_url: item.thumb_image_url,
+          });
+        });
+        break;
+      default: throw new Error('Unsupported kind');
+    }
+
+    responseJson.links = links;
+    responseJson.isHomePage = false;
+    responseJson.searchText = '';
+    responseJson.title = title;
+    responseJson.description = description;
+    res.render('link-list', responseJson);
+  } catch (e) {
+    next(e);
+  }
+});
+
 
 module.exports = router;

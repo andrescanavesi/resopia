@@ -31,3 +31,11 @@ module.exports.isSecure = function (req) {
   }
   return req.secure;
 };
+
+/**
+ * @param {[]} array
+ * @returns {[]}
+ */
+module.exports.shuffle = function (array) {
+  return array.sort(() => Math.random() - 0.5);
+};

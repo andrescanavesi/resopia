@@ -1,5 +1,8 @@
 const moment = require('moment');
+const fs = require('fs');
+const path = require('path');
 
+let staticResources = null;
 /**
  *
  */
@@ -54,6 +57,61 @@ module.exports.getResponseJson = function (req) {
 
   responseJson.facebookFanPageUrl = process.env.RESOPIA_FACEBOOK_FAN_PAGE_URL || '#';
   responseJson.currentYear = moment().format('YYYY');
+
+  responseJson.lang = process.env.RESOPIA_LANG || 'es';
+  responseJson.locale = process.env.RESOPIA_LOCALE || 'es_ES';
+
+  responseJson.wordIngredients = process.env.RESOPIA_WORD_INGREDIENTS || 'Ingredientes';
+  responseJson.wordSteps = process.env.RESOPIA_WORD_STEPS || 'Elaboración';
+
+  responseJson.wordMoreRecipes = process.env.RESOPIA_WORD_MORE_RECIPES || 'Más recetas';
+  responseJson.wordRelatedSearches = process.env.RESOPIA_WORD_RELATED_SEARCHES || 'Búsquedas relacionadas con esta receta';
+  responseJson.wordRateTitle = process.env.RESOPIA_WORD_RATE_TITLE || 'Dinos que piensas de esta receta';
+  responseJson.wordRecipeTips = process.env.RESOPIA_WORD_RECIPE_TIPS || 'Tips para preparar esta receta';
+  responseJson.wordRecipeVideo = process.env.RESOPIA_WORD_RECIPE_VIDEO || 'Video receta';
+  responseJson.wordRecipe = process.env.RESOPIA_WORD_RECIPE || 'recetas';
+  responseJson.wordRecipes = process.env.RESOPIA_WORD_RECIPES || 'recetas';
+  responseJson.wordOpen = process.env.RESOPIA_WORD_OPEN || 'Abrir';
+  responseJson.wordSearch = process.env.RESOPIA_WORD_SEARCH || 'buscar';
+  responseJson.wordMostVisitedRecipes = process.env.RESOPIA_WORD_MOST_VISITED_RECIPES || 'Recetas más vistas';
+  responseJson.wordSeeMoreRecipes = process.env.RESOPIA_WORD_SEE_MORE_RECIPES || 'Ver más recetas';
+  responseJson.wordRecipeImage = process.env.RESOPIA_WORD_RECIPE_IMAGE || 'imagen-receta';
+  responseJson.wordAmerican = process.env.RESOPIA_WORD_AMERICAN || 'Americana';
+  responseJson.wordServings = process.env.RESOPIA_WORD_SERVINGS || 'porciones';
+  responseJson.wordMinutes = process.env.RESOPIA_WORD_MINUTES || 'minutes';
+
+  responseJson.defaultLoadingImage = process.env.RESOPIA_DEFAULT_LOADING_IMAGE;
+
+  responseJson.imagesBaseUrl = process.env.RESOPIA_IMAGES_BASE_URL;
+
+  // load styles and js to print them directly into the body to reduce quantoty of requests in user's browser
+  if (!staticResources) {
+    const base = path.resolve(__dirname);
+    let dir = path.join(base, '../public/stylesheets/styles.min.css');
+    const styles = fs.readFileSync(dir, 'utf8'); // with 'utf8' it will read as a String instoad of Buffer
+    // TODO minify these styles https://www.npmjs.com/package/minify
+
+    dir = path.join(base, '../public/stylesheets/bootstrap.min.css');
+    const bootstrap = fs.readFileSync(dir, 'utf8');
+
+    dir = path.join(base, '../public/javascripts/lozad.min.js');
+    const lozad = fs.readFileSync(dir, 'utf8');
+
+    dir = path.join(base, '../public/javascripts/track.min.js');
+    const track = fs.readFileSync(dir, 'utf8');
+
+    dir = path.join(base, '../public/javascripts/common.min.js');
+    const common = fs.readFileSync(dir, 'utf8');
+
+    // console.info(track);
+
+
+    staticResources = {
+      styles, lozad, track, common, bootstrap,
+    };
+  }
+
+  responseJson.staticResources = staticResources;
 
   return responseJson;
 };

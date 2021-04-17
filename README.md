@@ -26,5 +26,42 @@ export RESOPIA_FAV_ICON_URL=""
 export USE_LOCAL_HTTPS=false
 export KEY_PEM="/some/folder/key.pem"
 export CERT_PEM="/some/folder/cert.pem"
-
+export RESOPIA_LANG="es"
+export RESOPIA_LOCALE="es_ES"
+export RESOPIA_WORD_RECIPE="receta"
+export RESOPIA_WORD_RECIPES="recetas"
+export RESOPIA_WORD_RECIPE_IMAGE="imagen-receta"
+export RESOPIA_WORD_RECIPES="recetas"
+export RESOPIA_WORD_RECIPE_BEST_OF="Las mejores recetas de"
+export RESOPIA_WORD_RECIPE_OF="Recetas de"
+export RESOPIA_WORD_SEARCH="Buscar"
+export RESOPIA_WORD_WITH="with"
+export RESOPIA_WORD_INGREDIENTS="Ingredientes"
+export RESOPIA_WORD_STEPS="Elaboración"
+export RESOPIA_WORD_MORE_RECIPES="Más recetas"
+export RESOPIA_WORD_RELATED_SEARCHES="Búsquedas relacionadas con esta receta"
+export RESOPIA_WORD_RATE_TITLE="Dinos que piensas de esta receta"
+export RESOPIA_WORD_RECIPE_TIPS="Tips para preparar esta receta"
+export RESOPIA_WORD_RECIPE_VIDEO="Video receta"
+export RESOPIA_WORD_OPEN"Abrir"
+export RESOPIA_WORD_MOST_VISITED_RECIPES"Recetas más vistas"
+export RESOPIA_WORD_SEE_MORE_RECIPES="Ver más recetas"
+export RESOPIA_WORD_AMERICAN="Americana"
+export RESOPIA_WORD_SERVINGS="porciones"
+export RESOPIA_WORD_MINUTES="minutes"
+export RESOPIA_DEFAULT_LOADING_IMAGE=https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,f_auto,q_65,w_900/v1599054405/resopia.com/default-image.jpg
+export RESOPIA_DEFAULT_THUMB_LOADING_IMAGE=https://res.cloudinary.com/dniiru5xy/image/upload/c_scale,f_auto,q_65,w_300/v1599054405/resopia.com/default-image.jpg
+export RESOPIA_DEFAULT_IMAGES_NAMES_CSV=cookies-test.jpg,pizza-test.jpg
+export RESOPIA_CLOUDINARY_CLOUD_NAME=******
+export RESOPIA_CLOUDINARY_API_KEY=******
+export RESOPIA_CLOUDINARY_API_SECRET=******
+export RESOPIA_CLOUDINARY_FOLDER=rpc
 ```
+
+Export / Inport config
+
+`heroku config -s -a existing-heroku-app > config.txt`
+
+`cat config.txt | tr '\n' ' ' | xargs heroku config:set -a new-heroku-app`
+
+https://emirkarsiyakali.com/heroku-copying-environment-variables-from-an-existing-app-to-another-9253929198d9

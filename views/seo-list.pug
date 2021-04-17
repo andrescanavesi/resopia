@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  each post in posts
+    div.d-flex.flex-row
+      .p-2
+        img.lozad.img-fluid(data-src=post.thumbnail200, alt='imagen receta')
+      .p-2
+        a(href=`${post.url}`, title="Go to this recipe detail").blue-link=post.title
