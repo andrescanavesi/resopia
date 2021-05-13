@@ -45,6 +45,69 @@ block content
                         label(for="tags_csv") Tags:
                         input#tagsCsv(name='tags_csv', type='text', placeholder='tag1, tag2, tag3').form-control.form-control-sm
                     .form-group.row
+                        label(for="prepTimeSeo").col-sm-2.col-form-label Prep time SEO:
+                        .col-sm-10
+                            input#prepTimeSeo(name='prep_time_seo', type='text', placeholder='Prep time SEO', 
+                            value=recipe.prep_time_seo).form-control.form-control-sm
+                    .form-group.row
+                        label(for="cookTimeSeo").col-sm-2.col-form-label Cook time SEO:
+                        .col-sm-10
+                            input#cookTimeSeo(name='cook_time_seo', type='text', placeholder='Cook time SEO', 
+                            value=recipe.cook_time_seo).form-control.form-control-sm
+                    .form-group.row
+                        label(for="totalTimeSeo").col-sm-2.col-form-label Total time SEO:
+                        .col-sm-10
+                            input#totalTimeSeo(name='total_time_seo', type='text', placeholder='Total time SEO', 
+                            value=recipe.total_time_seo).form-control.form-control-sm
+                    .form-group.row
+                        label(for="prepTime").col-sm-2.col-form-label Prep time:
+                        .col-sm-10
+                            input#prepTime(name='prep_time', type='text', placeholder='Prep time', 
+                            value=recipe.prep_time).form-control.form-control-sm
+                    .form-group.row
+                        label(for="cookTime").col-sm-2.col-form-label Cook time:
+                        .col-sm-10
+                            input#cookTime(name='cook_time', type='text', placeholder='Cook time', 
+                            value=recipe.cook_time).form-control.form-control-sm
+                    .form-group.row
+                        label(for="totalTime").col-sm-2.col-form-label Total time:
+                        .col-sm-10
+                            input#totalTime(name='total_time', type='text', placeholder='Total time', 
+                            value=recipe.total_time).form-control.form-control-sm
+                    .form-group.row
+                        label(for="cusine").col-sm-2.col-form-label Cusine:
+                        .col-sm-10
+                            input#cusine(name='cuisine', type='text', placeholder='Cuisine',
+                            value=recipe.cuisine).form-control.form-control-sm
+                    .form-group.row
+                        label(for="yield").col-sm-2.col-form-label Yield:
+                        .col-sm-10
+                            input#yield(name='yield', type='text', placeholder='Yield',
+                            value=recipe.yield).form-control.form-control-sm
+                    .form-group.row
+                        label(for="aggregate_rating").col-sm-2.col-form-label Aggregate rating:
+                        .col-sm-10
+                            input#aggregate_rating(name='aggregate_rating', type='text', placeholder='Aggregate_Rating',
+                            value=recipe.aggregate_rating).form-control.form-control-sm
+                    .form-group.row
+                        label(for="rating_count").col-sm-2.col-form-label Rating count:
+                        .col-sm-10
+                            input#rating_count(name='rating_count', type='text', placeholder='Rating count',
+                            value=recipe.rating_count).form-control.form-control-sm
+                    .form-group.row
+                        label(for="facebookShares").col-sm-2.col-form-label Facebook shares:
+                        .col-sm-10
+                            input#facebookShares(name='facebook_shares', type='text', placeholder='Facebook shares', value=recipe.facebook_shares).form-control.form-control-sm
+                    .form-group.row
+                        label(for="pinterestPins").col-sm-2.col-form-label Pinterest pins:
+                        .col-sm-10
+                            input#pinterestPins(name='pinterest_pins', type='text', placeholder='Pinterest pins', value=recipe.pinterest_pins).form-control.form-control-sm
+                    .form-group.row
+                        label(for="tweets").col-sm-2.col-form-label Tweets:
+                        .col-sm-10
+                            input#tweets(name='tweets', type='text', placeholder='Tweets', value=recipe.tweets).form-control.form-control-sm
+                    
+                    .form-group.row
                         .form-check
                             input(type='radio', name='active', id='active', value='active' checked=true).form-check-input
                             label(for='active').form-check-label Active

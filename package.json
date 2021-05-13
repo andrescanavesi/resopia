@@ -35,6 +35,7 @@
     },
     "dependencies": {
         "apicache": "^1.5.3",
+        "dotenv-safe": "^8.2.0",
         "cloudinary": "^1.23.0",
         "compression": "^1.7.4",
         "cookie-parser": "~1.4.5",
