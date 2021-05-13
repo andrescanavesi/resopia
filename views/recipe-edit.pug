@@ -2,6 +2,27 @@ extends layout-admin
 
 block content
   div.mt-3
+    script(src='https://upload-widget.cloudinary.com/global/all.js' type='text/javascript')
+    script.
+        const myWidget = cloudinary.createUploadWidget({
+                    cloudName: "#{cloudinaryCloudName}",
+                    uploadPreset: "#{cloudinaryUploadPreset}"
+                }, (error, result) => {
+                    if (!error && result && result.event === "success") {
+                        console.log('Done! Here is the image info: ', result.info);
+                        let fileName = result.info.public_id + '.jpg';
+                        fileName = fileName.replaceAll('#{cloudinaryFolder}/', '');
+                        console.log('file name ' + fileName);
+                        const current = $('#images').val();
+                        if(current){
+                            $('#images').val(current+','+fileName)
+                        }else{
+                            $('#images').val(fileName)
+                        }
+
+                    }
+                }
+        )
     script.
         function fromJson(obj){
             console.info(obj);
@@ -18,30 +39,30 @@ block content
         div(role='alert').alert.alert-success= successMessage
     - var action = "/admin/receta/editar/"+recipe.id
     form(action=action method="POST")
-            .card.mt-2.mb-5.border-0                 
-                .card-body  
+            .card.mt-2.mb-5.border-0
+                .card-body
                     if !newRecipe
                         .d-none
                             .form-group.row
-                                span Recipe link: 
+                                span Recipe link:
                                     a(href=`${recipe.url}`, title="Go to this recipe detail")=recipe.url
-                            .form-group.row  
-                                div resopia: 
+                            .form-group.row
+                                div resopia:
                                     - var urlResopia = recipe.url+'?utm_source=facebook&utm_medium=resopia&utm_campaign=fanpage'
                                     div=urlResopia
                                     a(href='https://www.facebook.com/Resopiacom-110467097132918', target='_blank') Resopia
                             .form-group.row
-                                div recetas-city: 
+                                div recetas-city:
                                     - var urlRecetasCity = recipe.url+'?utm_source=facebook&utm_medium=recetas-city&utm_campaign=fanpage'
                                     div=urlRecetasCity
                                     a(href='https://www.facebook.com/recetascity/', target='_blank') Recetas city
                             .form-group.row
-                                div recetas-para-celiacos: 
+                                div recetas-para-celiacos:
                                     - var urlRecetasParaCeliacos = recipe.url+'?utm_source=facebook&utm_medium=recetas-para-celiacos&utm_campaign=fanpage'
                                     div=urlRecetasParaCeliacos
                                     a(href='https://www.facebook.com/recetasparaceliacos.info', target='_blank') Recetas para celiacos
                             .form-group.row
-                                div recipes21: 
+                                div recipes21:
                                     - var urlRecipes21 = recipe.url+'?utm_source=facebook&utm_medium=recipes21&utm_campaign=fanpage'
                                     div=urlRecipes21
                                     a(href='https://www.facebook.com/recipes21com', target='_blank') Recipes21
@@ -54,7 +75,7 @@ block content
                     .form-group.row.d-none
                         label(for="tagsCsv").col-sm-2.col-form-label Tags ids:
                         .col-sm-10
-                            input#tagsCsv(name='tags_ids_csv', type='text', placeholder='Tags ids', 
+                            input#tagsCsv(name='tags_ids_csv', type='text', placeholder='Tags ids',
                             value=recipe.tags_ids_csv).form-control.form-control-sm
                     if !newRecipe
                       .form-group.row.d-none
@@ -91,6 +112,7 @@ block content
                     .form-group.row
                         label(for="images_names_csv") Images names:
                         input#images(name='images_names_csv', type='text', placeholder='image1.jpg, image2.jpg, ...', value=recipe.images_names_csv).form-control.form-control-sm
+                        button(type="button" onclick="myWidget.open()").btn.btn-primary Upload
                     if newRecipe
                     .form-group.row
                         label(for="images_urls_csv") Images urls:
@@ -100,7 +122,7 @@ block content
                         .d-flex
                             each imageUrl in recipe.images_urls
                                 img(src=imageUrl, alt='recipe image' style="width: 150px").img-fluid.ml-1
-                   
+
                     .form-group.row
                         label(for="tags_csv") Tags:
                         input(name='tags_csv', type='text', placeholder='tag1, tag2, tag3', value=recipe.tags_csv).form-control.form-control-sm
@@ -130,32 +152,32 @@ block content
                         .form-group.row
                             label(for="prepTimeSeo").col-sm-2.col-form-label Prep time SEO:
                             .col-sm-10
-                                input#prepTimeSeo(name='prep_time_seo', type='text', placeholder='Prep time SEO', 
+                                input#prepTimeSeo(name='prep_time_seo', type='text', placeholder='Prep time SEO',
                                 value=recipe.prep_time_seo).form-control.form-control-sm
                         .form-group.row
                             label(for="cookTimeSeo").col-sm-2.col-form-label Cook time SEO:
                             .col-sm-10
-                                input#cookTimeSeo(name='cook_time_seo', type='text', placeholder='Cook time SEO', 
+                                input#cookTimeSeo(name='cook_time_seo', type='text', placeholder='Cook time SEO',
                                 value=recipe.cook_time_seo).form-control.form-control-sm
                         .form-group.row
                             label(for="totalTimeSeo").col-sm-2.col-form-label Total time SEO:
                             .col-sm-10
-                                input#totalTimeSeo(name='total_time_seo', type='text', placeholder='Total time SEO', 
+                                input#totalTimeSeo(name='total_time_seo', type='text', placeholder='Total time SEO',
                                 value=recipe.total_time_seo).form-control.form-control-sm
                         .form-group.row
                             label(for="prepTime").col-sm-2.col-form-label Prep time:
                             .col-sm-10
-                                input#prepTime(name='prep_time', type='text', placeholder='Prep time', 
+                                input#prepTime(name='prep_time', type='text', placeholder='Prep time',
                                 value=recipe.prep_time).form-control.form-control-sm
                         .form-group.row
                             label(for="cookTime").col-sm-2.col-form-label Cook time:
                             .col-sm-10
-                                input#cookTime(name='cook_time', type='text', placeholder='Cook time', 
+                                input#cookTime(name='cook_time', type='text', placeholder='Cook time',
                                 value=recipe.cook_time).form-control.form-control-sm
                         .form-group.row
                             label(for="totalTime").col-sm-2.col-form-label Total time:
                             .col-sm-10
-                                input#totalTime(name='total_time', type='text', placeholder='Total time', 
+                                input#totalTime(name='total_time', type='text', placeholder='Total time',
                                 value=recipe.total_time).form-control.form-control-sm
                         .form-group.row
                             label(for="cusine").col-sm-2.col-form-label Cusine:
@@ -178,9 +200,9 @@ block content
                                 input#rating_count(name='rating_count', type='text', placeholder='Rating count',
                                 value=recipe.rating_count).form-control.form-control-sm
                     .form-group.row
-                        label.font-weight-bold Created at: 
+                        label.font-weight-bold Created at:
                         span=recipe.created_at
-                        label.ml-3.font-weight-bold Updated at: 
+                        label.ml-3.font-weight-bold Updated at:
                         span=recipe.updated_at
                     .form-group.row
                         .form-check
@@ -189,5 +211,5 @@ block content
                         .form-check.ml-2
                             input(type='radio', name='active', id='inactive', value='inactive' checked=!recipe.active).form-check-input
                             label(for='inactive').form-check-label Inactive
-                    .form-group.row  
+                    .form-group.row
                         button(type="submit" ).btn.btn-primary Guardar

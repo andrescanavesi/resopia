@@ -84,6 +84,10 @@ module.exports.getResponseJson = function (req) {
 
   responseJson.imagesBaseUrl = process.env.RESOPIA_IMAGES_BASE_URL;
 
+  responseJson.cloudinaryCloudName = process.env.RESOPIA_CLOUDINARY_CLOUD_NAME;
+  responseJson.cloudinaryUploadPreset = process.env.RESOPIA_CLOUDINARY_UNSIGNED_UPLOADS_PRESET;
+  responseJson.cloudinaryFolder = process.env.RESOPIA_CLOUDINARY_FOLDER;
+
   // load styles and js to print them directly into the body to reduce quantoty of requests in user's browser
   if (!staticResources) {
     const base = path.resolve(__dirname);
