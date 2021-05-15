@@ -17,19 +17,21 @@ block content
         a#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
               onclick="trackEvent(this,'social_twitter')").ml-2
           img.share-icon(src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMC8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQnPjxzdmcgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMzIgMzIiIGhlaWdodD0iMzJweCIgaWQ9IkxheWVyXzEiIHZlcnNpb249IjEuMCIgdmlld0JveD0iMCAwIDMyIDMyIiB3aWR0aD0iMzJweCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PHBhdGggZD0iTTMxLjk5Myw2LjA3N0MzMC44MTYsNi42LDI5LjU1Miw2Ljk1MywyOC4yMjMsNy4xMWMxLjM1NS0wLjgxMiwyLjM5Ni0yLjA5OCwyLjg4Ny0zLjYzICBjLTEuMjY5LDAuNzUxLTIuNjczLDEuMjk5LTQuMTY4LDEuNTkyQzI1Ljc0NCwzLjc5NywyNC4wMzgsMywyMi4xNDksM2MtMy42MjUsMC02LjU2MiwyLjkzOC02LjU2Miw2LjU2MyAgYzAsMC41MTQsMC4wNTcsMS4wMTYsMC4xNjksMS40OTZDMTAuMzAxLDEwLjc4NSw1LjQ2NSw4LjE3MiwyLjIyNyw0LjIwMWMtMC41NjQsMC45Ny0wLjg4OCwyLjA5Ny0wLjg4OCwzLjMgIGMwLDIuMjc4LDEuMTU5LDQuMjg2LDIuOTE5LDUuNDY0Yy0xLjA3NS0wLjAzNS0yLjA4Ny0wLjMyOS0yLjk3Mi0wLjgyMWMtMC4wMDEsMC4wMjctMC4wMDEsMC4wNTYtMC4wMDEsMC4wODIgIGMwLDMuMTgxLDIuMjYyLDUuODM0LDUuMjY1LDYuNDM3Yy0wLjU1LDAuMTQ5LTEuMTMsMC4yMy0xLjcyOSwwLjIzYy0wLjQyNCwwLTAuODM0LTAuMDQxLTEuMjM0LTAuMTE3ICBjMC44MzQsMi42MDYsMy4yNTksNC41MDQsNi4xMyw0LjU1OGMtMi4yNDUsMS43Ni01LjA3NSwyLjgxMS04LjE1LDIuODExYy0wLjUzLDAtMS4wNTMtMC4wMzEtMS41NjYtMC4wOTIgIEMyLjkwNSwyNy45MTMsNi4zNTUsMjksMTAuMDYyLDI5YzEyLjA3MiwwLDE4LjY3NS0xMC4wMDEsMTguNjc1LTE4LjY3NWMwLTAuMjg0LTAuMDA4LTAuNTY4LTAuMDItMC44NSAgQzMwLDguNTUsMzEuMTEyLDcuMzk1LDMxLjk5Myw2LjA3N3oiIGZpbGw9IiM1NUFDRUUiLz48Zy8+PGcvPjxnLz48Zy8+PGcvPjxnLz48L3N2Zz4=")
-      
+
       .mx-1.text-muted &nbsp;
-    
+
     - var img = recipe.featured_image_url
     if isMobile
         - img = recipe.featured_image_url_mobile
-    a(href=`/${wordRecipeImage}/${recipe.id}/${recipe.featured_image_name}`, 
+    a(href=`/${wordRecipeImage}/${recipe.id}/${recipe.featured_image_name}`,
     onclick=`trackEvent(this, 'recipe_image_primary_${recipe.id}');`)
       img.lozad.img-fluid(data-src=img, src=recipe.default_loading_image, alt=`${wordRecipeImage}`)
     .mx-1.mt-3
       span.text-muted=recipe.description
+    .mx-1.mt-3
+      span!=recipe.description_html
     //- div#giphyWrapper.mt-1.text-center
-    //-     img#giphyGif.lozad(data-src='https://res.cloudinary.com/dniiru5xy/image/upload/c_thumb,w_512,g_face/v1577674089/resopia.com/gif-button.png', 
+    //-     img#giphyGif.lozad(data-src='https://res.cloudinary.com/dniiru5xy/image/upload/c_thumb,w_512,g_face/v1577674089/resopia.com/gif-button.png',
     //-     alt='giphy'
     //-     onclick="loadGiphy(); trackEvent(this,'giphy_discover')", style="cursor: pointer").img-fluid
 
@@ -46,16 +48,16 @@ block content
           each extra_ingr in recipe.extra_ingredients_array
             li.list-group-item.d-flex.justify-content-between.align-items-center(style="cursor: pointer", onclick="trackEvent(this,'ingredients_extra'); activateElem(this)")= extra_ingr
               i.fa.fa-check.text-light
-      
+
     - var img = recipe.secondary_image_url
     if isMobile
         - img = recipe.secondary_image_url_mobile
     a(href=`/${wordRecipeImage}/${recipe.id}/${recipe.secondary_image_name}`, onclick=`trackEvent(this, 'recipe_image_secondary_${recipe.id}');`)
       img.lozad.mt-2.img-fluid(data-src=img, src=recipe.default_loading_image, alt=`${wordRecipeImage}`)
-    
+
     // Recipe steps
     div
-      h2.mx-1.pt-2.display-4=wordSteps 
+      h2.mx-1.pt-2.display-4=wordSteps
       i.fa.fa-clock-o.ml-1
       span.ml-2=recipe.total_time
       #steps
@@ -63,7 +65,7 @@ block content
           each step, index in recipe.steps_array
             - var num = index + 1
             li.list-group-item.d-flex.justify-content-between.align-items-cente(style="cursor: pointer", onclick="trackEvent(this,'recipe_steps'); activateElem(this)")
-              div 
+              div
                 span.badge.badge-dark.mr-1.badge-steps=num
                 span= step
               i.fa.fa-check.text-light.ml-1
@@ -83,14 +85,14 @@ block content
             a#twitterShare(data-pin-do='buttonTwitter', href=recipe.twitterSharingUrl,
               onclick="trackEvent(this,'social_twitter')").ml-2
               img.share-icon(src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMC8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQnPjxzdmcgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMzIgMzIiIGhlaWdodD0iMzJweCIgaWQ9IkxheWVyXzEiIHZlcnNpb249IjEuMCIgdmlld0JveD0iMCAwIDMyIDMyIiB3aWR0aD0iMzJweCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+PHBhdGggZD0iTTMxLjk5Myw2LjA3N0MzMC44MTYsNi42LDI5LjU1Miw2Ljk1MywyOC4yMjMsNy4xMWMxLjM1NS0wLjgxMiwyLjM5Ni0yLjA5OCwyLjg4Ny0zLjYzICBjLTEuMjY5LDAuNzUxLTIuNjczLDEuMjk5LTQuMTY4LDEuNTkyQzI1Ljc0NCwzLjc5NywyNC4wMzgsMywyMi4xNDksM2MtMy42MjUsMC02LjU2MiwyLjkzOC02LjU2Miw2LjU2MyAgYzAsMC41MTQsMC4wNTcsMS4wMTYsMC4xNjksMS40OTZDMTAuMzAxLDEwLjc4NSw1LjQ2NSw4LjE3MiwyLjIyNyw0LjIwMWMtMC41NjQsMC45Ny0wLjg4OCwyLjA5Ny0wLjg4OCwzLjMgIGMwLDIuMjc4LDEuMTU5LDQuMjg2LDIuOTE5LDUuNDY0Yy0xLjA3NS0wLjAzNS0yLjA4Ny0wLjMyOS0yLjk3Mi0wLjgyMWMtMC4wMDEsMC4wMjctMC4wMDEsMC4wNTYtMC4wMDEsMC4wODIgIGMwLDMuMTgxLDIuMjYyLDUuODM0LDUuMjY1LDYuNDM3Yy0wLjU1LDAuMTQ5LTEuMTMsMC4yMy0xLjcyOSwwLjIzYy0wLjQyNCwwLTAuODM0LTAuMDQxLTEuMjM0LTAuMTE3ICBjMC44MzQsMi42MDYsMy4yNTksNC41MDQsNi4xMyw0LjU1OGMtMi4yNDUsMS43Ni01LjA3NSwyLjgxMS04LjE1LDIuODExYy0wLjUzLDAtMS4wNTMtMC4wMzEtMS41NjYtMC4wOTIgIEMyLjkwNSwyNy45MTMsNi4zNTUsMjksMTAuMDYyLDI5YzEyLjA3MiwwLDE4LjY3NS0xMC4wMDEsMTguNjc1LTE4LjY3NWMwLTAuMjg0LTAuMDA4LTAuNTY4LTAuMDItMC44NSAgQzMwLDguNTUsMzEuMTEyLDcuMzk1LDMxLjk5Myw2LjA3N3oiIGZpbGw9IiM1NUFDRUUiLz48Zy8+PGcvPjxnLz48Zy8+PGcvPjxnLz48L3N2Zz4=")
-      
+
 
     // Recipe notes
     if recipe.has_notes
       .border.border-dark.rounded.mt-3.p-4.bg-light.mx-2
         h3=wordRecipeTips
         span.pl-2=recipe.notes
-    
+
     // Recipe star votes
     .mt-1.p-4.mx-2.text-center.h3.d-none
       div.mr-2.h4=wordRateTitle
@@ -99,16 +101,16 @@ block content
       span#rating3.fa.fa-star.ml-1(onclick=`rateRecipe(this,3, ${recipe.id});`)
       span#rating4.fa.fa-star.ml-1(onclick=`rateRecipe(this,4, ${recipe.id});`)
       span#rating5.fa.fa-star.ml-1(onclick=`rateRecipe(this,5, ${recipe.id});`)
-    
+
     // Recipe video
     if recipe.has_youtube_video
       h2.mx-1.mt-3=wordRecipeVideo
       - var youtube_video_embed_url = recipe.youtube_video_embed_url
       .mt-3.youtube-video-place(data-yt-url=youtube_video_embed_url)
-        img#youtubeVideoImage.lozad(data-src='/images/youtube-thumbnail.jpg', 
+        img#youtubeVideoImage.lozad(data-src='/images/youtube-thumbnail.jpg',
         alt="youtube play"
         onclick="loadYoutubeVideo(); trackEvent(this,'youtube_video_display')").play-youtube-video.img-fluid
-    
+
     // recipe tags
     .bg-light.border.mt-2.mx-2
       .d-flex.justify-content-center.py-4
@@ -116,7 +118,7 @@ block content
           span.ml-1
             a(href=`/${wordRecipes}/${tag.name_seo}`, onclick=`trackEvent(this, 'tag_click_${tag.name_seo}');`, title="Ver mas recetas de esta categoría").badge.badge-pill.badge-info.py-2.px-3
               span=tag.name
-    
+
     // related searches
     .card.mt-2.mx-2
       .card-header.font-weight-bold=wordRelatedSearches

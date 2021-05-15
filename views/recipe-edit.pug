@@ -98,6 +98,10 @@ block content
                         label(for="description") Description:
                         textarea(name='description', cols="100", rows="2", placeholder="Description").form-control= recipe.description
                     .form-group.row
+                        label(for="description_html") Description Html:
+                        textarea(name='description_html', cols="100", rows="6", placeholder="Description Html").form-control= recipe.description_html
+
+                    .form-group.row
                         label(for="ingredients") Ingredients:
                         textarea#ingredients(name='ingredients', cols="100", rows="10", placeholder="Ingredients").form-control= recipe.ingredients
                     .form-group.row

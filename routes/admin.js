@@ -60,6 +60,7 @@ router.get('/receta/nueva', basicAuth(authOptions), async (req, res, next) => {
       extra_ingredients_title: '',
       extra_ingredients: '',
       description: '',
+      description_html: '',
       steps: '',
       prep_time_seo: 'PT10M',
       cook_time_seo: 'PT20M',
@@ -105,6 +106,7 @@ router.get('/receta/from-json', basicAuth(authOptions), async (req, res, next) =
       extra_ingredients_title: '',
       extra_ingredients: '',
       description: '',
+      description_html: '',
       steps: '',
       prep_time_seo: 'PT10M',
       cook_time_seo: 'PT20M',
@@ -162,6 +164,7 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
       extra_ingredients_title: req.body.extra_ingredients_title,
       extra_ingredients: req.body.extra_ingredients,
       description: req.body.description || req.body.title,
+      description_html: req.body.description_html,
       notes: req.body.notes,
       steps: req.body.steps,
       featured_image_name: req.body.featured_image_name,
@@ -202,8 +205,6 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
     } else {
       await daoRecipies.update(recipeToUdate);
     }
-
-    apicache.clear(); // clear all cache at api web level
 
     res.redirect(`/admin/receta/editar/${recipeId}`);
   } catch (e) {

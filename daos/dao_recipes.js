@@ -312,9 +312,9 @@ module.exports.create = async function (recipe) {
     featured_image_name, secondary_image_name, facebook_shares, pinterest_pins,
     prep_time_seo, cook_time_seo,total_time_seo, prep_time,
     cook_time, total_time, cuisine, yield, notes, youtube_video_id, tweets, aggregate_rating,rating_count,
-    images_names_csv, tags_csv)
+    images_names_csv, tags_csv, description_html)
     VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,
-      $24,$25,$26,$27,$28,$29) 
+      $24,$25,$26,$27,$28,$29,$30) 
     RETURNING id`;
   const bindings = [
     today, today, recipe.title, recipe.title_seo, recipe.description,
@@ -323,7 +323,7 @@ module.exports.create = async function (recipe) {
     recipe.prep_time_seo, recipe.cook_time_seo, recipe.total_time_seo, recipe.prep_time,
     recipe.cook_time, recipe.total_time, recipe.cuisine, recipe.yield, recipe.notes,
     recipe.youtube_video_id, recipe.tweets, recipe.aggregate_rating, recipe.rating_count,
-    recipe.images_names_csv, recipe.tags_csv,
+    recipe.images_names_csv, recipe.tags_csv, recipe.description_html,
   ];
 
   const result = await dbHelper.query(query, bindings, false);
@@ -343,7 +343,7 @@ module.exports.create = async function (recipe) {
 
   // await Promise.all(promises);
 
-  this.resetCache();
+  await this.resetCache();
   return recipeId;
 };
 
@@ -359,8 +359,8 @@ module.exports.update = async function (recipe) {
      prep_time=$14, cook_time=$15, total_time=$16, cuisine=$17, yield=$18,
      facebook_shares=$19,pinterest_pins=$20,tweets=$21,youtube_video_id=$22,notes=$23, 
      extra_ingredients=$24,aggregate_rating=$25,rating_count=$26,images_names_csv=$27,
-     tags_csv=$28
-       WHERE id=$29`;
+     tags_csv=$28, description_html=$29
+       WHERE id=$30`;
   const bindings = [
     recipe.ingredients,
     recipe.steps,
@@ -390,13 +390,14 @@ module.exports.update = async function (recipe) {
     recipe.rating_count,
     recipe.images_names_csv,
     recipe.tags_csv,
+    recipe.description_html,
     recipe.id,
   ];
   // log.info(sqlFormatter.format(query));
   // log.info(bindings);
   const result = await dbHelper.query(query, bindings, false);
   // log.info(result);
-  this.resetCache();
+  await this.resetCache();
   return result;
 };
 
@@ -409,7 +410,7 @@ module.exports.buildSearchIndex = async function () {
   const size = all.length;
   for (let i = 0; i < size; i++) {
     // we might concatenate the fields we want for our content
-    const content = `${all[i].title} ${all[i].description} ${all[i].tags_csv}`;
+    const content = `${all[i].title}`;
     const key = parseInt(all[i].id);
     searchIndex.add(key, content);
   }
@@ -486,8 +487,8 @@ module.exports.deleteDummyData = async function () {
 // };
 
 module.exports.findRandom = async function (limit) {
-  // this collection is cached, that's we take 200 records and then shuffle
-  const all = await findWithLimit(200);
+  // this collection is cached, that's we take 20 records and then shuffle
+  const all = await findWithLimit(20);
   const shuff = utils.shuffle(all);
   return shuff.slice(0, limit - 1);
 };

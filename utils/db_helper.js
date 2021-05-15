@@ -46,7 +46,7 @@ const pool = new Pool({
 
 /**
  *
- * @param {stirng} theQuery
+ * @param {string} theQuery
  * @param {[]]} bindings
  * @param {boolean} withCache true to cache the result
  * @return {Promise<*>}
