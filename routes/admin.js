@@ -1,6 +1,5 @@
 const express = require('express');
 const basicAuth = require('express-basic-auth');
-const apicache = require('apicache');
 const daoRecipies = require('../daos/dao_recipes');
 const daoTags = require('../daos/dao_tags');
 const responseHelper = require('../utils/response_helper');

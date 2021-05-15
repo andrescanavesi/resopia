@@ -1,5 +1,4 @@
 const express = require('express');
-const apicache = require('apicache');
 const daoRecipies = require('../daos/dao_recipes');
 const responseHelper = require('../utils/response_helper');
 const { Logger } = require('../utils/Logger');
@@ -18,10 +17,6 @@ const recipesOfWord = process.env.RESOPIA_WORD_RECIPE_OF || 'Recetas de';
 const searchWord = process.env.RESOPIA_WORD_SEARCH || 'buscar';
 const withWord = process.env.RESOPIA_WORD_WITH || 'con';
 
-const cache = apicache.middleware;
-const cacheDuration = '24 hours';
-
-// do not add cache(...) to the index to avoid caching all urls, even admin urls
 router.get('/', async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
@@ -47,7 +42,7 @@ router.get('/', async (req, res, next) => {
 /**
  * Renders the detail of a given recipe by id
  */
-router.get(`/${recipeWord}/:id/:titleforurl`, cache(cacheDuration), async (req, res, next) => {
+router.get(`/${recipeWord}/:id/:titleforurl`, async (req, res, next) => {
   try {
     const recipeId = req.params.id;
     log.info(`View recipe: ${req.params.id}`);
@@ -128,7 +123,7 @@ router.get(`/${recipeWord}/:id/:titleforurl`, cache(cacheDuration), async (req, 
 /**
  * Renders the given recipe's image
  */
-router.get(`/${recipeImageWord}/:recipeId/:imageName`, cache(cacheDuration), async (req, res, next) => {
+router.get(`/${recipeImageWord}/:recipeId/:imageName`, async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
     log.info(`recipe ${req.params.recipeId} image name ${req.params.imageName}`);
@@ -164,7 +159,7 @@ router.get(`/${recipeImageWord}/:recipeId/:imageName`, cache(cacheDuration), asy
   }
 });
 
-router.get(`/${recipesWord}/:tag`, cache(cacheDuration), async (req, res, next) => {
+router.get(`/${recipesWord}/:tag`, async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
     responseJson.displayMoreRecipes = false;
@@ -195,7 +190,7 @@ router.get(`/${recipesWord}/:tag`, cache(cacheDuration), async (req, res, next) 
 });
 
 
-router.get(`/${searchWord}`, cache(cacheDuration), async (req, res, next) => {
+router.get(`/${searchWord}`, async (req, res, next) => {
   try {
     const responseJson = responseHelper.getResponseJson(req);
     responseJson.displayMoreRecipes = false;
@@ -248,7 +243,7 @@ router.get(`/${searchWord}`, cache(cacheDuration), async (req, res, next) => {
   }
 });
 
-router.get('/robots.txt', cache(cacheDuration), async (req, res, next) => {
+router.get('/robots.txt', async (req, res, next) => {
   try {
     const content = `User-agent: *\nAllow: /\nSitemap: ${process.env.RESOPIA_BASE_URL}/sitemap.xml`;
     res.set('Content-Type', 'text/plain');
@@ -329,7 +324,7 @@ router.get('/status', (req, res, next) => {
 /**
  * SEO list of posts
  */
-router.get('/l/:termSeo', cache(cacheDuration), async (req, res, next) => {
+router.get('/l/:termSeo', async (req, res, next) => {
   try {
     const { termSeo } = req.params;
     const responseJson = responseHelper.getResponseJson(req);
@@ -353,7 +348,7 @@ router.get('/l/:termSeo', cache(cacheDuration), async (req, res, next) => {
 /**
  * All tags, posts and search terms list
  */
-router.get('/all/:kind', cache(cacheDuration), async (req, res, next) => {
+router.get('/all/:kind', async (req, res, next) => {
   try {
     const { kind } = req.params;
     const responseJson = responseHelper.getResponseJson(req);

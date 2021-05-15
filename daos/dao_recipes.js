@@ -36,6 +36,7 @@ function convertRecipe(row) {
   recipe.id = row.id;
   recipe.title = row.title;
   recipe.description = row.description;
+  recipe.description_html = row.description_html;
 
   recipe.featured_image_name = featuredImageName;
   recipe.featured_image_url = featuredImageBase + featuredImageName;
