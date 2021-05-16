@@ -119,6 +119,11 @@ block content
             a(href=`/${wordRecipes}/${tag.name_seo}`, onclick=`trackEvent(this, 'tag_click_${tag.name_seo}');`, title="Ver mas recetas de esta categoría").badge.badge-pill.badge-info.py-2.px-3
               span=tag.name
 
+
+    // subscription form
+    if showSubscriptionFormIframe
+      div!=subscriptionFormIframe
+
     // related searches
     .card.mt-2.mx-2
       .card-header.font-weight-bold=wordRelatedSearches

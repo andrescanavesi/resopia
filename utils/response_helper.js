@@ -88,6 +88,9 @@ module.exports.getResponseJson = function (req) {
   responseJson.cloudinaryUploadPreset = process.env.RESOPIA_CLOUDINARY_UNSIGNED_UPLOADS_PRESET;
   responseJson.cloudinaryFolder = process.env.RESOPIA_CLOUDINARY_FOLDER;
 
+  responseJson.subscriptionFormIframe = process.env.RESOPIA_SUBSCRIPTION_FORM_IFRAME;
+  responseJson.showSubscriptionFormIframe = responseJson.subscriptionFormIframe && responseJson.subscriptionFormIframe.includes('iframe');
+
   // load styles and js to print them directly into the body to reduce quantoty of requests in user's browser
   if (!staticResources) {
     const base = path.resolve(__dirname);
