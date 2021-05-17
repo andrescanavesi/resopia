@@ -52,7 +52,7 @@
         "morgan": "~1.10.0",
         "node-cache": "^5.1.2",
         "node-fetch": "^2.6.1",
-        "node-html-parser": "^1.2.20",
+        "node-html-parser": "^3.3.0",
         "parse-database-url": "^0.3.0",
         "pg": "^8.0.3",
         "pug": "^3.0.2",
