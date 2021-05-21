@@ -93,13 +93,13 @@ block content
       - var i = 0
       - var k = 0
       while i < 4
-        .row.no-gutters
+        .row.no-gutters2
           - var j=0
-          while j < 4
-            .col-3
+          while j < 3
+            .col-4
               - var img = recipesGrid[k].thumbnail300
               a(href=`${recipesGrid[k].url}`)
-                img.lozad(style="width: 100%" data-src=img, src=recipe.default_thumb_loading_image alt='Imagen receta')
+                img.lozad.img-thumbnail(style="width: 100%" data-src=img, src=recipe.default_thumb_loading_image alt='Imagen receta')
             - j++
             - k++
         - i++
