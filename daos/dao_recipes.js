@@ -498,4 +498,5 @@ module.exports.findByIds = findByIds;
 module.exports.findWithKeyword = findWithKeyword;
 module.exports.findRecipesSpotlight = findRecipesSpotlight;
 module.exports.findRecipesMostVisited = findRecipesMostVisited;
+module.exports.findWithLimit = findWithLimit;
 module.exports.searchIndex = searchIndex;

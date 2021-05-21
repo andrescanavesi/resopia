@@ -70,6 +70,7 @@ router.get(`/${recipeWord}/:id/:titleforurl`, async (req, res, next) => {
     responseJson.isHomePage = false;
     responseJson.isRecipePage = true;
     responseJson.footerRecipes = footerRecipes;
+    responseJson.recipesGrid = await daoRecipies.findWithLimit(16);
 
     // structured data for SEO
     responseJson.pageType = 'recipe';
