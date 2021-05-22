@@ -1,4 +1,6 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const daoRecipies = require('../daos/dao_recipes');
 const responseHelper = require('../utils/response_helper');
 const { Logger } = require('../utils/Logger');
@@ -408,5 +410,23 @@ router.get('/all/:kind', async (req, res, next) => {
   }
 });
 
+
+router.get('/service-worker.js', (req, res, next) => {
+  try {
+    const responseJson = responseHelper.getResponseJson(req);
+    let content = '';
+    if (responseJson.enablePushengage) {
+      const base = path.resolve(__dirname);
+      const file = path.join(base, '../public/javascripts/service-worker.js'); // pushengage.com file
+      content = fs.readFileSync(file, 'utf8');
+    }
+
+    res.set('Content-Type', 'application/javascript');
+    res.status(200);
+    res.send(content);
+  } catch (e) {
+    next(e);
+  }
+});
 
 module.exports = router;

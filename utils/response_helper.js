@@ -46,8 +46,6 @@ module.exports.getResponseJson = function (req) {
   responseJson.pageDescription = responseJson.description;
   responseJson.pageRecipeVideo = process.env.RESOPIA_DEFAULT_VIDEO_URL || 'https://www.youtube.com/watch?v=mxqEM_1WiG8';
 
-  responseJson.enablePushEngage = false;
-
   responseJson.siteName = process.env.RESOPIA_SITE_NAME || 'Resopia';
   responseJson.author = process.env.RESOPIA_AUTHOR || 'Resopia';
   responseJson.publisher = process.env.RESOPIA_PUBLISHER || 'Resopia';
@@ -119,6 +117,8 @@ module.exports.getResponseJson = function (req) {
   }
 
   responseJson.staticResources = staticResources;
+
+  responseJson.enablePushengage = process.env.RESOPIA_ENABLE_PUSH_ENGAGE === 'true';
 
   return responseJson;
 };

@@ -11,19 +11,25 @@
 
 script(type="text/javascript").
   !{staticResources.track}
-script(type="text/javascript"). 
+script(type="text/javascript").
   !{staticResources.common}
 script(type="text/javascript").
   !{staticResources.lozad}
 
+if enablePushengage
+  script.
+    window._peq = window._peq || []; window._peq.push(["init"]);
+  script(src='https://clientcdn.pushengage.com/core/4f2f926fc003eea6387a795c630c6abe.js' async='')
+
+
 script(type='text/javascript').
-   document.addEventListener("DOMContentLoaded", function(event) { 
+   document.addEventListener("DOMContentLoaded", function(event) {
     // to load images in a lazy way
     // lazy loads elements with default selector as '.lozad'
-    const observer = lozad(); 
+    const observer = lozad();
     observer.observe();
     console.info('lozad observing...');
-    
+
     //load css styles after the page loaded
     // $('#bootstrapCss')[0].rel = 'stylesheet';
     // $('#fontawesomeCss')[0].rel = 'stylesheet';

@@ -13,3 +13,10 @@ https://emirkarsiyakali.com/heroku-copying-environment-variables-from-an-existin
 ```bash
 heroku logs --tail -a recipes21-com-staging
 ```
+
+# Set env var
+```bash
+heroku config:set RESOPIA_ENABLE_PUSH_ENGAGE=false -a recipes21-com-staging
+heroku config:set RESOPIA_ENABLE_PUSH_ENGAGE=false -a new-recetas-city-staging
+heroku config:set RESOPIA_ENABLE_PUSH_ENGAGE=false -a resopia-staging
+```
