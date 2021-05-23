@@ -429,4 +429,32 @@ router.get('/service-worker.js', (req, res, next) => {
   }
 });
 
+router.get('/OneSignalSDKWorker.js', (req, res, next) => {
+  try {
+    const base = path.resolve(__dirname);
+    const file = path.join(base, '../push-notifications/recetas-city/OneSignalSDKWorker.js'); // pushengage.com file
+    const content = fs.readFileSync(file, 'utf8');
+
+    res.set('Content-Type', 'application/javascript');
+    res.status(200);
+    res.send(content);
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.get('/OneSignalSDKUpdaterWorker.js', (req, res, next) => {
+  try {
+    const base = path.resolve(__dirname);
+    const file = path.join(base, '../push-notifications/recetas-city/OneSignalSDKUpdaterWorker.js'); // pushengage.com file
+    const content = fs.readFileSync(file, 'utf8');
+
+    res.set('Content-Type', 'application/javascript');
+    res.status(200);
+    res.send(content);
+  } catch (e) {
+    next(e);
+  }
+});
+
 module.exports = router;

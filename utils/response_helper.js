@@ -119,6 +119,7 @@ module.exports.getResponseJson = function (req) {
   responseJson.staticResources = staticResources;
 
   responseJson.enablePushengage = process.env.RESOPIA_ENABLE_PUSH_ENGAGE === 'true';
+  responseJson.enableOneSignalPushNotifications = process.env.RESOPIA_ENABLE_ONE_SIGNAL_PUSH_NOTIFICATIONS === 'true';
 
   return responseJson;
 };

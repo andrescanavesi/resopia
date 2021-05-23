@@ -13,14 +13,33 @@ html(lang=lang)
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', #{gaId});
-      
-    if adsenseEnabled  
+
+    if adsenseEnabled
       //adsense
       script(data-ad-client=googleAdsenseId, async='', src='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js')
       script(async='', custom-element='amp-ad', src='https://cdn.ampproject.org/v0/amp-ad-0.1.js')
 
+    if enableOneSignalPushNotifications
+      script(src='https://cdn.onesignal.com/sdks/OneSignalSDK.js' async='')
+      script.
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+          OneSignal.init({
+            appId: "52200457-9145-4570-acf0-52d3d54c5380",
+            notifyButton: {
+              enable: true,
+            },
+          });
+        });
+
+    if enablePushengage
+      script.
+        window._peq = window._peq || []; window._peq.push(["init"]);
+      script(src='https://clientcdn.pushengage.com/core/4f2f926fc003eea6387a795c630c6abe.js' async='')
+
+
     title= title
-   
+
     meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
     meta(charset='utf-8')
     meta(http-equiv='Cache-control', content=metaCache)
@@ -104,8 +123,8 @@ html(lang=lang)
               "ratingValue": "#{aggregateRating}",
               "ratingCount": "#{ratingCount}"
             }
-        }         
-    
+        }
+
     // link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", id="stylesheet" rel="stylesheet", as="style", integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T", crossorigin="anonymous")
     // link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", id="fontawesomeCss", rel="preload", as="style", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
     // styles are loaded in the body dynamically

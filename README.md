@@ -19,4 +19,8 @@ heroku logs --tail -a recipes21-com-staging
 heroku config:set RESOPIA_ENABLE_PUSH_ENGAGE=false -a recipes21-com-staging
 heroku config:set RESOPIA_ENABLE_PUSH_ENGAGE=false -a new-recetas-city-staging
 heroku config:set RESOPIA_ENABLE_PUSH_ENGAGE=false -a resopia-staging
+
+heroku config:set RESOPIA_ENABLE_ONE_SIGNAL_PUSH_NOTIFICATIONS=false -a recipes21-com-staging
+heroku config:set RESOPIA_ENABLE_ONE_SIGNAL_PUSH_NOTIFICATIONS=false -a new-recetas-city-staging
+heroku config:set RESOPIA_ENABLE_ONE_SIGNAL_PUSH_NOTIFICATIONS=false -a resopia-staging
 ```
