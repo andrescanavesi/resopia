@@ -1,0 +1,38 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    time: "08:00"
+  open-pull-requests-limit: 10
+  reviewers:
+  - andrescanavesi
+  ignore:
+  - dependency-name: log4js
+    versions:
+    - 6.3.0
+  - dependency-name: nyc
+    versions:
+    - 15.1.0
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+    - 4.0.3
+  - dependency-name: ini
+    versions:
+    - 1.3.7
+  - dependency-name: mocha
+    versions:
+    - 8.2.1
+    - 8.3.0
+    - 8.3.1
+  - dependency-name: pug-code-gen
+    versions:
+    - 2.0.3
+  - dependency-name: pug
+    versions:
+    - 3.0.0
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
