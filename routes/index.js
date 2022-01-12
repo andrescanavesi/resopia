@@ -204,25 +204,6 @@ router.get(`/${searchWord}`, async (req, res, next) => {
     }
     log.info(`searching by: ${phrase}`);
 
-    if (!daoRecipies.searchIndex || daoRecipies.searchIndex.length === 0) {
-      await daoRecipies.buildSearchIndex();
-    }
-
-    // // search using flexsearch. It will return a list of IDs we used as keys during indexing
-    // const resultIds = await daoRecipies.searchIndex.search({
-    //   query: phrase,
-    //   limit: 15,
-    //   suggest: true, // When suggestion is enabled all results will be filled up (until limit, default 1000) with similar matches ordered by relevance.
-    // });
-
-    // log.info(`results found for '${phrase}': ${resultIds.length}`);
-    // let p1;
-    // if (resultIds.length === 0) {
-    //   p1 = daoRecipies.findRecipesSpotlight();
-    // } else {
-    //   p1 = daoRecipies.findByIds(resultIds);
-    // }
-
     const p1 = daoRecipies.findRelated(phrase);
     const p2 = daoRecipies.findRecipesSpotlight();
     const p3 = daoRecipies.findAll();
