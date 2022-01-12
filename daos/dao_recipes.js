@@ -206,14 +206,19 @@ async function findRecipesMostVisited() {
 
 async function findWithKeyword(tag) {
   log.info(`findWithKeyword: ${tag}`);
+  // const query = `SELECT recipes.*
+  // FROM recipes, tags, recipes_tags
+  // WHERE tags.name_seo=$1
+  // AND recipes.id = recipes_tags.recipe_id
+  // AND tags.id = recipes_tags.tag_id
+  // ORDER BY created_at DESC`;
+
   const query = `SELECT recipes.*
-  FROM recipes, tags, recipes_tags 
-  WHERE tags.name_seo=$1
-  AND recipes.id = recipes_tags.recipe_id
-  AND tags.id = recipes_tags.tag_id
+  FROM recipes 
+  WHERE tags_csv like $1
   ORDER BY created_at DESC`;
 
-  const bindings = [tag];
+  const bindings = [`%${tag.toLowerCase()}%`];
   const result = await dbHelper.query(query, bindings, true);
   const recipes = [];
   for (let i = 0; i < result.rows.length; i++) {
