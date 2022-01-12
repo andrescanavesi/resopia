@@ -2,16 +2,14 @@ const moment = require('moment');
 
 moment.locale('es'); // TODO make it dynamic
 
-const FlexSearch = require('flexsearch');
+const { Index } = require('flexsearch');
 const dbHelper = require('../utils/db_helper');
-const daoTags = require('./dao_tags');
 const { Logger } = require('../utils/Logger');
 const utils = require('../utils/utils');
 
 const log = new Logger('dao_recipes');
 
-const preset = 'fast';
-const searchIndex = new FlexSearch(preset);
+let searchIndex;
 
 let allRecipes = [];
 let spotlightRecipes = [];
@@ -150,6 +148,7 @@ function convertRecipe(row) {
   recipe.default_thumb_loading_image = process.env.RESOPIA_DEFAULT_THUMB_LOADING_IMAGE;
 
   recipe.tags_csv = row.tags_csv || 'easy';
+  recipe.tags_names_csv = row.tags_csv ? row.tags_csv.split(',') : ['american', 'easy'];
   // recipe.images_names_csv = 'masa-tartas-saladas.png, recipe-default-2.jpg';
   recipe.images_names_csv = row.images_names_csv || process.env.RESOPIA_DEFAULT_LOADING_IMAGE;
   recipe.images_urls = [];
@@ -246,20 +245,8 @@ module.exports.findById = async function (id, ignoreActive, witchCache = true) {
   const result = await dbHelper.query(query, bindings, witchCache);
   if (result.rows.length > 0) {
     const recipe = convertRecipe(result.rows[0]);
-    const recipeTags = await daoTags.findByRecipe(recipe.id);
-    recipe.tags = recipeTags;
-    recipe.tags_ids_csv = '';
-    recipe.tags_names_csv = '';
-    for (let index = 0; index < recipeTags.length; index++) {
-      const element = recipeTags[index];
-      recipe.tags_ids_csv += element.id;
-      recipe.tags_names_csv += element.name;
-      if (index < recipeTags.length - 1) {
-        recipe.tags_ids_csv += ',';
-        recipe.tags_names_csv += ',';
-      }
-    }
-
+    recipe.tags_names_csv = recipe.tags_csv ? recipe.tags_csv.split(',') : ['american', 'easy'];
+    recipe.tags_ids_csv = ''; // deprecated
     return recipe;
   }
   throw Error(`recipe not found by id ${id}`);
@@ -406,16 +393,24 @@ module.exports.buildSearchIndex = async function () {
   // console.time('buildIndexTook');
   log.info('building index...');
 
+  const options = {
+    charset: 'latin:extra',
+    preset: 'score',
+    tokenize: 'full',
+    cache: false,
+  };
+  searchIndex = new Index(options);
+
   const all = await this.findAll();
 
   const size = all.length;
   for (let i = 0; i < size; i++) {
     // we might concatenate the fields we want for our content
-    const content = `${all[i].title}`;
-    const key = parseInt(all[i].id);
+    const content = `${all[i].title} ${all[i].tags_csv}`;
+    const key = Number(all[i].id);
     searchIndex.add(key, content);
   }
-  log.info(`index built, length: ${searchIndex.length}`);
+  log.info(`index built, length: ${all.length}`);
   // console.timeEnd('buildIndexTook');
 };
 
@@ -423,16 +418,17 @@ module.exports.buildSearchIndex = async function () {
  * @param {string} text to search
  */
 module.exports.findRelated = async function (text) {
-  log.info(`look for related results with: ${text}`);
-  if (this.searchIndex.length === 0) {
+  if (typeof text !== 'string') throw new Error('text to search is not a string');
+  const textToSearch = text || 'easy';
+  log.info(`look for related results with: ${textToSearch}`);
+  if (!searchIndex) {
     await this.buildSearchIndex();
   }
 
-  const resultIds = await this.searchIndex.search({
-    query: text,
-    limit: 12,
-    suggest: true, // When suggestion is enabled all results will be filled up (until limit, default 1000) with similar matches ordered by relevance.
-  });
+  const limit = 16;
+  // When suggestion is enabled all results will be filled up (until limit, default 1000) with similar matches ordered by relevance.
+  const resultIds = await searchIndex.search(textToSearch, limit, { suggest: true });
+
 
   log.info(`related results: ${resultIds.length}`);
   let results;
@@ -443,7 +439,7 @@ module.exports.findRelated = async function (text) {
   }
 
   if (results.length < 5) {
-    log.info('not enought related recipes, result will filled up with more recipes');
+    log.info('not enough related recipes, result will filled up with more recipes');
     const moreRecipes = await findWithLimit(20);
     results = results.concat(moreRecipes);
   }
@@ -499,4 +495,3 @@ module.exports.findWithKeyword = findWithKeyword;
 module.exports.findRecipesSpotlight = findRecipesSpotlight;
 module.exports.findRecipesMostVisited = findRecipesMostVisited;
 module.exports.findWithLimit = findWithLimit;
-module.exports.searchIndex = searchIndex;

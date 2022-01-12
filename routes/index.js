@@ -54,12 +54,12 @@ router.get(`/${recipeWord}/:id/:titleforurl`, async (req, res, next) => {
     // titleforurl path param is for SEO purposes. It is ignored by the code
     const recipe = await daoRecipies.findById(recipeId, true);
     // recipes spotlight in this case are related recipes
-    const recipesSpotlight = await daoRecipies.findRelated(recipe.tags_names_csv);
+    const recipesSpotlight = await daoRecipies.findRelated(recipe.tags_csv);
     const recipesMostVisited = await daoRecipies.findRecipesMostVisited();
     const footerRecipes = await daoRecipies.findAll();
     // recipe.allow_edition = utils.allowEdition(req, recipe);
     recipe.allow_edition = responseJson.isUserAuthenticated;
-    responseJson.title = `${recipesOfWord} ${recipe.title}`;
+    responseJson.title = recipe.title;
     responseJson.recipe = recipe;
     responseJson.createdAt = recipe.created_at;
     responseJson.updatedAt = recipe.updated_at;
@@ -204,7 +204,7 @@ router.get(`/${searchWord}`, async (req, res, next) => {
     }
     log.info(`searching by: ${phrase}`);
 
-    if (daoRecipies.searchIndex.length === 0) {
+    if (!daoRecipies.searchIndex || daoRecipies.searchIndex.length === 0) {
       await daoRecipies.buildSearchIndex();
     }
 
