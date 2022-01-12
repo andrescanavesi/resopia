@@ -243,7 +243,7 @@ module.exports.findById = async function (id, ignoreActive, witchCache = true) {
   // log.info(sqlFormatter.format(query));
   log.info(`findById, bindings: ${bindings}`);
   const result = await dbHelper.query(query, bindings, witchCache);
-  if (result.rows.length > 0) {
+  if (result && result.rows && result.rows.length > 0) {
     const recipe = convertRecipe(result.rows[0]);
     recipe.tags_names_csv = recipe.tags_csv ? recipe.tags_csv.split(',') : ['american', 'easy'];
     recipe.tags_ids_csv = ''; // deprecated
