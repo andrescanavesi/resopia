@@ -77,23 +77,8 @@ block content
                         .col-sm-10
                             input#tagsCsv(name='tags_ids_csv', type='text', placeholder='Tags ids',
                             value=recipe.tags_ids_csv).form-control.form-control-sm
-                    if !newRecipe
-                      .form-group.row.d-none
-                        label(for="recipeTags").col-sm-2.col-form-label Recipe tags:
-                        .col-sm-10
-                          div#recipeTags
-                            each tag in recipe.tags
-                              span.badge.badge-pill.badge-secondary.py-2.px-3.ml-1=tag.name
 
-                    .form-group.row.d-none
-                      label(for="availableTags").col-sm-2.col-form-label Available tags:
-                      .col-sm-10
-                        #availableTags
-                          each tag in allTags
-                            - var tagId = "tag_"+tag.id
-                            span(style="cursor: pointer",id=tagId, onclick="selectTag(this)").badge.badge-pill.badge-info.py-2.px-3.ml-1.mb-1
-                              span=tag.id
-                              span.ml-1=tag.name
+
                     .form-group.row.d-none
                         label(for="description") Description:
                         textarea(name='description', cols="100", rows="2", placeholder="Description").form-control= recipe.description
@@ -118,7 +103,7 @@ block content
                         input#images(name='images_names_csv', type='text', placeholder='image1.jpg, image2.jpg, ...', value=recipe.images_names_csv).form-control.form-control-sm
                         button(type="button" onclick="myWidget.open()").btn.btn-primary Upload
                     if newRecipe
-                    .form-group.row
+                    .form-group.row.d-none
                         label(for="images_urls_csv") Images urls:
                         input#images_url(name='images_urls_csv', type='text', placeholder='url1, url2, ...', value="").form-control.form-control-sm
                     if !newRecipe

@@ -5,22 +5,36 @@ body
     nav.navbar.navbar-expand-md.navbar-dark.bg-dark
       a.navbar-brand(href=pageUrl)
         strong.brand=siteName
-      button.navbar-toggler(type='button', 
-      onclick="toggleNavbar(); trackEvent(this,'menu')", 
+      button.navbar-toggler(type='button',
+      onclick="toggleNavbar(); trackEvent(this,'menu')",
       data-toggle='collapse', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarMenu.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
           li.nav-item.active
             a.nav-link(href=pageUrl)
-              | Inicio 
-              span.sr-only (inicio)
+              | Home
+              span.sr-only (home)
           li.nav-item
             a.nav-link(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner') Facebook
           li.nav-item.d-none
             a.nav-link(href='/recetas/video-recetas') Video Recetas
           li.nav-item.d-none
             a.nav-link(href=pageUrl) Recetas
+          li.nav-item
+            a.nav-link(href='/recipes/scones') Scones
+          li.nav-item
+            a.nav-link(href='/recipes/american') American
+          li.nav-item
+            a.nav-link(href='/recipes/brazilian') Brazilian
+          li.nav-item
+            a.nav-link(href='/recipes/italian') Italian
+          li.nav-item
+            a.nav-link(href='/recipes/cakes') Cakes
+          li.nav-item
+            a.nav-link(href='/recipes/cookies') Cookies
+          li.nav-item
+            a.nav-link(href='/recipes/muffins') Muffins
           li.nav-item.d-none
             a.nav-link(href='/recetas/celiacos') Celíacos
     // sub nav bar  wit search and bell
@@ -28,7 +42,7 @@ body
         #searchTopContainer
           input#searchTop(name='search', type='text', title=`${wordSearch} ${wordRecipe}`,
                 onclick="trackEvent(this,'search_top')"
-                placeholder=`${wordSearch} ${wordRecipe}`, onkeyup=`searchTop(event, '${wordSearch}')`, 
+                placeholder=`${wordSearch} ${wordRecipe}`, onkeyup=`searchTop(event, '${wordSearch}')`,
                 value=searchText).form-control
         a(onclick="toggleBell(); trackEvent(this,'bell')", data-toggle='collapse', data-target='#navbarSupportedContent2', aria-controls='navbarSupportedContent2', aria-expanded='false', aria-label='Toggle navigation')
           img(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTUuMTM3IDMuOTQ1Yy0uNjQ0LS4zNzQtMS4wNDItMS4wNy0xLjA0MS0xLjgydi0uMDAzYy4wMDEtMS4xNzItLjkzOC0yLjEyMi0yLjA5Ni0yLjEyMnMtMi4wOTcuOTUtMi4wOTcgMi4xMjJ2LjAwM2MuMDAxLjc1MS0uMzk2IDEuNDQ2LTEuMDQxIDEuODItNC42NjcgMi43MTItMS45ODUgMTEuNzE1LTYuODYyIDEzLjMwNnYxLjc0OWgyMHYtMS43NDljLTQuODc3LTEuNTkxLTIuMTk1LTEwLjU5NC02Ljg2My0xMy4zMDZ6bS0zLjEzNy0yLjk0NWMuNTUyIDAgMSAuNDQ5IDEgMSAwIC41NTItLjQ0OCAxLTEgMXMtMS0uNDQ4LTEtMWMwLS41NTEuNDQ4LTEgMS0xem0zIDIwYzAgMS41OTgtMS4zOTIgMy0yLjk3MSAzcy0zLjAyOS0xLjQwMi0zLjAyOS0zaDZ6Ii8+PC9zdmc+")
@@ -49,7 +63,7 @@ body
                             a(href=`${recipe.url}`, onclick=`trackEvent(this, 'most_visited_${recipe.id}');`, title="Ver receta").blue-link.font-weight-bold=recipe.title
                           p.card-text
                             | #{recipe.description}
-              
+
   // END Main Navigation
 
   .container_fluid
@@ -58,7 +72,7 @@ body
         .col-md-3
         .col-md-6
           .py-1.px-1.mt-1
-            
+
         .col-md-3
       // content
       .row.no-gutters
@@ -87,35 +101,42 @@ body
                             a(href=`${recipe.url}`, onclick=`trackEvent(this, 'more_recipes_${recipe.id}');`, title="Ver receta").blue-link.font-weight-bold=recipe.title
                           p.card-text
                             span.text-muted #{recipe.description}
-            .text-center.my-2 
+                          p.card-text
+                            .d-flex.py-1
+                              each tag in recipe.tags_names_csv
+                                span.ml-1
+                                  a(href=`/${wordRecipes}/${tag}`, onclick=`trackEvent(this, 'tag_click_${tag}');`, title="View more recipes of this tag").badge.badge-pill.badge-info.py-2.px-3
+                                    span=tag
+
+            .text-center.my-2
               a.btn.btn-primary.btn-lg.btn-block(href='/', onclick="trackEvent(this,'ver_mas_recetas')")=wordSeeMoreRecipes
-                      
+
         .col-md-3
           //right column
   // search bottom
   .bg-light.border-top
     .container
       .row
-        .col   
+        .col
           .search-section.px-2
             input#searchBottom(name='searchBottom' type='text', title="Buscar receta"
                     onclick="trackEvent(this,'search_bottom')"
-                    placeholder='Buscar receta',  onkeyup=`searchBottom(event, '${wordSearch}')`, 
-                    value=searchText).form-control.form-control 
+                    placeholder='Buscar receta',  onkeyup=`searchBottom(event, '${wordSearch}')`,
+                    value=searchText).form-control.form-control
   //footer
   footer.bg-dark.py-5.background-carbon-fibre
     .container.py-2
       .row.justify-content-center
         div
-          span.text-white © #{currentYear} Copyright 
-          a(href='/', title="Go to home page")  
+          span.text-white © #{currentYear} Copyright
+          a(href='/', title="Go to home page")
             span.text-white=pageUrl
         div
-          span.text-white |  
-          a(href='/sitemap.xml', title="See sitemap")  
+          span.text-white |
+          a(href='/sitemap.xml', title="See sitemap")
             span.text-white sitemap
-          span.text-white |  
-          a(href='/all/search', title="See search terms")  
+          span.text-white |
+          a(href='/all/search', title="See search terms")
             span.text-white search terms
-          
+
 include foot

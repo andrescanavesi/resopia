@@ -132,10 +132,10 @@ block content
     // recipe tags
     .bg-light.border.mt-2.mx-2
       .d-flex.justify-content-center.py-4
-        each tag in recipe.tags
+        each tag in recipe.tags_names_csv
           span.ml-1
-            a(href=`/${wordRecipes}/${tag.name_seo}`, onclick=`trackEvent(this, 'tag_click_${tag.name_seo}');`, title="Ver mas recetas de esta categoría").badge.badge-pill.badge-info.py-2.px-3
-              span=tag.name
+            a(href=`/${wordRecipes}/${tag}`, onclick=`trackEvent(this, 'tag_click_${tag}');`, title="View more recipes of this tag").badge.badge-pill.badge-info.py-2.px-3
+              span=tag
 
 
     // subscription form

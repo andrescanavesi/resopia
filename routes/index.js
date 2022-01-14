@@ -54,12 +54,12 @@ router.get(`/${recipeWord}/:id/:titleforurl`, async (req, res, next) => {
     // titleforurl path param is for SEO purposes. It is ignored by the code
     const recipe = await daoRecipies.findById(recipeId, true);
     // recipes spotlight in this case are related recipes
-    const recipesSpotlight = await daoRecipies.findRelated(recipe.tags_names_csv);
+    const recipesSpotlight = await daoRecipies.findRelated(recipe.tags_csv);
     const recipesMostVisited = await daoRecipies.findRecipesMostVisited();
     const footerRecipes = await daoRecipies.findAll();
     // recipe.allow_edition = utils.allowEdition(req, recipe);
     recipe.allow_edition = responseJson.isUserAuthenticated;
-    responseJson.title = `${recipesOfWord} ${recipe.title}`;
+    responseJson.title = recipe.title;
     responseJson.recipe = recipe;
     responseJson.createdAt = recipe.created_at;
     responseJson.updatedAt = recipe.updated_at;
@@ -203,25 +203,6 @@ router.get(`/${searchWord}`, async (req, res, next) => {
       throw Error('phrase query parameter empty');
     }
     log.info(`searching by: ${phrase}`);
-
-    if (daoRecipies.searchIndex.length === 0) {
-      await daoRecipies.buildSearchIndex();
-    }
-
-    // // search using flexsearch. It will return a list of IDs we used as keys during indexing
-    // const resultIds = await daoRecipies.searchIndex.search({
-    //   query: phrase,
-    //   limit: 15,
-    //   suggest: true, // When suggestion is enabled all results will be filled up (until limit, default 1000) with similar matches ordered by relevance.
-    // });
-
-    // log.info(`results found for '${phrase}': ${resultIds.length}`);
-    // let p1;
-    // if (resultIds.length === 0) {
-    //   p1 = daoRecipies.findRecipesSpotlight();
-    // } else {
-    //   p1 = daoRecipies.findByIds(resultIds);
-    // }
 
     const p1 = daoRecipies.findRelated(phrase);
     const p2 = daoRecipies.findRecipesSpotlight();
