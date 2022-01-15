@@ -106,6 +106,7 @@ function convertRecipe(row) {
 
   recipe.url = `${process.env.RESOPIA_BASE_URL}/${recipeWord}/${recipe.id}/${recipe.title_seo}`;
   recipe.url_edit = `${process.env.RESOPIA_BASE_URL}/admin/receta/editar/${recipe.id}/`;
+  recipe.url_push = `${process.env.RESOPIA_BASE_URL}/admin/recipe/push/${recipe.id}/`;
   recipe.active = row.active;
   recipe.notes = row.notes;
   recipe.has_notes = recipe.notes && recipe.notes.trim() !== '';

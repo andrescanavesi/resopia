@@ -5,15 +5,17 @@ const log = new Logger('push_engage_helper');
 
 const sendPush = async function (recipe) {
   if (!process.env.RESOPIA_PUSH_ENGAGE_API_KEY) throw new Error('No RESOPIA_PUSH_ENGAGE_API_KEY env var provided');
+  if (!recipe) throw new Error('no recipe to push');
   const baseUrl = 'https://api.pushengage.com/apiv1/notifications';
   const params = {
     title: recipe.title,
     message: recipe.description,
     url: recipe.url,
     imageUrl: recipe.featured_image_url,
+    notificationType: process.env.NODE_ENV === 'production' ? 'now' : 'draft',
   };
   log.info(`sending push ${JSON.stringify(params)}`);
-  const bodyForm = `notification_type=draft&notification_title=${params.title}&notification_message=${params.message}&notification_url=${params.url}&image_url=${params.imageUrl}`;
+  const bodyForm = `notification_type=${params.notificationType}&notification_title=${params.title}&notification_message=${params.message}&notification_url=${params.url}&image_url=${params.imageUrl}`;
   const url = baseUrl;
   const res = await fetch(url,
     {
