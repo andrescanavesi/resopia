@@ -5,15 +5,22 @@ block content
     thead
       tr
         th #
-        th Imagen
-        th Título
+        th Image
+        th Title
+        th Tags
+        th Active
+        th Action
     tbody
       each recipe in recipes
         tr
           td=recipe.id
           td
             img.img-fluid(src=recipe.thumbnail200, alt='imagen receta' style="width: 100px")
+            img.img-fluid.ml-1(src=recipe.secondary_thumbnail200, alt='imagen receta' style="width: 100px")
           td
             a(href=`${recipe.url_edit}`, title="Edit this recipe")=recipe.title
-      
-            
+          td=recipe.tags_csv
+          td=recipe.active
+          td
+            a(href=`${recipe.url_push}`, title="Make a push notificacion of this recipe")
+              span push

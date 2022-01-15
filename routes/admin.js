@@ -3,6 +3,7 @@ const basicAuth = require('express-basic-auth');
 const daoRecipies = require('../daos/dao_recipes');
 const daoTags = require('../daos/dao_tags');
 const responseHelper = require('../utils/response_helper');
+const pushEngageHelper = require('../utils/push_engage_helper');
 const utils = require('../utils/utils');
 const { Logger } = require('../utils/Logger');
 const controllerSearchTerms = require('../controllers/controller_search_terms');
@@ -213,6 +214,19 @@ router.post('/receta/editar/:id', basicAuth(authOptions), async (req, res, next)
   }
 });
 
+router.get('/recipe/push/:id', basicAuth(authOptions), async (req, res, next) => {
+  try {
+    // TODO sanitize with express validator
+    const recipeId = req.params.id;
+    log.info(`recipe push, id: ${recipeId}`);
+    const recipe = await daoRecipies.findById(recipeId, true, false);
+    if (recipe.active === false || recipe.active === 'false') throw new Error('Non active recipe');
+    await pushEngageHelper.send(recipe);
+    res.redirect('/admin');
+  } catch (e) {
+    next(e);
+  }
+});
 
 router.get('/process-seo-list', basicAuth(authOptions), async (req, res, next) => {
   try {
