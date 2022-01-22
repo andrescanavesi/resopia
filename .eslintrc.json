@@ -21,6 +21,8 @@
         "max-len": [
             "warn",
             140
-        ]
+        ],
+        "no-mixed-spaces-and-tabs": "warn",
+        "operator-linebreak": "warn"
     }
 }

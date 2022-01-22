@@ -56,6 +56,7 @@
         "parse-database-url": "^0.3.0",
         "pg": "^8.0.3",
         "pug": "^3.0.2",
+        "sib-api-v3-sdk": "^8.2.1",
         "sql-formatter": "^2.3.3"
     },
     "devDependencies": {
@@ -68,6 +69,7 @@
         "mochawesome": "^6.1.1",
         "nodemon": "^2.0.7",
         "nyc": "^15.0.1",
+        "prettier": "^2.5.1",
         "randomstring": "^1.1.5"
     }
 }
