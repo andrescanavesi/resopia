@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    h1.mx-1.display-3=recipe.title
+    h1.mx-1=recipe.title
     .d-flex.justify-content-between
       //social icons for sharing
       .ml-1.mb-2
@@ -37,7 +37,7 @@ block content
 
     // Ingredients
     div
-      h2.mx-1.mt-3.pt-2.display-4=wordIngredients
+      h2.mx-1.mt-3.pt-2=wordIngredients
       ul.list-group
         each ingr in recipe.ingredients_array
           li.list-group-item.d-flex.justify-content-between.align-items-center(style="cursor: pointer", onclick="trackEvent(this,'ingredients'); activateElem(this)")= ingr
@@ -57,7 +57,7 @@ block content
 
     // Recipe steps
     div
-      h2.mx-1.pt-2.display-4=wordSteps
+      h2.mx-1.pt-2=wordSteps
       i.fa.fa-clock-o.ml-1
       span.ml-2=recipe.total_time
       #steps
@@ -110,15 +110,6 @@ block content
       .border.border-dark.rounded.mt-3.p-4.bg-light.mx-2
         h3=wordRecipeTips
         span.pl-2=recipe.notes
-
-    // Recipe star votes
-    .mt-1.p-4.mx-2.text-center.h3.d-none
-      div.mr-2.h4=wordRateTitle
-      span#rating1.fa.fa-star(onclick=`rateRecipe(this,1, ${recipe.id});`)
-      span#rating2.fa.fa-star.ml-1(onclick=`rateRecipe(this,2, ${recipe.id});`)
-      span#rating3.fa.fa-star.ml-1(onclick=`rateRecipe(this,3, ${recipe.id});`)
-      span#rating4.fa.fa-star.ml-1(onclick=`rateRecipe(this,4, ${recipe.id});`)
-      span#rating5.fa.fa-star.ml-1(onclick=`rateRecipe(this,5, ${recipe.id});`)
 
     // Recipe video
     if recipe.has_youtube_video

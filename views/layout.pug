@@ -2,7 +2,7 @@ include head
 body
   // Main Navigation
   header.mb-2
-    nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+    nav.navbar.navbar-expand-md.navbar-light.bg-yellow
       a.navbar-brand(href=pageUrl)
         strong.brand=siteName
       button.navbar-toggler(type='button',
@@ -39,15 +39,15 @@ body
             a.nav-link(href='/recetas/celiacos') Celíacos
     // sub nav bar  wit search and bell
     nav.navbar.navbar-dark.border-bottom.bg-light
-        #searchTopContainer
+        #searchTopContainer.d-none
           input#searchTop(name='search', type='text', title=`${wordSearch} ${wordRecipe}`,
                 onclick="trackEvent(this,'search_top')"
                 placeholder=`${wordSearch} ${wordRecipe}`, onkeyup=`searchTop(event, '${wordSearch}')`,
                 value=searchText).form-control
-        a(onclick="toggleBell(); trackEvent(this,'bell')", data-toggle='collapse', data-target='#navbarSupportedContent2', aria-controls='navbarSupportedContent2', aria-expanded='false', aria-label='Toggle navigation')
+        a(onclick="toggleBell(); trackEvent(this,'bell')", data-toggle='collapse', data-target='#navbarSupportedContent2', aria-controls='navbarSupportedContent2', aria-expanded='false', aria-label='Toggle navigation').d-none
           img(src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTUuMTM3IDMuOTQ1Yy0uNjQ0LS4zNzQtMS4wNDItMS4wNy0xLjA0MS0xLjgydi0uMDAzYy4wMDEtMS4xNzItLjkzOC0yLjEyMi0yLjA5Ni0yLjEyMnMtMi4wOTcuOTUtMi4wOTcgMi4xMjJ2LjAwM2MuMDAxLjc1MS0uMzk2IDEuNDQ2LTEuMDQxIDEuODItNC42NjcgMi43MTItMS45ODUgMTEuNzE1LTYuODYyIDEzLjMwNnYxLjc0OWgyMHYtMS43NDljLTQuODc3LTEuNTkxLTIuMTk1LTEwLjU5NC02Ljg2My0xMy4zMDZ6bS0zLjEzNy0yLjk0NWMuNTUyIDAgMSAuNDQ5IDEgMSAwIC41NTItLjQ0OCAxLTEgMXMtMS0uNDQ4LTEtMWMwLS41NTEuNDQ4LTEgMS0xem0zIDIwYzAgMS41OTgtMS4zOTIgMy0yLjk3MSAzcy0zLjAyOS0xLjQwMi0zLjAyOS0zaDZ6Ii8+PC9zdmc+")
           span.badge.badge-pill.badge-danger.bell-badge 3
-        #navbarSupportedContent2.collapse.navbar-collapse
+        #navbarSupportedContent2.collapse.navbar-collapse.d-none
           .card.mt-2
             .card-header.font-weight-bold=wordMostVisitedRecipes
             .card-body
@@ -60,14 +60,16 @@ body
                       .col-8
                         .ml-3
                           h5.card-title
-                            a(href=`${recipe.url}`, onclick=`trackEvent(this, 'most_visited_${recipe.id}');`, title="Ver receta").blue-link.font-weight-bold=recipe.title
+                            a(href=`${recipe.url}`, title="Ver receta").blue-link=recipe.title
                           p.card-text
                             | #{recipe.description}
 
   // END Main Navigation
 
   .container_fluid
-      // top search box
+      // google top search box recipes21
+      script( async src="https://cse.google.com/cse.js?cx=808b672d14b9e5923")
+      div.gcse-search
       .row.no-gutters
         .col-md-3
         .col-md-6
@@ -94,49 +96,33 @@ body
                     .row.no-gutters
                       .col-4(style="width: 390px;")
                         - var img = recipe.thumbnail300
-                        img.lozad.card-img(data-src=img, src=recipe.default_thumb_loading_image alt='Imagen receta')
+                        img.lozad.card-img(data-src=img, src=recipe.default_thumb_loading_image alt='Recipe image')
                       .col-8
                         .ml-3
-                          h5.card-title
-                            a(href=`${recipe.url}`, onclick=`trackEvent(this, 'more_recipes_${recipe.id}');`, title="Ver receta").blue-link.font-weight-bold=recipe.title
-                          p.card-text
-                            span.text-muted #{recipe.description}
-                          p.card-text
-                            .d-flex.py-1
-                              each tag in recipe.tags_names_csv
-                                span.ml-1
-                                  a(href=`/${wordRecipes}/${tag}`, onclick=`trackEvent(this, 'tag_click_${tag}');`, title="View more recipes of this tag").badge.badge-pill.badge-info.py-2.px-3
-                                    span=tag
+                          h5.card-title.mt-3
+                            a(href=`${recipe.url}`, title="See recipe").blue-link=recipe.title
 
-            .text-center.my-2
-              a.btn.btn-primary.btn-lg.btn-block(href='/', onclick="trackEvent(this,'ver_mas_recetas')")=wordSeeMoreRecipes
 
-        .col-md-3
-          //right column
-  // search bottom
-  .bg-light.border-top
-    .container
-      .row
-        .col
-          .search-section.px-2
-            input#searchBottom(name='searchBottom' type='text', title="Buscar receta"
-                    onclick="trackEvent(this,'search_bottom')"
-                    placeholder='Buscar receta',  onkeyup=`searchBottom(event, '${wordSearch}')`,
-                    value=searchText).form-control.form-control
+            .text-center.my-2.pb-2
+              a.btn.btn-primary.btn-lg.btn-block(href='/')=wordSeeMoreRecipes
+
+
   //footer
-  footer.bg-dark.py-5.background-carbon-fibre
-    .container.py-2
-      .row.justify-content-center
-        div
-          span.text-white © #{currentYear} Copyright
-          a(href='/', title="Go to home page")
-            span.text-white=pageUrl
-        div
-          span.text-white |
-          a(href='/sitemap.xml', title="See sitemap")
-            span.text-white sitemap
-          span.text-white |
-          a(href='/all/search', title="See search terms")
-            span.text-white search terms
+  footer.bg-dark.background-carbon-fibre.py-3.text-center
+    .mt-3
+      span.text-white © #{currentYear} Copyright
+      span.text-white.mx-2 |
+      a(href='/', title="Go to home page")
+        span.text-white www.recipes21.com
+    .mt-3
+      a(href='/sitemap.xml', title="See sitemap")
+        span.text-white sitemap
+      span.text-white.mx-2 |
+      a(href='/all/search', title="See search terms")
+        span.text-white search terms
+  div.pb-5.mb-3(style="min-height: 200px;")
+
+
+
 
 include foot
