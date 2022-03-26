@@ -121,5 +121,10 @@ module.exports.getResponseJson = function (req) {
   responseJson.enablePushengage = process.env.RESOPIA_ENABLE_PUSH_ENGAGE === 'true';
   responseJson.enableOneSignalPushNotifications = process.env.RESOPIA_ENABLE_ONE_SIGNAL_PUSH_NOTIFICATIONS === 'true';
 
+  responseJson.wwwSite = process.env.RESOPIA_WWW_SITE || 'www.resopia.com';
+  responseJson.isRecipes21 = responseJson.wwwSite === 'www.recipes21.com';
+  responseJson.isResopia = responseJson.wwwSite === 'www.resopia.com';
+  responseJson.isRecetasCity = responseJson.wwwSite === 'www.recetas-city.com';
+
   return responseJson;
 };

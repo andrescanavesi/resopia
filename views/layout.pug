@@ -6,37 +6,37 @@ body
       a.navbar-brand(href=pageUrl)
         strong.brand=siteName
       button.navbar-toggler(type='button',
-      onclick="toggleNavbar(); trackEvent(this,'menu')",
+      onclick="toggleNavbar();",
       data-toggle='collapse', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
       #navbarMenu.collapse.navbar-collapse
         ul.navbar-nav.mr-auto
           li.nav-item.active
-            a.nav-link(href=pageUrl)
-              | Home
-              span.sr-only (home)
+            a.nav-link(href=pageUrl)=siteName
           li.nav-item
             a.nav-link(href=facebookFanPageUrl+'?utm_source=web&utm_medium=cpc&utm_campaign=facebook_banner') Facebook
           li.nav-item.d-none
             a.nav-link(href='/recetas/video-recetas') Video Recetas
           li.nav-item.d-none
             a.nav-link(href=pageUrl) Recetas
-          li.nav-item
-            a.nav-link(href='/recipes/scones') Scones
-          li.nav-item
-            a.nav-link(href='/recipes/american') American
-          li.nav-item
-            a.nav-link(href='/recipes/brazilian') Brazilian
-          li.nav-item
-            a.nav-link(href='/recipes/italian') Italian
-          li.nav-item
-            a.nav-link(href='/recipes/cakes') Cakes
-          li.nav-item
-            a.nav-link(href='/recipes/cookies') Cookies
-          li.nav-item
-            a.nav-link(href='/recipes/muffins') Muffins
           li.nav-item.d-none
             a.nav-link(href='/recetas/celiacos') Celíacos
+          if isRecipes21
+            li.nav-item
+              a.nav-link(href='/recipes/scones') Scones
+            li.nav-item
+              a.nav-link(href='/recipes/american') American
+            li.nav-item
+              a.nav-link(href='/recipes/brazilian') Brazilian
+            li.nav-item
+              a.nav-link(href='/recipes/italian') Italian
+            li.nav-item
+              a.nav-link(href='/recipes/cakes') Cakes
+            li.nav-item
+              a.nav-link(href='/recipes/cookies') Cookies
+            li.nav-item
+              a.nav-link(href='/recipes/muffins') Muffins
+
     // sub nav bar  wit search and bell
     nav.navbar.navbar-dark.border-bottom.bg-light
         #searchTopContainer.d-none
@@ -67,10 +67,13 @@ body
   // END Main Navigation
 
   .container_fluid
-      // google top search box recipes21
-      script( async src="https://cse.google.com/cse.js?cx=808b672d14b9e5923")
-      div.gcse-search
-      .row.no-gutters
+
+      if isRecipes21
+        // google top search box recipes21
+        script( async src="https://cse.google.com/cse.js?cx=808b672d14b9e5923")
+        div.gcse-search
+
+    .row.no-gutters
         .col-md-3
         .col-md-6
           .py-1.px-1.mt-1
@@ -113,7 +116,7 @@ body
       span.text-white © #{currentYear} Copyright
       span.text-white.mx-2 |
       a(href='/', title="Go to home page")
-        span.text-white www.recipes21.com
+        span.text-white=wwwSite
     .mt-3
       a(href='/sitemap.xml', title="See sitemap")
         span.text-white sitemap
