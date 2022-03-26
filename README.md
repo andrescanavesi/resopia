@@ -24,3 +24,9 @@ heroku config:set RESOPIA_ENABLE_ONE_SIGNAL_PUSH_NOTIFICATIONS=false -a recipes2
 heroku config:set RESOPIA_ENABLE_ONE_SIGNAL_PUSH_NOTIFICATIONS=false -a new-recetas-city-staging
 heroku config:set RESOPIA_ENABLE_ONE_SIGNAL_PUSH_NOTIFICATIONS=false -a resopia-staging
 ```
+
+# Set multiple vars
+```bash
+heroku config:set RESOPIA_ENABLE_PUSH_ENGAGE=false RESOPIA_DEFAULT_VIDEO_URL=abc RESOPIA_SITE_NAME=abc -a resopia-staging
+
+```
