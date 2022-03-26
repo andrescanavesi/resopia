@@ -126,5 +126,7 @@ module.exports.getResponseJson = function (req) {
   responseJson.isResopia = responseJson.wwwSite === 'www.resopia.com';
   responseJson.isRecetasCity = responseJson.wwwSite === 'www.recetas-city.com';
 
+  responseJson.wordHome = process.env.RESOPIA_WORD_HOME || 'Inicio';
+
   return responseJson;
 };
